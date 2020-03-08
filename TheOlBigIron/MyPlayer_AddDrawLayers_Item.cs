@@ -14,39 +14,8 @@ namespace TheOlBigIron {
 		private void AddCustomPlayerItemLayers( PlayerDrawInfo plrDrawInfo, Color plrLight, float shadow = 0f ) {
 			DrawData drawInfo;
 
-			//
-
 			Player plr = plrDrawInfo.drawPlayer;
-			Color itemLight = plrLight;
-			float stealthPercent = plr.stealth < 0.03f
-				? plr.stealth
-				: 0.03f;
-
-			if( plr.shroomiteStealth && plr.HeldItem.ranged ) {
-				float stealthGlowPercent = (1f + (stealthPercent * 10f)) / 11f;
-
-				itemLight = new Color(
-					(byte)((float)itemLight.R * stealthPercent),
-					(byte)((float)itemLight.G * stealthPercent),
-					(byte)((float)itemLight.B * stealthGlowPercent),
-					(byte)((float)itemLight.A * stealthPercent)
-				);
-			}
-
-			if( plr.setVortex && plr.HeldItem.ranged ) {
-				itemLight = itemLight.MultiplyRGBA(
-					new Color(
-						Vector4.Lerp(
-							Vector4.One,
-							new Vector4( 0f, 0.12f, 0.16f, 0f ),
-							1f - stealthPercent
-						)
-					)
-				);
-			}
-			ItemSlot.GetItemLight( ref itemLight, plr.HeldItem, false );
-
-			//
+			Color itemLight = this.GetItemLightColor( plr, plrLight );
 
 			Vector2 itemPos;
 			ReflectionHelpers.RunMethod( Main.instance, "DrawPlayerItemPos", new object[] { plr.gravDir, plr.HeldItem.type }, out itemPos );
@@ -101,6 +70,40 @@ namespace TheOlBigIron {
 				//drawInfo.Draw( Main.spriteBatch );
 				Main.playerDrawData.Add( drawInfo );
 			}
+		}
+
+
+		private Color GetItemLightColor( Player plr, Color plrLight ) {
+			Color itemLight = plrLight;
+			float stealthPercent = plr.stealth < 0.03f
+				? plr.stealth
+				: 0.03f;
+
+			if( plr.shroomiteStealth && plr.HeldItem.ranged ) {
+				float stealthGlowPercent = ( 1f + ( stealthPercent * 10f ) ) / 11f;
+
+				itemLight = new Color(
+					(byte)( (float)itemLight.R * stealthPercent ),
+					(byte)( (float)itemLight.G * stealthPercent ),
+					(byte)( (float)itemLight.B * stealthGlowPercent ),
+					(byte)( (float)itemLight.A * stealthPercent )
+				);
+			}
+
+			if( plr.setVortex && plr.HeldItem.ranged ) {
+				itemLight = itemLight.MultiplyRGBA(
+					new Color(
+						Vector4.Lerp(
+							Vector4.One,
+							new Vector4( 0f, 0.12f, 0.16f, 0f ),
+							1f - stealthPercent
+						)
+					)
+				);
+			}
+			ItemSlot.GetItemLight( ref itemLight, plr.HeldItem, false );
+
+			return itemLight;
 		}
 	}
 }

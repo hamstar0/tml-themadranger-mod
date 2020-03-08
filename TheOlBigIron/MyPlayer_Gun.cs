@@ -9,7 +9,7 @@ using TheOlBigIron.Items.Weapons;
 
 namespace TheOlBigIron {
 	partial class TOBIPlayer : ModPlayer {
-		public static bool IsDrawingGun( Player player ) {
+		public static bool IsHoldingGun( Player player ) {
 			return !player.HeldItem.IsAir && player.HeldItem.type == ModContent.ItemType<BigIronItem>();
 		}
 

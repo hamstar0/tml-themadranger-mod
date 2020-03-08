@@ -1,5 +1,6 @@
 v1
 -	@B&D: Diluted Ectoplasm in pots
+-	Cache PlayerLayers
 -	Implement gun cylinder capacity + reloading
 	-	Draw cylinder on HUD
 	-	Add key binding for reloading
@@ -12,7 +13,11 @@ v1
 -	Implement custom bullet projectile
 -	Define 'aim mode' while gun is equipped
 -	Implement holstering animation (blocks re-equipping)
+	-	Implement custom gun drawing
 
+	-	Define animation sequence
+	-	Implement custom rotation
+-	Fix walking animation bobbing (lower head for all frames)
 -	Constrain gun aim while idle holding
 -	Tweak firing recoil (add 1 frame without the rotation)
 -	Reduce scale of gun when equipped
