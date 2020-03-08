@@ -1,3 +1,6 @@
-displayName = Big Iron
+displayName = The Ol' Big Iron
 author = hamstar
-version = 0.1
+version = 0.2.2
+modReferences = HamstarHelpers@5.5.1
+buildIgnore = *.csproj, *.user, *.bat, obj\*, bin\*, .vs\*, .git\*
+homepage = https://forums.terraria.org/index.php?threads/powerups.86119/

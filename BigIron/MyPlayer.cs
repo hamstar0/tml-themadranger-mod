@@ -4,11 +4,11 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
-using TheOlBigIron.Items.Weapons;
+using BigIron.Items.Weapons;
 
 
-namespace TheOlBigIron {
-	partial class TOBIPlayer : ModPlayer {
+namespace BigIron {
+	partial class BigIronPlayer : ModPlayer {
 		private int Recoil = 0;
 		private bool IsFacingWrongWay = false;
 		private GunAnimation GunAnim = new GunAnimation();
@@ -53,7 +53,7 @@ namespace TheOlBigIron {
 		////////////////
 
 		public override bool Shoot( Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack ) {
-			if( TOBIPlayer.IsHoldingGun(this.player) ) {
+			if( BigIronPlayer.IsHoldingGun(this.player) ) {
 				if( this.GunAnim.HolsterDuration > 0 ) {
 					return false;
 				}
@@ -68,7 +68,7 @@ namespace TheOlBigIron {
 		////////////////
 		
 		public override void ModifyDrawLayers( List<PlayerLayer> layers ) {
-			if( TOBIPlayer.IsHoldingGun(this.player) ) {
+			if( BigIronPlayer.IsHoldingGun(this.player) ) {
 				this.AimGun();
 
 				if( !this.IsFacingWrongWay || this.Recoil == 0 ) {

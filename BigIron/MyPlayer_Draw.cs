@@ -6,8 +6,8 @@ using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
 
 
-namespace TheOlBigIron {
-	partial class TOBIPlayer : ModPlayer {
+namespace BigIron {
+	partial class BigIronPlayer : ModPlayer {
 		private bool ModifyDrawLayersForGun( List<PlayerLayer> layers ) {
 			PlayerLayer plrLayer;
 			Action<PlayerDrawInfo> itemLayer, armLayer, handLayer;
@@ -48,7 +48,7 @@ namespace TheOlBigIron {
 
 			Rectangle newFrame, oldFrame;
 			newFrame = oldFrame = this.player.bodyFrame;
-			newFrame.Y = TOBIPlayer.AimGunForBodyFrame( this.player );
+			newFrame.Y = BigIronPlayer.AimGunForBodyFrame( this.player );
 
 			Action<PlayerDrawInfo> preLayerAction = ( plrDrawInfo ) => {
 				this.player.bodyFrame = newFrame;

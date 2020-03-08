@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 
-namespace TheOlBigIron.Items.Weapons {
+namespace BigIron.Items.Weapons {
 	public class BigIronItem : ModItem {
 		public static int Width = 24;
 		public static int Height = 16;

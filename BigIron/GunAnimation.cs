@@ -1,8 +1,9 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 
-namespace TheOlBigIron {
+
+namespace BigIron {
 	class GunAnimation {
 		public int HolsterDuration { get; private set; } = 0;
 		public float AddedRotationDegrees { get; private set; } = 0f;

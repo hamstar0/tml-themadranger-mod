@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
-using TheOlBigIron.Helpers.Players;
+using BigIron.Helpers.Players;
 using HamstarHelpers.Helpers.Debug;
 
 
-namespace TheOlBigIron {
-	partial class TOBIPlayer : ModPlayer {
+namespace BigIron {
+	partial class BigIronPlayer : ModPlayer {
 		private void AddCustomPlayerArmLayers( PlayerDrawInfo plrDrawInfo, Rectangle plrBodyFrame ) {
 			Player plr = plrDrawInfo.drawPlayer;
 			DrawData drawInfo;

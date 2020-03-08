@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 
 
-namespace TheOlBigIron.Helpers.Players {
+namespace BigIron.Helpers.Players {
 	public class PlayerAppearanceHelpers {
 		public static bool IsPlayerBackSlotFilled( Player plr ) {
 			if( plr.wings != 0 && plr.velocity.Y != 0f ) {

@@ -9,8 +9,8 @@ using HamstarHelpers.Helpers.Debug;
 using HamstarHelpers.Helpers.DotNET.Reflection;
 
 
-namespace TheOlBigIron {
-	partial class TOBIPlayer : ModPlayer {
+namespace BigIron {
+	partial class BigIronPlayer : ModPlayer {
 		private void AddCustomPlayerItemLayers( PlayerDrawInfo plrDrawInfo, Color plrLight, float shadow = 0f ) {
 			DrawData drawInfo;
 

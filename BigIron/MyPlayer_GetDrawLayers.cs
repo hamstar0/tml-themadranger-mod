@@ -6,8 +6,8 @@ using Terraria.UI;
 using HamstarHelpers.Helpers.Debug;
 
 
-namespace TheOlBigIron {
-	partial class TOBIPlayer : ModPlayer {
+namespace BigIron {
+	partial class BigIronPlayer : ModPlayer {
 		private bool GetPlayerCustomArmLayers(
 					Player plr,
 					out Action<PlayerDrawInfo> armLayer,
@@ -25,7 +25,7 @@ namespace TheOlBigIron {
 
 			Rectangle newFrame, oldFrame;
 			newFrame = oldFrame = plr.bodyFrame;
-			newFrame.Y = TOBIPlayer.AimGunForBodyFrame( plr );
+			newFrame.Y = BigIronPlayer.AimGunForBodyFrame( plr );
 
 			itemLayer = ( plrDrawInfo ) => { this.AddCustomPlayerItemLayers( plrDrawInfo, plrLight ); };
 			armLayer = ( plrDrawInfo ) => { this.AddCustomPlayerArmLayers( plrDrawInfo, newFrame ); };

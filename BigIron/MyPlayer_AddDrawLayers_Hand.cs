@@ -7,8 +7,8 @@ using Terraria.DataStructures;
 using HamstarHelpers.Helpers.Debug;
 
 
-namespace TheOlBigIron {
-	partial class TOBIPlayer : ModPlayer {
+namespace BigIron {
+	partial class BigIronPlayer : ModPlayer {
 		private void AddCustomPlayerHandLayers( PlayerDrawInfo plrDrawInfo, Color plrLight, Rectangle plrBodyFrame, float shadow=0f ) {
 			DrawData drawInfo;
 

@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 
 
-namespace TheOlBigIron.Items.Accessories {
+namespace BigIron.Items.Accessories {
 	[AutoloadEquip( EquipType.Waist )]
 	class BandolierItem : ModItem {
 		public static int Width = 24;

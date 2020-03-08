@@ -1,9 +1,9 @@
 using Terraria.ModLoader;
 
 
-namespace TheOlBigIron {
-	public class TOBIMod : Mod {
-		public static TOBIMod Instance { get; private set; }
+namespace BigIron {
+	public class BigIronMod : Mod {
+		public static BigIronMod Instance { get; private set; }
 
 
 		////////////////
@@ -15,12 +15,12 @@ namespace TheOlBigIron {
 
 		////////////////
 
-		public TOBIMod() {
-			TOBIMod.Instance = this;
+		public BigIronMod() {
+			BigIronMod.Instance = this;
 		}
 
 		public override void Unload() {
-			TOBIMod.Instance = null;
+			BigIronMod.Instance = null;
 		}
 	}
 }
