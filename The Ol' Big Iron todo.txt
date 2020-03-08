@@ -1,0 +1,43 @@
+v1
+-	@B&D: Diluted Ectoplasm in pots
+-	Implement gun cylinder capacity + reloading
+	-	Draw cylinder on HUD
+	-	Add key binding for reloading
+	-	Implement cylinder
+-	Implement gun aiming
+	-	@Plan
+		-	1s of stillness needed for 'aim mode' to pop on
+		-	A fresh reload creates 0.5s of 'aim mode'
+		-	A fresh unholster creates 0.25s of 'aim mode'
+-	Implement custom bullet projectile
+-	Define 'aim mode' while gun is equipped
+-	Implement holstering animation (blocks re-equipping)
+
+-	Constrain gun aim while idle holding
+-	Tweak firing recoil (add 1 frame without the rotation)
+-	Reduce scale of gun when equipped
+-	Implement firing recoil
+-	Implement gun holding
+-	Define basic bandolier accessory
+-	Define basic gun item
+-	Create item graphics
+-	Setup project
+
+
+
+
+Plan v1
+-	Player begins with a special revolver and a bandolier of unlimited ammo for it (accessory)
+-	Revolver has poor aim (is not focused) unless the player is still for 1.5 seconds
+-	Gun appears as a held item, and a holster animation occurs when switching away (blocks re-equip fire)
+-	Otherwise, aim (focus) improves for an instant upon:
+	-	Deploying the gun
+	-	Finishing a reload
+-	Reload is 1 round at a time, finishing after 6 seconds
+-	Reload slows movement speed, and is automatic after trying to fire when empty (hotkey also exists)
+-	Gun can be fired fast, and does 20 damage per unfocused hit, 35 damage per focused hit
+-	While tipsy, aim is further diminished, but occasional random moments of accurate aim (focus) occur
+-	Firing shots diminishes accuracy for 1 second
+-	Firing shots without a dash move slows the player's movement for a moment
+-	Focus-hitting an enemy re-focuses aim for a moment (longer if further away)
+-	Traveling Merchant rarely sells these types of revolvers for 35 gold
