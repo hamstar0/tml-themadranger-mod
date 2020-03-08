@@ -10,9 +10,9 @@ v1
 		-	1s of stillness needed for 'aim mode' to pop on
 		-	A fresh reload creates 0.5s of 'aim mode'
 		-	A fresh unholster creates 0.25s of 'aim mode'
--	Implement custom bullet projectile
 -	Define 'aim mode' while gun is equipped
--	Implement holstering animation (blocks re-equipping)
+-	Implement custom bullet projectile
+-	Implement holstering animation (blocks firing)
 	-	Implement custom gun drawing
 
 	-	Define animation sequence

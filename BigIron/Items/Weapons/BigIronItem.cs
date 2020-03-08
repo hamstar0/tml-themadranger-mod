@@ -5,8 +5,9 @@ using Terraria.ModLoader;
 
 namespace BigIron.Items.Weapons {
 	public class BigIronItem : ModItem {
-		public static int Width = 24;
-		public static int Height = 16;
+		public static int Width { get; } = 24;
+		public static int Height { get; } = 16;
+		public static float Scale { get; } = 0.5f;
 
 
 
@@ -20,7 +21,7 @@ namespace BigIron.Items.Weapons {
 		public override void SetDefaults() {
 			this.item.width = BigIronItem.Width;
 			this.item.height = BigIronItem.Height;
-			this.item.scale = 0.5f;
+			this.item.scale = BigIronItem.Scale;
 
 			this.item.ranged = true;
 			this.item.useStyle = 5;

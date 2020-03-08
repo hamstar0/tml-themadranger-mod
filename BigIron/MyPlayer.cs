@@ -9,11 +9,10 @@ using BigIron.Items.Weapons;
 
 namespace BigIron {
 	partial class BigIronPlayer : ModPlayer {
-		private int Recoil = 0;
 		private bool IsFacingWrongWay = false;
-		private GunAnimation GunAnim = new GunAnimation();
-
 		private int LastSlot = -1;
+
+		private GunAnimation GunAnim = new GunAnimation();
 
 
 		////////////////
@@ -26,27 +25,20 @@ namespace BigIron {
 
 		public override void PreUpdate() {
 			if( this.LastSlot != this.player.selectedItem ) {
-				this.CheckHeldItemState();
-			}
-
-			if( this.Recoil > 0 ) {
-				this.Recoil--;
+				if( this.LastSlot != -1 ) {
+					this.CheckHeldItemState( this.player.inventory[this.LastSlot] );
+				}
+				this.LastSlot = this.player.selectedItem;
 			}
 
 			this.GunAnim.Update();
 		}
 
 
-		private void CheckHeldItemState() {
-			if( this.LastSlot != -1 ) {
-				Item prevHeldItem = this.player.inventory[this.LastSlot];
-
-				if( !prevHeldItem.IsAir && prevHeldItem.type == ModContent.ItemType<BigIronItem>() ) {
-					this.GunAnim.BeginHolster();
-				}
+		private void CheckHeldItemState( Item prevHeldItem ) {
+			if( !(prevHeldItem?.IsAir == true) && prevHeldItem.type == ModContent.ItemType<BigIronItem>() ) {
+				this.GunAnim.BeginHolster();
 			}
-
-			this.LastSlot = this.player.selectedItem;
 		}
 
 
@@ -58,7 +50,7 @@ namespace BigIron {
 					return false;
 				}
 
-				this.Recoil = 17;
+				this.GunAnim.BeginRecoil();
 			}
 
 			return base.Shoot( item, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack );
@@ -68,17 +60,22 @@ namespace BigIron {
 		////////////////
 		
 		public override void ModifyDrawLayers( List<PlayerLayer> layers ) {
-			if( BigIronPlayer.IsHoldingGun(this.player) ) {
+			if( BigIronPlayer.IsHoldingGun( this.player ) ) {
 				this.AimGun();
 
-				if( !this.IsFacingWrongWay || this.Recoil == 0 ) {
-					if( this.ModifyDrawLayersForGun(layers) ) {
+				if( (!this.IsFacingWrongWay || this.GunAnim.Recoil == 0) && !this.GunAnim.IsAnimating ) {
+					if( this.ModifyDrawLayersForGun( layers ) ) {
 						this.ModifyDrawLayerForTorsoWithGun( layers );
 					}
 
-//					layers.Add( layer, this.GunAnim.DrawLayer );
-					
 					this.player.headPosition.Y += 1;
+				}
+			}
+
+			if( this.GunAnim.IsAnimating ) {
+				int heldItemIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HeldItem );
+				if( heldItemIdx != -1 ) {
+					layers.Insert( heldItemIdx + 1, this.GunAnim.DrawLayer );
 				}
 			}
 		}

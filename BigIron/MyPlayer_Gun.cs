@@ -56,10 +56,6 @@ namespace BigIron {
 				(double)( rotX * (float)plr.direction )
 			) - plr.fullRotation;
 
-			if( this.Recoil <= 16 ) {
-				plr.itemRotation += -plr.direction * MathHelper.ToRadians( this.Recoil );
-			}
-
 			this.IsFacingWrongWay = false;
 
 			if( plr.direction > 0 ) {
@@ -86,6 +82,10 @@ namespace BigIron {
 					}
 					this.IsFacingWrongWay = true;
 				}
+			}
+
+			if( this.GunAnim.Recoil <= 16 ) {
+				plr.itemRotation += -plr.direction * MathHelper.ToRadians( this.GunAnim.Recoil );
 			}
 
 			plr.itemLocation.X = plr.position.X
