@@ -9,7 +9,7 @@ using HamstarHelpers.Helpers.Debug;
 
 namespace TheOlBigIron {
 	partial class TOBIPlayer : ModPlayer {
-		private void AddCustomPlayerHandLayers( PlayerDrawInfo plrDrawInfo, Color plrLight, float shadow=0f ) {
+		private void AddCustomPlayerHandLayers( PlayerDrawInfo plrDrawInfo, Color plrLight, Rectangle plrBodyFrame, float shadow=0f ) {
 			DrawData drawInfo;
 
 			Player plr = plrDrawInfo.drawPlayer;
@@ -21,14 +21,14 @@ namespace TheOlBigIron {
 			if( plr.handon > 0 ) {
 				Vector2 pos = (plr.position - Main.screenPosition).Floor();
 				pos += plr.bodyPosition;
-				pos += new Vector2(plr.bodyFrame.Width, plr.bodyFrame.Height) * 0.5f;
-				pos.X += (plr.bodyFrame.Width / 2) - plr.bodyFrame.Width / 2;
-				pos.Y += (plr.bodyFrame.Height + 4) + plr.height;
+				pos += new Vector2( plrBodyFrame.Width, plrBodyFrame.Height) * 0.5f;
+				pos.X += ( plrBodyFrame.Width / 2) - plrBodyFrame.Width / 2;
+				pos.Y += ( plrBodyFrame.Height + 4) + plr.height;
 
 				drawInfo = new DrawData(
 					Main.accHandsOnTexture[(int)plr.handon],
 					pos,
-					plr.bodyFrame,
+					plrBodyFrame,
 					plrDrawInfo.middleArmorColor,
 					plr.bodyRotation,
 					plrDrawInfo.bodyOrigin,

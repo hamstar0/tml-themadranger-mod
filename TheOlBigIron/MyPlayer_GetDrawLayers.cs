@@ -23,9 +23,13 @@ namespace TheOlBigIron {
 			Color plrLight = Lighting.GetColor( lightTileX, lightTileY );
 			ItemSlot.GetItemLight( ref plrLight, plr.HeldItem, false );
 
+			Rectangle newFrame, oldFrame;
+			newFrame = oldFrame = plr.bodyFrame;
+			newFrame.Y = TOBIPlayer.AimGunForBodyFrame( plr );
+
 			itemLayer = ( plrDrawInfo ) => { this.AddCustomPlayerItemLayers( plrDrawInfo, plrLight ); };
-			armLayer = ( plrDrawInfo ) => { this.AddCustomPlayerArmLayers( plrDrawInfo ); };
-			handLayer = ( plrDrawInfo ) => { this.AddCustomPlayerHandLayers( plrDrawInfo, plrLight ); };
+			armLayer = ( plrDrawInfo ) => { this.AddCustomPlayerArmLayers( plrDrawInfo, newFrame ); };
+			handLayer = ( plrDrawInfo ) => { this.AddCustomPlayerHandLayers( plrDrawInfo, plrLight, newFrame ); };
 			return true;
 		}
 	}
