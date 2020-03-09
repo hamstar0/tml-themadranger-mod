@@ -12,8 +12,8 @@ v1
 		-	A fresh unholster creates 0.25s of 'aim mode'
 -	Define 'aim mode' while gun is equipped
 -	Implement custom bullet projectile
--	Angle lock item rotations to fit hands
 
+-	Angle lock item rotations to fit hands
 -	Implement holstering animation (blocks firing)
 	-	Block all item use/holding while holstering
 	-	Fix shoot blocking while holstering

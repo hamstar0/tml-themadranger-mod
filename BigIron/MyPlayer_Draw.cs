@@ -8,11 +8,18 @@ using HamstarHelpers.Helpers.Debug;
 
 namespace BigIron {
 	partial class BigIronPlayer : ModPlayer {
-		private bool ModifyDrawLayersForGun( List<PlayerLayer> layers ) {
+		private bool ModifyDrawLayersForGun( List<PlayerLayer> layers, bool aimGun ) {
 			PlayerLayer plrLayer;
 			Action<PlayerDrawInfo> itemLayer, armLayer, handLayer;
 
-			if( !this.GetPlayerCustomArmLayers(this.player, out armLayer, out itemLayer, out handLayer) ) {
+			int newBodyFrameY;
+			if( aimGun ) {
+				newBodyFrameY = BigIronPlayer.AimGunForBodyFrameY( this.player );
+			} else {
+				newBodyFrameY = this.player.bodyFrame.Height * 3;
+			}
+
+			if( !this.GetPlayerCustomArmLayers(this.player, newBodyFrameY, out armLayer, out itemLayer, out handLayer) ) {
 				return false;
 			}
 
@@ -21,15 +28,15 @@ namespace BigIron {
 			int handLayerIdx = layers.FindIndex( (lyr) => lyr == PlayerLayer.HandOnAcc );
 
 			if( itemLayerIdx != -1 ) {
-				plrLayer = new PlayerLayer( "TheOlBigIron", "Held Item", /*PlayerLayer.HeldItem,*/ itemLayer );
+				plrLayer = new PlayerLayer( "BigIron", "Held Item", /*PlayerLayer.HeldItem,*/ itemLayer );
 				layers.Insert( itemLayerIdx + 1, plrLayer );
 			}
 			if( armLayerIdx != -1 ) {
-				plrLayer = new PlayerLayer( "TheOlBigIron", "Item Holding Arm", /*PlayerLayer.Arms,*/ armLayer );
+				plrLayer = new PlayerLayer( "BigIron", "Item Holding Arm", /*PlayerLayer.Arms,*/ armLayer );
 				layers.Insert( armLayerIdx+1, plrLayer );
 			}
 			if( handLayerIdx != -1 ) {
-				plrLayer = new PlayerLayer( "TheOlBigIron", "Item Holding Hand", /*PlayerLayer.HandOnAcc,*/ handLayer );
+				plrLayer = new PlayerLayer( "BigIron", "Item Holding Hand", /*PlayerLayer.HandOnAcc,*/ handLayer );
 				layers.Insert( handLayerIdx+1, plrLayer );
 			}
 
@@ -41,14 +48,18 @@ namespace BigIron {
 			return true;
 		}
 
-		private void ModifyDrawLayerForTorsoWithGun( List<PlayerLayer> layers ) {
+		private void ModifyDrawLayerForTorsoWithGun( List<PlayerLayer> layers, bool aimGun ) {
 			int bodyLayerIdx = layers.FindIndex( ( lyr ) => lyr == PlayerLayer.Body );
 			int skinLayerIdx = layers.FindIndex( ( lyr ) => lyr == PlayerLayer.Skin );
 			if( bodyLayerIdx == -1 || skinLayerIdx == -1 ) { return; }
 
 			Rectangle newFrame, oldFrame;
 			newFrame = oldFrame = this.player.bodyFrame;
-			newFrame.Y = BigIronPlayer.AimGunForBodyFrameY( this.player );
+			if( aimGun ) {
+				newFrame.Y = BigIronPlayer.AimGunForBodyFrameY( this.player );
+			} else {
+				newFrame.Y = this.player.bodyFrame.Height * 3;
+			}
 
 			Action<PlayerDrawInfo> preLayerAction = ( plrDrawInfo ) => {
 				this.player.bodyFrame = newFrame;
@@ -57,10 +68,10 @@ namespace BigIron {
 				this.player.bodyFrame = oldFrame;
 			};
 
-			PlayerLayer preBodyLayer = new PlayerLayer( "TheOlBigIron", "Pre Torso Reframe", preLayerAction );
-			PlayerLayer postBodyLayer = new PlayerLayer( "TheOlBigIron", "Post Torso Reframe", postLayerAction );
-			PlayerLayer preSkinLayer = new PlayerLayer( "TheOlBigIron", "Pre Torso Skin Reframe", preLayerAction );
-			PlayerLayer postSkinLayer = new PlayerLayer( "TheOlBigIron", "Post Torso Skin Reframe", postLayerAction );
+			PlayerLayer preBodyLayer = new PlayerLayer( "BigIron", "Pre Torso Reframe", preLayerAction );
+			PlayerLayer postBodyLayer = new PlayerLayer( "BigIron", "Post Torso Reframe", postLayerAction );
+			PlayerLayer preSkinLayer = new PlayerLayer( "BigIron", "Pre Torso Skin Reframe", preLayerAction );
+			PlayerLayer postSkinLayer = new PlayerLayer( "BigIron", "Post Torso Skin Reframe", postLayerAction );
 
 			layers.Insert( bodyLayerIdx + 1, postBodyLayer );
 			layers.Insert( bodyLayerIdx, preBodyLayer );

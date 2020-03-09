@@ -64,8 +64,8 @@ namespace BigIron {
 				this.AimGun();
 
 				if( (!this.IsFacingWrongWay || this.GunAnim.Recoil == 0) && !this.GunAnim.IsHolstering ) {
-					if( this.ModifyDrawLayersForGun( layers ) ) {
-						this.ModifyDrawLayerForTorsoWithGun( layers );
+					if( this.ModifyDrawLayersForGun(layers, true) ) {
+						this.ModifyDrawLayerForTorsoWithGun( layers, true );
 					}
 
 					this.player.headPosition.Y += 1;

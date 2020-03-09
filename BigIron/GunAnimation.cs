@@ -7,9 +7,7 @@ using HamstarHelpers.Helpers.Debug;
 
 namespace BigIron {
 	partial class GunAnimation {
-		private Player BodyFramePlayer;
 		private Rectangle BodyFrameShifted;
-		private Rectangle BodyFrameUnshifted;
 
 
 		////////////////
@@ -30,8 +28,12 @@ namespace BigIron {
 		public float AddedRotationRadians => MathHelper.ToRadians( this.AddedRotationDegrees );
 
 		////
-
+		
 		public PlayerLayer GunDrawLayer { get; }
+		public PlayerLayer ArmsShiftLayer { get; }
+		public PlayerLayer ArmsUnshiftLayer { get; }
+		public PlayerLayer HandShiftLayer { get; }
+		public PlayerLayer HandUnshiftLayer { get; }
 		public PlayerLayer BodyShiftLayer { get; }
 		public PlayerLayer BodyUnshiftLayer { get; }
 		public PlayerLayer SkinShiftLayer { get; }
@@ -46,17 +48,20 @@ namespace BigIron {
 				Main.playerDrawData.Add( this.DrawGun(plrDrawInfo) );
 			} );
 
+			Rectangle unshiftedBodyFrame = default(Rectangle);
+
 			Action<PlayerDrawInfo> shiftAction = ( plrDrawInfo ) => {
-				if( this.BodyFramePlayer != null ) {
-					this.BodyFramePlayer.bodyFrame = this.BodyFrameShifted;
-				}
+				unshiftedBodyFrame = plrDrawInfo.drawPlayer.bodyFrame;
+				plrDrawInfo.drawPlayer.bodyFrame = this.BodyFrameShifted;
 			};
 			Action<PlayerDrawInfo> unshiftAction = ( plrDrawInfo ) => {
-				if( this.BodyFramePlayer != null ) {
-					this.BodyFramePlayer.bodyFrame = this.BodyFrameUnshifted;
-				}
+				plrDrawInfo.drawPlayer.bodyFrame = unshiftedBodyFrame;
 			};
-
+			
+			this.ArmsShiftLayer = new PlayerLayer( "BigIron", "Gun Holster Arms Shift Reframe", shiftAction );
+			this.ArmsUnshiftLayer = new PlayerLayer( "BigIron", "Gun Holster Arms Unshift Reframe", unshiftAction );
+			this.HandShiftLayer = new PlayerLayer( "BigIron", "Gun Holster Arm Shift Reframe", shiftAction );
+			this.HandUnshiftLayer = new PlayerLayer( "BigIron", "Gun Holster Arm Unshift Reframe", unshiftAction );
 			this.BodyShiftLayer = new PlayerLayer( "BigIron", "Gun Holster Torso Shift Reframe", shiftAction );
 			this.BodyUnshiftLayer = new PlayerLayer( "BigIron", "Gun Holster Torso Unshift Reframe", unshiftAction );
 			this.SkinShiftLayer = new PlayerLayer( "BigIron", "Gun Holster Torso Skin Shift Reframe", shiftAction );

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -48,8 +49,8 @@ namespace BigIron {
 
 		////////////////
 
-		private void AddCustomPlayerItemLayers( PlayerDrawInfo plrDrawInfo, Color plrLight, float shadow = 0f ) {
-			DrawData drawInfo;
+		private IEnumerable<DrawData> AddCustomPlayerItemLayers( PlayerDrawInfo plrDrawInfo, Color plrLight, float shadow = 0f ) {
+			DrawData drawData;
 
 			Player plr = plrDrawInfo.drawPlayer;
 			Color itemLight = BigIronPlayer.GetItemLightColor( plr, plrLight );
@@ -98,23 +99,23 @@ namespace BigIron {
 
 			//
 
-			drawInfo = getDrawData( itemTex, plr.HeldItem.GetAlpha(itemLight) );
+			drawData = getDrawData( itemTex, plr.HeldItem.GetAlpha(itemLight) );
 			//drawInfo.Draw( Main.spriteBatch );
-			Main.playerDrawData.Add( drawInfo );
+			yield return drawData;
 
 			if( plr.HeldItem.color != default(Color) ) {
-				drawInfo = getDrawData( itemTex, plr.HeldItem.GetColor( itemLight ) );
+				drawData = getDrawData( itemTex, plr.HeldItem.GetColor( itemLight ) );
 				//drawInfo.Draw( Main.spriteBatch );
-				Main.playerDrawData.Add( drawInfo );
+				yield return drawData;
 			}
 
 			if( plr.HeldItem.glowMask != -1 ) {
-				drawInfo = getDrawData(
+				drawData = getDrawData(
 					Main.glowMaskTexture[(int)plr.HeldItem.glowMask],
 					new Color( 250, 250, 250, plr.HeldItem.alpha )
 				);
 				//drawInfo.Draw( Main.spriteBatch );
-				Main.playerDrawData.Add( drawInfo );
+				yield return drawData;
 			}
 		}
 	}

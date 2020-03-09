@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
+using Terraria.DataStructures;
 using HamstarHelpers.Helpers.Debug;
 
 
@@ -10,6 +11,7 @@ namespace BigIron {
 	partial class BigIronPlayer : ModPlayer {
 		private bool GetPlayerCustomArmLayers(
 					Player plr,
+					int newBodyFrameY,
 					out Action<PlayerDrawInfo> armLayer,
 					out Action<PlayerDrawInfo> itemLayer,
 					out Action<PlayerDrawInfo> handLayer ) {
@@ -25,16 +27,22 @@ namespace BigIron {
 
 			Rectangle newFrame, oldFrame;
 			newFrame = oldFrame = plr.bodyFrame;
-			newFrame.Y = BigIronPlayer.AimGunForBodyFrameY( plr );
+			newFrame.Y = newBodyFrameY;
 
 			itemLayer = ( plrDrawInfo ) => {
-				this.AddCustomPlayerItemLayers( plrDrawInfo, plrLight );
+				foreach( DrawData drawData in this.AddCustomPlayerItemLayers(plrDrawInfo, plrLight) ) {
+					Main.playerDrawData.Add( drawData );
+				}
 			};
 			armLayer = ( plrDrawInfo ) => {
-				this.AddCustomPlayerArmLayers( plrDrawInfo, newFrame );
+				foreach( DrawData drawData in this.AddCustomPlayerArmLayers(plrDrawInfo, newFrame) ) {
+					Main.playerDrawData.Add( drawData );
+				}
 			};
 			handLayer = ( plrDrawInfo ) => {
-				this.AddCustomPlayerHandLayers( plrDrawInfo, plrLight, newFrame );
+				foreach( DrawData drawData in this.AddCustomPlayerHandLayers(plrDrawInfo, plrLight, newFrame) ) {
+					Main.playerDrawData.Add( drawData );
+				}
 			};
 			return true;
 		}

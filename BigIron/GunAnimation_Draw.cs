@@ -19,24 +19,26 @@ namespace BigIron {
 
 		private void ModifyDrawLayersForHolstering( Player plr, List<PlayerLayer> layers ) {
 			int heldItemIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HeldItem );
+			int armsLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.Arms );
+			int handLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HandOnAcc );
 			int bodyLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.Body );
 			int skinLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.Skin );
 
-			this.BodyFramePlayer = plr;
-			this.BodyFrameShifted = this.BodyFrameUnshifted = plr.bodyFrame;
-			this.BodyFrameUnshifted.Y = plr.bodyFrame.Height * 3;
+			this.BodyFrameShifted = plr.bodyFrame;
+			this.BodyFrameShifted.Y = plr.bodyFrame.Height * 3;
 
 			if( heldItemIdx != -1 ) {
 				layers.Insert( heldItemIdx + 1, this.GunDrawLayer );
 			}
 			if( bodyLayerIdx != -1 && skinLayerIdx != -1 ) {
+				layers.Insert( armsLayerIdx + 1, this.ArmsShiftLayer );
+				layers.Insert( armsLayerIdx, this.ArmsUnshiftLayer );
+				layers.Insert( handLayerIdx + 1, this.HandShiftLayer );
+				layers.Insert( handLayerIdx, this.HandUnshiftLayer );
 				layers.Insert( bodyLayerIdx + 1, this.BodyUnshiftLayer );
 				layers.Insert( bodyLayerIdx, this.BodyShiftLayer );
 				layers.Insert( skinLayerIdx + 1, this.SkinUnshiftLayer );
 				layers.Insert( skinLayerIdx, this.SkinShiftLayer );
-
-				PlayerLayer.Body.visible = false;
-				PlayerLayer.Skin.visible = false;
 			}
 		}
 

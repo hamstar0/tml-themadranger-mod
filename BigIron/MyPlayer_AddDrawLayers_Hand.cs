@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -9,8 +10,8 @@ using HamstarHelpers.Helpers.Debug;
 
 namespace BigIron {
 	partial class BigIronPlayer : ModPlayer {
-		private void AddCustomPlayerHandLayers( PlayerDrawInfo plrDrawInfo, Color plrLight, Rectangle plrBodyFrame, float shadow=0f ) {
-			DrawData drawInfo;
+		private IEnumerable<DrawData> AddCustomPlayerHandLayers( PlayerDrawInfo plrDrawInfo, Color plrLight, Rectangle plrBodyFrame, float shadow=0f ) {
+			DrawData drawData;
 
 			Player plr = plrDrawInfo.drawPlayer;
 			int itemType = plr.HeldItem.type;
@@ -25,7 +26,7 @@ namespace BigIron {
 				pos.X += ( plrBodyFrame.Width / 2) - plrBodyFrame.Width / 2;
 				pos.Y += ( plrBodyFrame.Height + 4) + plr.height;
 
-				drawInfo = new DrawData(
+				drawData = new DrawData(
 					Main.accHandsOnTexture[(int)plr.handon],
 					pos,
 					plrBodyFrame,
@@ -36,9 +37,9 @@ namespace BigIron {
 					plrDrawInfo.spriteEffects,
 					0
 				);
-				drawInfo.shader = plrDrawInfo.handOnShader;
+				drawData.shader = plrDrawInfo.handOnShader;
 				//drawInfo.Draw( Main.spriteBatch );
-				Main.playerDrawData.Add( drawInfo );
+				yield return drawData;
 			}
 
 			bool canDrawClawItem = !plr.HeldItem.IsAir
@@ -59,7 +60,7 @@ namespace BigIron {
 					origin = new Vector2( ((float)itemTex.Width * 0.5f) - ((float)itemTex.Width * 0.5f * (float)plr.direction), itemTex.Height );
 				}
 
-				drawInfo = new DrawData(
+				drawData = new DrawData(
 					itemTex,
 					(itemPos - Main.screenPosition).Floor(),
 					new Rectangle( 0, 0, itemTex.Width, itemTex.Height ),
@@ -71,7 +72,7 @@ namespace BigIron {
 					0
 				);
 				//drawInfo.Draw( Main.spriteBatch );
-				Main.playerDrawData.Add( drawInfo );
+				yield return drawData;
 			}
 		}
 	}

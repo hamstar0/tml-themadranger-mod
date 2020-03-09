@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -10,7 +11,7 @@ using HamstarHelpers.Helpers.Debug;
 
 namespace BigIron {
 	partial class BigIronPlayer : ModPlayer {
-		private void AddCustomPlayerArmLayers( PlayerDrawInfo plrDrawInfo, Rectangle plrBodyFrame ) {
+		public IEnumerable<DrawData> AddCustomPlayerArmLayers( PlayerDrawInfo plrDrawInfo, Rectangle plrBodyFrame ) {
 			Player plr = plrDrawInfo.drawPlayer;
 			DrawData drawInfo;
 
@@ -61,12 +62,12 @@ namespace BigIron {
 					if( plrDrawInfo.drawArms ) {
 						drawInfo = getDrawData( Main.playerTextures[plr.skinVariant, 7], pos, plrDrawInfo.bodyColor, plrBodyFrame );
 						//drawInfo.Draw( Main.spriteBatch );
-						Main.playerDrawData.Add( drawInfo );
+						yield return drawInfo;
 					}
 
 					drawInfo = getDrawData( Main.playerTextures[plr.skinVariant, 9], pos, plrDrawInfo.bodyColor, plrBodyFrame );
 					//drawInfo.Draw( Main.spriteBatch );
-					Main.playerDrawData.Add( drawInfo );
+					yield return drawInfo;
 				}
 
 				pos.X += bodyFrameXOffset;
@@ -74,26 +75,26 @@ namespace BigIron {
 				drawInfo = getDrawData( Main.armorArmTexture[plr.body], pos, plrDrawInfo.middleArmorColor, offsetBodyFrame );
 				drawInfo.shader = plrDrawInfo.bodyArmorShader;
 				//drawInfo.Draw( Main.spriteBatch );
-				Main.playerDrawData.Add( drawInfo );
+				yield return drawInfo;
 
 				if( plrDrawInfo.armGlowMask != -1 ) {
 					drawInfo = getDrawData( Main.glowMaskTexture[plrDrawInfo.armGlowMask], pos, plrDrawInfo.legGlowMaskColor, offsetBodyFrame );
 					drawInfo.shader = plrDrawInfo.bodyArmorShader;
 					//drawInfo.Draw( Main.spriteBatch );
-					Main.playerDrawData.Add( drawInfo );
+					yield return drawInfo;
 				}
 			} else if( !plr.invis ) {
 				drawInfo = getDrawData( Main.playerTextures[plr.skinVariant, 7], pos, plrDrawInfo.bodyColor, plrBodyFrame );
 				//drawInfo.Draw( Main.spriteBatch );
-				Main.playerDrawData.Add( drawInfo );
+				yield return drawInfo;
 
 				drawInfo = getDrawData( Main.playerTextures[plr.skinVariant, 8], pos, plrDrawInfo.underShirtColor, plrBodyFrame );
 				//drawInfo.Draw( Main.spriteBatch );
-				Main.playerDrawData.Add( drawInfo );
+				yield return drawInfo;
 
 				drawInfo = getDrawData( Main.playerTextures[plr.skinVariant, 13], pos, plrDrawInfo.shirtColor, plrBodyFrame );
 				//drawInfo.Draw( Main.spriteBatch );
-				Main.playerDrawData.Add( drawInfo );
+				yield return drawInfo;
 			}
 		}
 	}
