@@ -12,15 +12,17 @@ using BigIron.Items.Weapons;
 namespace BigIron {
 	partial class GunAnimation {
 		public void ModifyDrawLayers( Player plr, List<PlayerLayer> layers ) {
-			if( !this.IsAnimating ) {
-				return;
+			if( this.IsHolstering ) {
+				this.ModifyDrawLayersForHolstering( plr, layers );
 			}
+		}
 
+		private void ModifyDrawLayersForHolstering( Player plr, List<PlayerLayer> layers ) {
 			int heldItemIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HeldItem );
 			int bodyLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.Body );
 			int skinLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.Skin );
 
-			this.BodyFrameShiftPlayer = plr;
+			this.BodyFramePlayer = plr;
 			this.BodyFrameShifted = this.BodyFrameUnshifted = plr.bodyFrame;
 			this.BodyFrameUnshifted.Y = plr.bodyFrame.Height * 3;
 

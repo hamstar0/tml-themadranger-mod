@@ -7,7 +7,7 @@ using HamstarHelpers.Helpers.Debug;
 
 namespace BigIron {
 	partial class GunAnimation {
-		private Player BodyFrameShiftPlayer;
+		private Player BodyFramePlayer;
 		private Rectangle BodyFrameShifted;
 		private Rectangle BodyFrameUnshifted;
 
@@ -25,7 +25,7 @@ namespace BigIron {
 
 		////
 
-		public bool IsAnimating => this.HolsterDuration > 0;
+		public bool IsHolstering => this.HolsterDuration > 0;
 
 		public float AddedRotationRadians => MathHelper.ToRadians( this.AddedRotationDegrees );
 
@@ -47,13 +47,13 @@ namespace BigIron {
 			} );
 
 			Action<PlayerDrawInfo> shiftAction = ( plrDrawInfo ) => {
-				if( this.BodyFrameShiftPlayer != null ) {
-					this.BodyFrameShiftPlayer.bodyFrame = this.BodyFrameShifted;
+				if( this.BodyFramePlayer != null ) {
+					this.BodyFramePlayer.bodyFrame = this.BodyFrameShifted;
 				}
 			};
 			Action<PlayerDrawInfo> unshiftAction = ( plrDrawInfo ) => {
-				if( this.BodyFrameShiftPlayer != null ) {
-					this.BodyFrameShiftPlayer.bodyFrame = this.BodyFrameUnshifted;
+				if( this.BodyFramePlayer != null ) {
+					this.BodyFramePlayer.bodyFrame = this.BodyFrameUnshifted;
 				}
 			};
 

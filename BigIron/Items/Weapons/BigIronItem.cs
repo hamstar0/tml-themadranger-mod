@@ -42,5 +42,12 @@ namespace BigIron.Items.Weapons {
 			this.item.rare = 2;
 			this.item.value = Item.buyPrice( 0, 5, 0, 0 );
 		}
+
+
+		////////////////
+
+		public override bool CanUseItem( Player player ) {
+			return !player.GetModPlayer<BigIronPlayer>().GunAnim.IsHolstering;
+		}
 	}
 }

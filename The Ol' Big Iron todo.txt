@@ -13,10 +13,10 @@ v1
 -	Define 'aim mode' while gun is equipped
 -	Implement custom bullet projectile
 -	Angle lock item rotations to fit hands
+
 -	Implement holstering animation (blocks firing)
 	-	Block all item use/holding while holstering
 	-	Fix shoot blocking while holstering
-
 	-	Improve holstering animation position
 	-	Implement custom gun drawing
 	-	Define animation sequence

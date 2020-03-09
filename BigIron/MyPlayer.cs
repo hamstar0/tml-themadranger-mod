@@ -12,7 +12,7 @@ namespace BigIron {
 		private bool IsFacingWrongWay = false;
 		private int LastSlot = -1;
 
-		private GunAnimation GunAnim = new GunAnimation();
+		internal GunAnimation GunAnim { get; } = new GunAnimation();
 
 
 		////////////////
@@ -46,7 +46,7 @@ namespace BigIron {
 
 		public override bool Shoot( Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack ) {
 			if( BigIronPlayer.IsHoldingGun(this.player) ) {
-				if( this.GunAnim.HolsterDuration > 0 ) {
+				if( this.GunAnim.IsHolstering ) {
 					return false;
 				}
 
@@ -63,7 +63,7 @@ namespace BigIron {
 			if( BigIronPlayer.IsHoldingGun( this.player ) ) {
 				this.AimGun();
 
-				if( (!this.IsFacingWrongWay || this.GunAnim.Recoil == 0) && !this.GunAnim.IsAnimating ) {
+				if( (!this.IsFacingWrongWay || this.GunAnim.Recoil == 0) && !this.GunAnim.IsHolstering ) {
 					if( this.ModifyDrawLayersForGun( layers ) ) {
 						this.ModifyDrawLayerForTorsoWithGun( layers );
 					}
