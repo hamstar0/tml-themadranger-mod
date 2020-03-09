@@ -48,7 +48,7 @@ namespace BigIron {
 
 			Rectangle newFrame, oldFrame;
 			newFrame = oldFrame = this.player.bodyFrame;
-			newFrame.Y = BigIronPlayer.AimGunForBodyFrame( this.player );
+			newFrame.Y = BigIronPlayer.AimGunForBodyFrameY( this.player );
 
 			Action<PlayerDrawInfo> preLayerAction = ( plrDrawInfo ) => {
 				this.player.bodyFrame = newFrame;

@@ -25,11 +25,17 @@ namespace BigIron {
 
 			Rectangle newFrame, oldFrame;
 			newFrame = oldFrame = plr.bodyFrame;
-			newFrame.Y = BigIronPlayer.AimGunForBodyFrame( plr );
+			newFrame.Y = BigIronPlayer.AimGunForBodyFrameY( plr );
 
-			itemLayer = ( plrDrawInfo ) => { this.AddCustomPlayerItemLayers( plrDrawInfo, plrLight ); };
-			armLayer = ( plrDrawInfo ) => { this.AddCustomPlayerArmLayers( plrDrawInfo, newFrame ); };
-			handLayer = ( plrDrawInfo ) => { this.AddCustomPlayerHandLayers( plrDrawInfo, plrLight, newFrame ); };
+			itemLayer = ( plrDrawInfo ) => {
+				this.AddCustomPlayerItemLayers( plrDrawInfo, plrLight );
+			};
+			armLayer = ( plrDrawInfo ) => {
+				this.AddCustomPlayerArmLayers( plrDrawInfo, newFrame );
+			};
+			handLayer = ( plrDrawInfo ) => {
+				this.AddCustomPlayerHandLayers( plrDrawInfo, plrLight, newFrame );
+			};
 			return true;
 		}
 	}

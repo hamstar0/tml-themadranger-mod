@@ -72,12 +72,7 @@ namespace BigIron {
 				}
 			}
 
-			if( this.GunAnim.IsAnimating ) {
-				int heldItemIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HeldItem );
-				if( heldItemIdx != -1 ) {
-					layers.Insert( heldItemIdx + 1, this.GunAnim.DrawLayer );
-				}
-			}
+			this.GunAnim.ModifyDrawLayers( this.player, layers );
 		}
 	}
 }

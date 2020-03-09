@@ -54,29 +54,38 @@ namespace BigIron {
 			Player plr = plrDrawInfo.drawPlayer;
 			Color itemLight = BigIronPlayer.GetItemLightColor( plr, plrLight );
 
-			Vector2 itemPos;
-			ReflectionHelpers.RunMethod( Main.instance, "DrawPlayerItemPos", new object[] { plr.gravDir, plr.HeldItem.type }, out itemPos );
+			Vector2 itemScrPos;
+			ReflectionHelpers.RunMethod(
+				Main.instance,
+				"DrawPlayerItemPos",
+				new object[] { plr.gravDir, plr.HeldItem.type },
+				out itemScrPos
+			);
 
 			Texture2D itemTex = Main.itemTexture[plr.HeldItem.type];
-			var itemTexOffset = new Vector2( itemTex.Width / 2, itemPos.Y );
-			int itemPosX = (int)itemPos.X;
+			var itemTexOffset = new Vector2( itemTex.Width / 2, itemScrPos.Y );
 
-			Vector2 plrPos = plr.position + ( plr.itemLocation - plr.position );
+			Vector2 itemWldPos = plr.itemLocation;//plr.position + (plr.itemLocation - plr.position);
 			Vector2 origin = new Vector2(
-				(float)( -(float)itemPosX ),
+				(float)( -itemScrPos.X ),
 				(float)( itemTex.Height / 2 )
 			);
 
 			if( plr.direction == -1 ) {
-				origin = new Vector2( (float)( itemTex.Width + itemPosX ), (float)( itemTex.Height / 2 ) );
+				origin = new Vector2(
+					(float)( itemTex.Width + itemScrPos.X ),
+					(float)( itemTex.Height / 2 )
+				);
 			}
 
 			//
 
+			Vector2 pos = itemWldPos - Main.screenPosition + itemTexOffset;
+
 			DrawData getDrawData( Texture2D tex, Color color ) {
 				return new DrawData(
 					tex,
-					plrPos - Main.screenPosition + itemTexOffset,
+					pos,
 					new Rectangle( 0, 0, itemTex.Width, itemTex.Height ),
 					color,
 					plr.itemRotation,

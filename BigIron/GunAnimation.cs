@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.UI;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
@@ -12,6 +11,13 @@ using BigIron.Items.Weapons;
 
 namespace BigIron {
 	partial class GunAnimation {
+		private Player BodyFrameShiftPlayer;
+		private Rectangle BodyFrameShifted;
+		private Rectangle BodyFrameUnshifted;
+
+
+		////////////////
+
 		public int Recoil { get; private set; } = 0;
 
 		public int HolsterDuration { get; private set; } = 0;
@@ -29,18 +35,36 @@ namespace BigIron {
 
 		////
 
-		public PlayerLayer DrawLayer { get; }
+		public PlayerLayer GunDrawLayer { get; }
+		public PlayerLayer BodyShiftLayer { get; }
+		public PlayerLayer BodyUnshiftLayer { get; }
+		public PlayerLayer SkinShiftLayer { get; }
+		public PlayerLayer SkinUnshiftLayer { get; }
 
 
 
 		////////////////
 		
 		public GunAnimation() {
-			this.DrawLayer = new PlayerLayer( "BigIron", "Custom Gun Animation", (plrDrawInfo) => {
-				foreach( DrawData dat in this.DrawGun(plrDrawInfo) ) {
-					Main.playerDrawData.Add( dat );
-				}
+			this.GunDrawLayer = new PlayerLayer( "BigIron", "Custom Gun Animation", (plrDrawInfo) => {
+				Main.playerDrawData.Add( this.DrawGun(plrDrawInfo) );
 			} );
+
+			Action<PlayerDrawInfo> shiftAction = ( plrDrawInfo ) => {
+				if( this.BodyFrameShiftPlayer != null ) {
+					this.BodyFrameShiftPlayer.bodyFrame = this.BodyFrameShifted;
+				}
+			};
+			Action<PlayerDrawInfo> unshiftAction = ( plrDrawInfo ) => {
+				if( this.BodyFrameShiftPlayer != null ) {
+					this.BodyFrameShiftPlayer.bodyFrame = this.BodyFrameUnshifted;
+				}
+			};
+
+			this.BodyShiftLayer = new PlayerLayer( "BigIron", "Gun Holster Torso Shift Reframe", shiftAction );
+			this.BodyUnshiftLayer = new PlayerLayer( "BigIron", "Gun Holster Torso Unshift Reframe", unshiftAction );
+			this.SkinShiftLayer = new PlayerLayer( "BigIron", "Gun Holster Torso Skin Shift Reframe", shiftAction );
+			this.SkinUnshiftLayer = new PlayerLayer( "BigIron", "Gun Holster Torso Skin Unshift Reframe", unshiftAction );
 		}
 
 		////////////////
@@ -49,7 +73,7 @@ namespace BigIron {
 			if( this.HolsterDuration > 0 ) {
 				this.HolsterDuration--;
 
-				this.AddedRotationDegrees += 24f;
+				this.AddedRotationDegrees += 32f;
 				if( this.AddedRotationDegrees > 360f ) {
 					this.AddedRotationDegrees -= 360f;
 				}
@@ -75,13 +99,51 @@ namespace BigIron {
 
 
 		////////////////
+		
+		public void ModifyDrawLayers( Player plr, List<PlayerLayer> layers ) {
+			if( !this.IsAnimating ) {
+				return;
+			}
 
-		public IEnumerable<DrawData> DrawGun( PlayerDrawInfo plrDrawInfo ) {
+			int heldItemIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HeldItem );
+			int bodyLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.Body );
+			int skinLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.Skin );
+
+			this.BodyFrameShiftPlayer = plr;
+			this.BodyFrameShifted = this.BodyFrameUnshifted = plr.bodyFrame;
+			this.BodyFrameUnshifted.Y = plr.bodyFrame.Height * 3;
+
+			if( heldItemIdx != -1 ) {
+				layers.Insert( heldItemIdx + 1, this.GunDrawLayer );
+			}
+			if( bodyLayerIdx != -1 && skinLayerIdx != -1 ) {
+				layers.Insert( bodyLayerIdx + 1, this.BodyUnshiftLayer );
+				layers.Insert( bodyLayerIdx, this.BodyShiftLayer );
+				layers.Insert( skinLayerIdx + 1, this.SkinUnshiftLayer );
+				layers.Insert( skinLayerIdx, this.SkinShiftLayer );
+
+				PlayerLayer.Body.visible = false;
+				PlayerLayer.Skin.visible = false;
+			}
+		}
+
+
+		////////////////
+
+		public DrawData DrawGun( PlayerDrawInfo plrDrawInfo ) {
 			Player plr = plrDrawInfo.drawPlayer;
-			Texture2D itemTex = Main.itemTexture[ModContent.ItemType<BigIronItem>()];
+			Texture2D itemTex = Main.itemTexture[ ModContent.ItemType<BigIronItem>() ];
 			Vector2 origin = new Vector2( itemTex.Width/2, itemTex.Height/2 );
-			Vector2 pos = plr.Center;
-			pos -= Main.screenPosition;
+
+			double progress = 1d - ( (double)this.HolsterDuration / (double)this.HolsterDurationMax );
+
+			//var aim = new Vector2( (float)Math.Cos(this.LastKnownItemRotation), (float)Math.Sin(this.LastKnownItemRotation) );
+			//aim = Vector2.Normalize( aim );
+			//aim *= itemTex.Width * 0.25f;
+
+			//float curve = (float)Math.Sin( progress * Math.PI );
+
+			Vector2 pos = plr.MountedCenter + new Vector2(plr.direction * 8, 0) - Main.screenPosition;
 
 			DrawData getDrawData( Texture2D tex, Color color ) {
 				return new DrawData(
@@ -102,22 +164,10 @@ namespace BigIron {
 			int lightTileX = (int)( ( plr.position.X + ( (float)plr.width * 0.5f ) ) / 16f );
 			int lightTileY = (int)( ( plr.position.Y + ( (float)plr.height * 0.5f ) ) / 16f );
 			Color plrLight = Lighting.GetColor( lightTileX, lightTileY );
-			ItemSlot.GetItemLight( ref plrLight, plr.HeldItem, false );
-			Color itemLight = BigIronPlayer.GetItemLightColor( plr, plrLight );
+			//ItemSlot.GetItemLight( ref plrLight, plr.HeldItem, false );
+			//Color itemLight = BigIronPlayer.GetItemLightColor( plr, plrLight );
 
-			yield return getDrawData( itemTex, plr.HeldItem.GetAlpha(itemLight) );
-
-			if( plr.HeldItem.color != default(Color) ) {
-				yield return getDrawData( itemTex, plr.HeldItem.GetColor(itemLight) );
-			}
-
-			if( plr.HeldItem.glowMask != -1 ) {
-				DrawData drawData = getDrawData(
-					Main.glowMaskTexture[(int)plr.HeldItem.glowMask],
-					new Color( 250, 250, 250, plr.HeldItem.alpha )
-				);
-				yield return drawData;
-			}
+			return getDrawData( itemTex, plrLight );
 		}
 	}
 }
