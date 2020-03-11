@@ -101,8 +101,8 @@ namespace BigIron {
 				//candidate 4: -13deg
 				//candidate 5: -22deg
 				//candidate 6: -51deg
-				int rots = (int)( plr.itemRotation / -0.890118f );
-				plr.itemRotation = (float)rots * -0.890118f;
+				//int rots = (int)( plr.itemRotation / -0.890118f );
+				//plr.itemRotation = (float)rots * -0.890118f;
 			}
 
 			plr.itemLocation.X = plr.position.X

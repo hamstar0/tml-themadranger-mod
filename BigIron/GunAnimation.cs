@@ -70,13 +70,20 @@ namespace BigIron {
 
 		////////////////
 
-		public void Update() {
+		public void Update( Player player ) {
 			if( this.HolsterDuration > 0 ) {
 				this.HolsterDuration--;
 
-				this.AddedRotationDegrees += 32f;
-				if( this.AddedRotationDegrees > 360f ) {
-					this.AddedRotationDegrees -= 360f;
+				if( player.direction > 0 ) {
+					this.AddedRotationDegrees -= 32f;
+					if( this.AddedRotationDegrees < 0f ) {
+						this.AddedRotationDegrees += 360f;
+					}
+				} else {
+					this.AddedRotationDegrees += 32f;
+					if( this.AddedRotationDegrees >= 360f ) {
+						this.AddedRotationDegrees -= 360f;
+					}
 				}
 			} else {
 				this.AddedRotationDegrees = 0f;

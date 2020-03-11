@@ -1,18 +1,28 @@
+v1.1
+-	Add holster twirl animation tweak
 v1
 -	@B&D: Diluted Ectoplasm in pots
+-	@MH: Debug MH "bad mods" route
 -	Cache PlayerLayers
 -	Implement gun cylinder capacity + reloading
 	-	Draw cylinder on HUD
 	-	Add key binding for reloading
 	-	Implement cylinder
+-	Add holster twirl sound
 -	Implement gun aiming
+	-	Implement damage variance (1-max) while not in aim mode
+	-	Implement aim distorting while not in aim mode
+	-	Draw crosshair while aiming
+	-	Implement 'aim mode' activation
 	-	@Plan
 		-	1s of stillness needed for 'aim mode' to pop on
 		-	A fresh reload creates 0.5s of 'aim mode'
 		-	A fresh unholster creates 0.25s of 'aim mode'
--	Define 'aim mode' while gun is equipped
--	Implement custom bullet projectile
+-	Add holster twirl sfx
 
+-	Fix holster twirl direction
+-	Add shot sfx (SS? HL?)
+-	Implement bullet projectile
 -	Angle lock item rotations to fit hands
 -	Implement holstering animation (blocks firing)
 	-	Block all item use/holding while holstering

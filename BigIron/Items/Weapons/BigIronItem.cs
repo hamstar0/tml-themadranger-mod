@@ -28,15 +28,15 @@ namespace BigIron.Items.Weapons {
 			this.item.useTime = 6;
 			this.item.useAnimation = 6;
 			this.item.autoReuse = false;
-			this.item.noMelee = true; //so the item's animation doesn't do damage
-			this.item.shoot = ProjectileID.WoodenArrowFriendly;	//10; //idk why but all the guns in the vanilla source have this
-			this.item.shootSpeed = 16f;
-//			this.item.noUseGraphic = true;
-			//this.item.useAmmo = AmmoID.Bullet;
+			this.item.noMelee = true;
+			this.item.shoot = ProjectileID.Bullet;
+			this.item.shootSpeed = 14f;
 
-			this.item.UseSound = SoundID.Item11;
+			this.item.UseSound = this.mod.GetLegacySoundSlot( SoundType.Custom, "Sounds/Custom/RevolverShoot" )
+				.WithVolume( 0.5f );
+			//	.WithPitchVariance( 0.5f );
 
-			this.item.damage = 20;
+			this.item.damage = 40;
 			this.item.knockBack = 4;
 
 			this.item.rare = 2;

@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
 using BigIron.Items.Weapons;
+using BigIron.Items.Accessories;
 
 
 namespace BigIron {
@@ -31,7 +32,7 @@ namespace BigIron {
 				this.LastSlot = this.player.selectedItem;
 			}
 
-			this.GunAnim.Update();
+			this.GunAnim.Update( this.player );
 		}
 
 
@@ -58,7 +59,27 @@ namespace BigIron {
 
 
 		////////////////
-		
+
+		public override void SetupStartInventory( IList<Item> items, bool mediumcoreDeath ) {
+			if( !mediumcoreDeath ) {
+				if( BigIronConfig.Instance.PlayerSpawnsWithGun ) {
+					var revolver = new Item();
+					revolver.SetDefaults( ModContent.ItemType<BigIronItem>() );
+
+					items.Add( revolver );
+				}
+				if( BigIronConfig.Instance.PlayerSpawnsWithBandolier ) {
+					var bandolier = new Item();
+					bandolier.SetDefaults( ModContent.ItemType<BandolierItem>() );
+
+					items.Add( bandolier );
+				}
+			}
+		}
+
+
+		////////////////
+
 		public override void ModifyDrawLayers( List<PlayerLayer> layers ) {
 			if( BigIronPlayer.IsHoldingGun( this.player ) ) {
 				this.AimGun();
