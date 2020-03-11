@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Audio;
 using HamstarHelpers.Helpers.Debug;
 
 
@@ -28,7 +29,11 @@ namespace BigIron {
 		public float AddedRotationRadians => MathHelper.ToRadians( this.AddedRotationDegrees );
 
 		////
-		
+
+		public SoundStyle TwirlSound = null;
+
+		////
+
 		public PlayerLayer GunDrawLayer { get; }
 		public PlayerLayer ArmsShiftLayer { get; }
 		public PlayerLayer ArmsUnshiftLayer { get; }
@@ -100,9 +105,18 @@ namespace BigIron {
 			this.Recoil = 17;
 		}
 
-		public void BeginHolster() {
+		public void BeginHolster( Player plr ) {
 			this.HolsterDuration = 60;
 			this.HolsterDurationMax = 60;
+
+			if( this.TwirlSound == null ) {
+				this.TwirlSound = BigIronMod.Instance.GetLegacySoundSlot(
+					Terraria.ModLoader.SoundType.Custom,
+					"Sounds/Custom/RevolverTwirl"
+				).WithVolume( 0.65f );
+			}
+
+			Main.PlaySound( (LegacySoundStyle)this.TwirlSound, plr.Center );
 		}
 	}
 }

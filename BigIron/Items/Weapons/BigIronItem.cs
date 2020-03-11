@@ -33,7 +33,7 @@ namespace BigIron.Items.Weapons {
 			this.item.shootSpeed = 14f;
 
 			this.item.UseSound = this.mod.GetLegacySoundSlot( SoundType.Custom, "Sounds/Custom/RevolverShoot" )
-				.WithVolume( 0.5f );
+				.WithVolume( 0.25f );
 			//	.WithPitchVariance( 0.5f );
 
 			this.item.damage = 40;

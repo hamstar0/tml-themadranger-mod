@@ -38,7 +38,7 @@ namespace BigIron {
 
 		private void CheckHeldItemState( Item prevHeldItem ) {
 			if( !(prevHeldItem?.IsAir == true) && prevHeldItem.type == ModContent.ItemType<BigIronItem>() ) {
-				this.GunAnim.BeginHolster();
+				this.GunAnim.BeginHolster( this.player );
 			}
 		}
 
