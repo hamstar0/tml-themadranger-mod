@@ -17,13 +17,16 @@ namespace BigIron {
 			int frameY;
 			float rotDir = plr.itemRotation * (float)plr.direction;
 
-			if( rotDir < -0.75f ) {
+			float minRot = -0.75f + 0.10472f;	//+6deg
+			float maxRot = 0.6f - 0.174533f;	//-10deg
+
+			if( rotDir < minRot ) {
 				if( plr.gravDir == -1f ) {
 					frameY = plr.bodyFrame.Height * 4;
 				} else {
 					frameY = plr.bodyFrame.Height * 2;
 				}
-			} else if( rotDir > 0.6f ) {
+			} else if( rotDir > maxRot ) {
 				if( plr.gravDir == -1f ) {
 					frameY = plr.bodyFrame.Height * 2;
 				} else {
@@ -39,48 +42,54 @@ namespace BigIron {
 
 		////////////////
 
-		private void AimGun() {
+		private (bool IsAimWithinArc, int AimDir) AimGun() {
 			Player plr = this.player;
 			Texture2D itemTex = Main.itemTexture[plr.HeldItem.type];
 
 			Vector2 plrCenter = plr.RotatedRelativePoint( plr.MountedCenter, true );
 
-			float rotX = (float)Main.mouseX + Main.screenPosition.X - plrCenter.X;
-			float rotY = (float)Main.mouseY + Main.screenPosition.Y - plrCenter.Y;
+			float aimX = (float)Main.mouseX + Main.screenPosition.X - plrCenter.X;
+			float aimY = (float)Main.mouseY + Main.screenPosition.Y - plrCenter.Y;
 			if( plr.gravDir == -1f ) {
-				rotY = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - plrCenter.Y;
+				aimY = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - plrCenter.Y;
 			}
 
 			plr.itemRotation = (float)Math.Atan2(
-				(double)( rotY * (float)plr.direction ),
-				(double)( rotX * (float)plr.direction )
+				(double)( aimY * (float)plr.direction ),
+				(double)( aimX * (float)plr.direction )
 			) - plr.fullRotation;
 
-			this.IsFacingWrongWay = false;
+			bool isAimWithinArc = true;
 
 			if( plr.direction > 0 ) {
-				if( plr.itemRotation > 0.9f || plr.itemRotation < -1.5f ) {
-					float upTest = Math.Abs( plr.itemRotation - -1.5f );
-					float downTest = Math.Abs( plr.itemRotation - 0.9f );
+				float rot1 = 1.2f;
+				float rot2 = -1.5f;
+
+				if( plr.itemRotation > rot1 || plr.itemRotation < rot2 ) {
+					float upTest = Math.Abs( plr.itemRotation - rot2 );
+					float downTest = Math.Abs( plr.itemRotation - rot1 );
 
 					if( upTest < downTest ) {
-						plr.itemRotation = -1.5f;
+						plr.itemRotation = rot2;
 					} else {
-						plr.itemRotation = 0.9f;
+						plr.itemRotation = rot1;
 					}
-					this.IsFacingWrongWay = true;
+					isAimWithinArc = false;
 				}
 			} else {
-				if( plr.itemRotation < -0.9f || plr.itemRotation > 1.5f ) {
-					float upTest = Math.Abs( plr.itemRotation - 1.5f );
-					float downTest = Math.Abs( plr.itemRotation - -0.9f );
+				float rot1 = -1.2f;
+				float rot2 = 1.5f;
+
+				if( plr.itemRotation < rot1 || plr.itemRotation > rot2 ) {
+					float upTest = Math.Abs( plr.itemRotation - rot2 );
+					float downTest = Math.Abs( plr.itemRotation - rot1 );
 
 					if( upTest < downTest ) {
-						plr.itemRotation = 1.5f;
+						plr.itemRotation = rot2;
 					} else {
-						plr.itemRotation = -0.9f;
+						plr.itemRotation = rot1;
 					}
-					this.IsFacingWrongWay = true;
+					isAimWithinArc = false;
 				}
 			}
 
@@ -116,6 +125,8 @@ namespace BigIron {
 
 			//NetMessage.SendData( MessageID.PlayerControls, -1, -1, null, plr.whoAmI, 0f, 0f, 0f, 0, 0, 0 );
 			//NetMessage.SendData( MessageID.ItemAnimation, -1, -1, null, plr.whoAmI, 0f, 0f, 0f, 0, 0, 0 );
+
+			return (isAimWithinArc, Math.Sign(aimX));
 		}
 	}
 }

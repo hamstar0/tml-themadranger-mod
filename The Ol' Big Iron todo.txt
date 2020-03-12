@@ -3,22 +3,25 @@ v1.1
 v1
 -	@B&D: Diluted Ectoplasm in pots
 -	@MH: Debug MH "bad mods" route
+-	@Test in MP
+-	Sync aim position
 -	Cache PlayerLayers
+-	Draw gunshot flash + smokes
 -	Implement gun cylinder capacity + reloading
+	-	Animate reloading (+shells ejecting)
 	-	Draw cylinder on HUD
 	-	Add key binding for reloading
 	-	Implement cylinder
--	Add holster twirl sound
 -	Implement gun aiming
 	-	Implement damage variance (1-max) while not in aim mode
 	-	Implement aim distorting while not in aim mode
 	-	Draw crosshair while aiming
 	-	Implement 'aim mode' activation
+
 	-	@Plan
 		-	1s of stillness needed for 'aim mode' to pop on
 		-	A fresh reload creates 0.5s of 'aim mode'
 		-	A fresh unholster creates 0.25s of 'aim mode'
-
 -	Add holster twirl sfx
 -	Fix holster twirl direction
 -	Add shot sfx (SS? HL?)

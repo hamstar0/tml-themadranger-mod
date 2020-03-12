@@ -10,7 +10,6 @@ using BigIron.Items.Accessories;
 
 namespace BigIron {
 	partial class BigIronPlayer : ModPlayer {
-		private bool IsFacingWrongWay = false;
 		private int LastSlot = -1;
 
 		internal GunAnimation GunAnim { get; } = new GunAnimation();
@@ -82,9 +81,10 @@ namespace BigIron {
 
 		public override void ModifyDrawLayers( List<PlayerLayer> layers ) {
 			if( BigIronPlayer.IsHoldingGun( this.player ) ) {
-				this.AimGun();
+				(bool isAimWithinArc, int aimDir) aim = this.AimGun();
 
-				if( (!this.IsFacingWrongWay || this.GunAnim.Recoil == 0) && !this.GunAnim.IsHolstering ) {
+				if( (aim.aimDir == this.player.direction || this.GunAnim.Recoil == 0) && !this.GunAnim.IsHolstering ) {
+				//if( !this.GunAnim.IsHolstering ) {
 					if( this.ModifyDrawLayersForGun(layers, true) ) {
 						this.ModifyDrawLayerForTorsoWithGun( layers, true );
 					}
