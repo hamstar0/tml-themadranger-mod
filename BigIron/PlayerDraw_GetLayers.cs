@@ -8,8 +8,8 @@ using HamstarHelpers.Helpers.Debug;
 
 
 namespace BigIron {
-	partial class BigIronPlayer : ModPlayer {
-		private bool GetPlayerCustomArmLayers(
+	partial class PlayerDraw {
+		public static bool GetPlayerLayersForItemHolding(
 					Player plr,
 					int newBodyFrameY,
 					out Action<PlayerDrawInfo> armLayer,
@@ -30,17 +30,17 @@ namespace BigIron {
 			newFrame.Y = newBodyFrameY;
 
 			itemLayer = ( plrDrawInfo ) => {
-				foreach( DrawData drawData in this.AddCustomPlayerItemLayers(plrDrawInfo, plrLight) ) {
+				foreach( DrawData drawData in PlayerDraw.GetPlayerLayerForHeldItem(plrDrawInfo, plrLight) ) {
 					Main.playerDrawData.Add( drawData );
 				}
 			};
 			armLayer = ( plrDrawInfo ) => {
-				foreach( DrawData drawData in this.AddCustomPlayerArmLayers(plrDrawInfo, newFrame) ) {
+				foreach( DrawData drawData in PlayerDraw.GetPlayerLayerForArms(plrDrawInfo, newFrame) ) {
 					Main.playerDrawData.Add( drawData );
 				}
 			};
 			handLayer = ( plrDrawInfo ) => {
-				foreach( DrawData drawData in this.AddCustomPlayerHandLayers(plrDrawInfo, plrLight, newFrame) ) {
+				foreach( DrawData drawData in PlayerDraw.GetPlayerLayerForHand(plrDrawInfo, plrLight, newFrame) ) {
 					Main.playerDrawData.Add( drawData );
 				}
 			};

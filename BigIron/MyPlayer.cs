@@ -84,7 +84,6 @@ namespace BigIron {
 				(bool isAimWithinArc, int aimDir) aim = this.AimGun();
 
 				if( (aim.aimDir == this.player.direction || this.GunAnim.Recoil == 0) && !this.GunAnim.IsHolstering ) {
-				//if( !this.GunAnim.IsHolstering ) {
 					if( this.ModifyDrawLayersForGun(layers, true) ) {
 						this.ModifyDrawLayerForTorsoWithGun( layers, true );
 					}

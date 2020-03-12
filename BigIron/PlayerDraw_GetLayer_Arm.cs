@@ -10,8 +10,8 @@ using HamstarHelpers.Helpers.Debug;
 
 
 namespace BigIron {
-	partial class BigIronPlayer : ModPlayer {
-		public IEnumerable<DrawData> AddCustomPlayerArmLayers( PlayerDrawInfo plrDrawInfo, Rectangle plrBodyFrame ) {
+	partial class PlayerDraw {
+		public static IEnumerable<DrawData> GetPlayerLayerForArms( PlayerDrawInfo plrDrawInfo, Rectangle plrBodyFrame ) {
 			Player plr = plrDrawInfo.drawPlayer;
 			DrawData drawInfo;
 

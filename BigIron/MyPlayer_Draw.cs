@@ -19,11 +19,11 @@ namespace BigIron {
 				newBodyFrameY = this.player.bodyFrame.Height * 3;
 			}
 
-			if( !this.GetPlayerCustomArmLayers(this.player, newBodyFrameY, out armLayer, out itemLayer, out handLayer) ) {
+			if( !PlayerDraw.GetPlayerLayersForItemHolding(this.player, newBodyFrameY, out armLayer, out itemLayer, out handLayer) ) {
 				return false;
 			}
 
-			int itemLayerIdx = layers.FindIndex( ( lyr ) => lyr == PlayerLayer.HeldItem );
+			int itemLayerIdx = layers.FindIndex( (lyr) => lyr == PlayerLayer.HeldItem );
 			int armLayerIdx = layers.FindIndex( (lyr) => lyr == PlayerLayer.Arms );
 			int handLayerIdx = layers.FindIndex( (lyr) => lyr == PlayerLayer.HandOnAcc );
 

@@ -16,7 +16,7 @@ v1
 	-	Implement damage variance (1-max) while not in aim mode
 	-	Implement aim distorting while not in aim mode
 	-	Draw crosshair while aiming
-	-	Implement 'aim mode' activation
+	-	Implement 'aim mode' normal activation (1s player and mouse stillness)
 
 	-	@Plan
 		-	1s of stillness needed for 'aim mode' to pop on

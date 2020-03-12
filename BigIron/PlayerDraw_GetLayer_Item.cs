@@ -11,7 +11,7 @@ using HamstarHelpers.Helpers.DotNET.Reflection;
 
 
 namespace BigIron {
-	partial class BigIronPlayer : ModPlayer {
+	partial class PlayerDraw {
 		public static Color GetItemLightColor( Player plr, Color plrLight ) {
 			Color itemLight = plrLight;
 			float stealthPercent = plr.stealth < 0.03f
@@ -49,11 +49,11 @@ namespace BigIron {
 
 		////////////////
 
-		private IEnumerable<DrawData> AddCustomPlayerItemLayers( PlayerDrawInfo plrDrawInfo, Color plrLight, float shadow = 0f ) {
+		public static IEnumerable<DrawData> GetPlayerLayerForHeldItem( PlayerDrawInfo plrDrawInfo, Color plrLight, float shadow = 0f ) {
 			DrawData drawData;
 
 			Player plr = plrDrawInfo.drawPlayer;
-			Color itemLight = BigIronPlayer.GetItemLightColor( plr, plrLight );
+			Color itemLight = PlayerDraw.GetItemLightColor( plr, plrLight );
 
 			Vector2 itemScrPos;
 			ReflectionHelpers.RunMethod(
