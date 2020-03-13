@@ -70,18 +70,17 @@ namespace BigIron {
 				return false;
 			}
 
-			float shakeRadOffset = BigIronPlayer.GetAimShakeRadOffset();
-			this.GunAnim.AddMiscRotationOffset( MathHelper.ToDegrees(shakeRadOffset) );
+			float shakeAddedRads = BigIronPlayer.GetAimShakeAddedRadians();
 
 			Vector2 randSpeed = new Vector2( speedX, speedY )
-				.RotatedByRandom( shakeRadOffset );
+				.RotatedBy(shakeAddedRads);
 			speedX = randSpeed.X;
 			speedY = randSpeed.Y;
 
-			this.ApplyAimStateShakeDamage( ref damage );
-
-			this.GunAnim.BeginRecoil();
+			this.GunAnim.BeginRecoil( MathHelper.ToDegrees(shakeAddedRads) * -player.direction );
 			
+			damage = this.GetAimStateShakeDamage( damage );
+
 			return true;
 		}
 
@@ -107,12 +106,12 @@ namespace BigIron {
 
 
 		////////////////
-
+		
 		public override void ModifyDrawLayers( List<PlayerLayer> layers ) {
 			if( BigIronPlayer.IsHoldingGun(this.player) ) {
 				(bool isAimWithinArc, int aimDir) aim = this.AimGun();
 
-				if( (aim.aimDir == this.player.direction || this.GunAnim.Recoil == 0) && !this.GunAnim.IsHolstering ) {
+				if( (aim.aimDir == this.player.direction || this.GunAnim.RecoilDuration == 0) && !this.GunAnim.IsHolstering ) {
 					if( this.ModifyDrawLayersForGun(layers, true) ) {
 						this.ModifyDrawLayerForTorsoWithGun( layers, true );
 					}

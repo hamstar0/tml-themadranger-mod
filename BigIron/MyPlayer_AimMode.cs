@@ -9,7 +9,7 @@ using Terraria.Utilities;
 
 namespace BigIron {
 	partial class BigIronPlayer : ModPlayer {
-		public static float GetAimShakeRadOffset() {
+		public static float GetAimShakeAddedRadians() {
 			UnifiedRandom rand = TmlHelpers.SafelyGetRand();
 
 			return (rand.NextFloat() * 1.5f) - 0.75f;
@@ -20,6 +20,7 @@ namespace BigIron {
 		////////////////
 
 		private float AimElapsed = 0f;
+
 		private Vector2 LastAimMousePosition = default( Vector2 );
 
 
@@ -46,24 +47,23 @@ namespace BigIron {
 
 		////////////////
 
-		public void ApplyAimStateShakeAmount() {
-DebugHelpers.Print( "aiming", ""+ this.AimElapsed );
+		public float GetAimStateShakeAddedRadians() {
 			if( this.AimElapsed >= 60 ) {
-				return;
+				return 0f;
 			}
 
-			this.player.itemRotation += BigIronPlayer.GetAimShakeRadOffset() * 0.01f;
+			return BigIronPlayer.GetAimShakeAddedRadians() * 0.01f;
 		}
 
 
-		public void ApplyAimStateShakeDamage( ref int damage ) {
+		public int GetAimStateShakeDamage( int damage ) {
 			if( this.AimElapsed >= 60 ) {
-				return;
+				return damage;
 			}
 
 			UnifiedRandom rand = TmlHelpers.SafelyGetRand();
 
-			damage = (int)(rand.NextFloat() * (float)(damage - 1)) + 1;
+			return (int)(rand.NextFloat() * (float)(damage - 1)) + 1;
 		}
 	}
 }

@@ -59,6 +59,7 @@ namespace BigIron {
 			//float curve = (float)Math.Sin( progress * Math.PI );
 
 			Vector2 pos = plr.MountedCenter + new Vector2(plr.direction * 8, 0) - Main.screenPosition;
+			float rot = this.GetAddedRotationRadians();
 
 			DrawData getDrawData( Texture2D tex, Color color ) {
 				return new DrawData(
@@ -66,7 +67,7 @@ namespace BigIron {
 					position: pos,
 					sourceRect: null,
 					color: color,
-					rotation: this.AddedRotationRadians,
+					rotation: rot,
 					origin: origin,
 					scale: BigIronItem.Scale,
 					effect: plrDrawInfo.spriteEffects,

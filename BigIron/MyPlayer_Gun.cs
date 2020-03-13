@@ -94,14 +94,13 @@ namespace BigIron {
 				}
 			}
 
-			if( this.GunAnim.Recoil > 0 ) {
-				if( this.GunAnim.Recoil <= 15 ) {
-					plr.itemRotation = MathHelper.ToDegrees(plr.itemRotation) - (float)(plr.direction * this.GunAnim.Recoil);
-					plr.itemRotation = MathHelper.ToRadians( plr.itemRotation );
-				}
+			float addedRotDeg = this.GunAnim.GetAddedRotationDegrees();
+			if( addedRotDeg != 0f ) {
+				plr.itemRotation = MathHelper.ToDegrees( plr.itemRotation ) - (float)( plr.direction * addedRotDeg );
+				plr.itemRotation = MathHelper.ToRadians( plr.itemRotation );
+			} else {
+				plr.itemRotation += this.GetAimStateShakeAddedRadians();
 			}
-
-			this.ApplyAimStateShakeAmount();
 
 			plr.itemLocation.X = plr.position.X
 				+ ( (float)plr.width * 0.5f )

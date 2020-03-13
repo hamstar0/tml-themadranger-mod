@@ -13,7 +13,9 @@ namespace BigIron {
 
 		////////////////
 
-		public int Recoil { get; private set; } = 0;
+		public int RecoilDuration { get; private set; } = 0;
+
+		////
 
 		public int HolsterDuration { get; private set; } = 0;
 
@@ -29,10 +31,6 @@ namespace BigIron {
 		////
 
 		public bool IsHolstering => this.HolsterDuration > 0;
-
-		public float AddedRotationRadians => MathHelper.ToRadians(
-			this.HolsterTwirlAddedRotationDegrees + this.MiscAddedRotationDegrees
-		);
 
 		////
 
@@ -79,6 +77,25 @@ namespace BigIron {
 			this.SkinUnshiftLayer = new PlayerLayer( "BigIron", "Gun Holster Torso Skin Unshift Reframe", unshiftAction );
 		}
 
+
+		////////////////
+
+		public float GetAddedRotationDegrees() {
+			int recoilDeg = this.RecoilDuration <= 15
+				? this.RecoilDuration
+				: 0;
+
+			float degrees = this.HolsterTwirlAddedRotationDegrees
+				+ this.MiscAddedRotationDegrees
+				+ recoilDeg;
+			return degrees % 360;
+		}
+
+		public float GetAddedRotationRadians() {
+			return MathHelper.ToRadians( this.GetAddedRotationDegrees() );
+		}
+
+
 		////////////////
 
 		public void Update( Player player ) {
@@ -100,13 +117,14 @@ namespace BigIron {
 				this.HolsterTwirlAddedRotationDegrees = 0f;
 			}
 
-			if( this.Recoil > 0 ) {
-				this.Recoil--;
+			if( this.RecoilDuration > 0 ) {
+				this.RecoilDuration--;
 			}
 
-			if( this.MiscAddedRotationDegrees > 0 ) {
-				this.MiscAddedRotationDegrees -= Math.Sign( this.MiscAddedRotationDegrees);
-				if( Math.Abs(this.MiscAddedRotationDegrees) < 1f ) {
+			if( this.MiscAddedRotationDegrees != 0f ) {
+				this.MiscAddedRotationDegrees -= Math.Sign( this.MiscAddedRotationDegrees ) / 3f;
+
+				if( Math.Abs( this.MiscAddedRotationDegrees ) < 1f ) {
 					this.MiscAddedRotationDegrees = 0f;
 				}
 			}
@@ -114,14 +132,9 @@ namespace BigIron {
 
 		////////////////
 
-		public void AddMiscRotationOffset( float degrees ) {
-			this.MiscAddedRotationDegrees = degrees;
-		}
-
-		////
-
-		public void BeginRecoil() {
-			this.Recoil = 17;
+		public void BeginRecoil( float addedRotationDegrees ) {
+			this.MiscAddedRotationDegrees = addedRotationDegrees;
+			this.RecoilDuration = 17;
 		}
 
 		public void BeginHolster( Player plr ) {
