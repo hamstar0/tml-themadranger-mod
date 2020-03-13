@@ -19,14 +19,20 @@ namespace BigIron {
 
 		public int HolsterDurationMax { get; private set; } = 0;
 
-		public float AddedRotationDegrees { get; private set; } = 0f;
+		////
+
+		public float HolsterTwirlAddedRotationDegrees { get; private set; } = 0f;
+
+		public float MiscAddedRotationDegrees { get; private set; } = 0f;
 
 
 		////
 
 		public bool IsHolstering => this.HolsterDuration > 0;
 
-		public float AddedRotationRadians => MathHelper.ToRadians( this.AddedRotationDegrees );
+		public float AddedRotationRadians => MathHelper.ToRadians(
+			this.HolsterTwirlAddedRotationDegrees + this.MiscAddedRotationDegrees
+		);
 
 		////
 
@@ -80,26 +86,39 @@ namespace BigIron {
 				this.HolsterDuration--;
 
 				if( player.direction > 0 ) {
-					this.AddedRotationDegrees -= 32f;
-					if( this.AddedRotationDegrees < 0f ) {
-						this.AddedRotationDegrees += 360f;
+					this.HolsterTwirlAddedRotationDegrees -= 32f;
+					if( this.HolsterTwirlAddedRotationDegrees < 0f ) {
+						this.HolsterTwirlAddedRotationDegrees += 360f;
 					}
 				} else {
-					this.AddedRotationDegrees += 32f;
-					if( this.AddedRotationDegrees >= 360f ) {
-						this.AddedRotationDegrees -= 360f;
+					this.HolsterTwirlAddedRotationDegrees += 32f;
+					if( this.HolsterTwirlAddedRotationDegrees >= 360f ) {
+						this.HolsterTwirlAddedRotationDegrees -= 360f;
 					}
 				}
 			} else {
-				this.AddedRotationDegrees = 0f;
+				this.HolsterTwirlAddedRotationDegrees = 0f;
 			}
 
 			if( this.Recoil > 0 ) {
 				this.Recoil--;
 			}
+
+			if( this.MiscAddedRotationDegrees > 0 ) {
+				this.MiscAddedRotationDegrees -= Math.Sign( this.MiscAddedRotationDegrees);
+				if( Math.Abs(this.MiscAddedRotationDegrees) < 1f ) {
+					this.MiscAddedRotationDegrees = 0f;
+				}
+			}
 		}
 
 		////////////////
+
+		public void AddMiscRotationOffset( float degrees ) {
+			this.MiscAddedRotationDegrees = degrees;
+		}
+
+		////
 
 		public void BeginRecoil() {
 			this.Recoil = 17;

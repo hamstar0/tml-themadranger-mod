@@ -15,7 +15,10 @@ namespace BigIron.Items.Weapons {
 
 		public override void SetStaticDefaults() {
 			this.DisplayName.SetDefault( "Ol' Big Iron" );
-			this.Tooltip.SetDefault( "An antique gun from a far away land.\nRequires a specific, manufactured ammo" );
+			this.Tooltip.SetDefault( "An antique gun from a far away land."
+				+"\nRequires a specific, manufactured ammo"
+				+"\nA steady hand is needed to use this properly"
+			);
 		}
 
 		public override void SetDefaults() {

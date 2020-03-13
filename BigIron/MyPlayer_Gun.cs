@@ -10,7 +10,8 @@ using BigIron.Items.Weapons;
 namespace BigIron {
 	partial class BigIronPlayer : ModPlayer {
 		public static bool IsHoldingGun( Player player ) {
-			return !player.HeldItem.IsAir && player.HeldItem.type == ModContent.ItemType<BigIronItem>();
+			Item heldItem = player.HeldItem;
+			return heldItem != null && !heldItem.IsAir && heldItem.type == ModContent.ItemType<BigIronItem>();
 		}
 
 		public static int AimGunForBodyFrameY( Player plr ) {
@@ -97,22 +98,10 @@ namespace BigIron {
 				if( this.GunAnim.Recoil <= 15 ) {
 					plr.itemRotation = MathHelper.ToDegrees(plr.itemRotation) - (float)(plr.direction * this.GunAnim.Recoil);
 					plr.itemRotation = MathHelper.ToRadians( plr.itemRotation );
-					//plr.itemRotation += -plr.direction * MathHelper.ToRadians( this.GunAnim.Recoil );
 				}
-			} else {
-				//1deg = 0.017453rad
-				//15deg = 0.261799rad
-				//-51deg = -0.890118rad
-
-				//candidate 1: 36deg
-				//candidate 2: 43deg
-				//candidate 3: 51deg
-				//candidate 4: -13deg
-				//candidate 5: -22deg
-				//candidate 6: -51deg
-				//int rots = (int)( plr.itemRotation / -0.890118f );
-				//plr.itemRotation = (float)rots * -0.890118f;
 			}
+
+			this.ApplyAimStateShakeAmount();
 
 			plr.itemLocation.X = plr.position.X
 				+ ( (float)plr.width * 0.5f )

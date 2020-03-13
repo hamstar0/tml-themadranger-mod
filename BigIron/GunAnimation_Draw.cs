@@ -50,8 +50,8 @@ namespace BigIron {
 			Texture2D itemTex = Main.itemTexture[ ModContent.ItemType<BigIronItem>() ];
 			Vector2 origin = new Vector2( itemTex.Width/2, itemTex.Height/2 );
 
-			double progress = 1d - ( (double)this.HolsterDuration / (double)this.HolsterDurationMax );
-
+			//double progress = 1d - ( (double)this.HolsterDuration / (double)this.HolsterDurationMax );
+			//
 			//var aim = new Vector2( (float)Math.Cos(this.LastKnownItemRotation), (float)Math.Sin(this.LastKnownItemRotation) );
 			//aim = Vector2.Normalize( aim );
 			//aim *= itemTex.Width * 0.25f;

@@ -12,8 +12,10 @@ namespace BigIron {
 	partial class BigIronPlayer : ModPlayer {
 		private int LastSlot = -1;
 
-		internal GunAnimation GunAnim { get; } = new GunAnimation();
 
+		////////////////
+
+		internal GunAnimation GunAnim { get; } = new GunAnimation();
 
 		////////////////
 
@@ -26,34 +28,61 @@ namespace BigIron {
 		public override void PreUpdate() {
 			if( this.LastSlot != this.player.selectedItem ) {
 				if( this.LastSlot != -1 ) {
-					this.CheckHeldItemState( this.player.inventory[this.LastSlot] );
+					this.CheckPreviousHeldItemState( this.player.inventory[this.LastSlot] );
 				}
 				this.LastSlot = this.player.selectedItem;
 			}
+
+			this.CheckCurrentHeldItemState();
 
 			this.GunAnim.Update( this.player );
 		}
 
 
-		private void CheckHeldItemState( Item prevHeldItem ) {
-			if( !(prevHeldItem?.IsAir == true) && prevHeldItem.type == ModContent.ItemType<BigIronItem>() ) {
+		private void CheckPreviousHeldItemState( Item prevHeldItem ) {
+			if( prevHeldItem != null && !prevHeldItem.IsAir && prevHeldItem.type == ModContent.ItemType<BigIronItem>() ) {
 				this.GunAnim.BeginHolster( this.player );
+			}
+		}
+
+		private void CheckCurrentHeldItemState() {
+			if( BigIronPlayer.IsHoldingGun(this.player) ) {
+				this.CheckAimState();
 			}
 		}
 
 
 		////////////////
 
-		public override bool Shoot( Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack ) {
-			if( BigIronPlayer.IsHoldingGun(this.player) ) {
-				if( this.GunAnim.IsHolstering ) {
-					return false;
-				}
-
-				this.GunAnim.BeginRecoil();
+		public override bool Shoot(
+					Item item,
+					ref Vector2 position,
+					ref float speedX,
+					ref float speedY,
+					ref int type,
+					ref int damage,
+					ref float knockBack ) {
+			if( !BigIronPlayer.IsHoldingGun(this.player) ) {
+				return true;
 			}
 
-			return base.Shoot( item, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack );
+			if( this.GunAnim.IsHolstering ) {
+				return false;
+			}
+
+			float shakeRadOffset = BigIronPlayer.GetAimShakeRadOffset();
+			this.GunAnim.AddMiscRotationOffset( MathHelper.ToDegrees(shakeRadOffset) );
+
+			Vector2 randSpeed = new Vector2( speedX, speedY )
+				.RotatedByRandom( shakeRadOffset );
+			speedX = randSpeed.X;
+			speedY = randSpeed.Y;
+
+			this.ApplyAimStateShakeDamage( ref damage );
+
+			this.GunAnim.BeginRecoil();
+			
+			return true;
 		}
 
 
@@ -80,7 +109,7 @@ namespace BigIron {
 		////////////////
 
 		public override void ModifyDrawLayers( List<PlayerLayer> layers ) {
-			if( BigIronPlayer.IsHoldingGun( this.player ) ) {
+			if( BigIronPlayer.IsHoldingGun(this.player) ) {
 				(bool isAimWithinArc, int aimDir) aim = this.AimGun();
 
 				if( (aim.aimDir == this.player.direction || this.GunAnim.Recoil == 0) && !this.GunAnim.IsHolstering ) {

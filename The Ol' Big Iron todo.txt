@@ -13,11 +13,11 @@ v1
 	-	Add key binding for reloading
 	-	Implement cylinder
 -	Implement gun aiming
+	-	Draw crosshair while aiming
+
 	-	Implement damage variance (1-max) while not in aim mode
 	-	Implement aim distorting while not in aim mode
-	-	Draw crosshair while aiming
 	-	Implement 'aim mode' normal activation (1s player and mouse stillness)
-
 	-	@Plan
 		-	1s of stillness needed for 'aim mode' to pop on
 		-	A fresh reload creates 0.5s of 'aim mode'
