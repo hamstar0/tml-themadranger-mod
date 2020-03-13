@@ -1,5 +1,5 @@
-# Powerups!
+# Ol' Big Iron
 
-Enemies (and pots, if Pot Luck mod is enabled) now drop powerups. Powerups give the player a temporary buff according to the powerup type. Powerup types and drop rates can be configured.
+Starts your player with an unusually-powerful, hard-to-master antique hand gun. Uses its own ammo supply. Reloads slowly and manually. Configurable.
 
 https://forums.terraria.org/index.php?threads/powerups.86119/

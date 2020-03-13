@@ -11,8 +11,9 @@ namespace BigIron {
 	partial class BigIronPlayer : ModPlayer {
 		public static float GetAimShakeAddedRadians() {
 			UnifiedRandom rand = TmlHelpers.SafelyGetRand();
+			float radRange = MathHelper.ToRadians( BigIronConfig.Instance.UnaimedConeDegreesRange );
 
-			return (rand.NextFloat() * 1.5f) - 0.75f;
+			return (rand.NextFloat() * radRange) - (radRange * 0.5f);
 		}
 
 

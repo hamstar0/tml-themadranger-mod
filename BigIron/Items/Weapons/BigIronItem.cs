@@ -39,7 +39,7 @@ namespace BigIron.Items.Weapons {
 				.WithVolume( 0.25f );
 			//	.WithPitchVariance( 0.5f );
 
-			this.item.damage = 40;
+			this.item.damage = BigIronConfig.Instance.MaximumGunDamage;
 			this.item.knockBack = 4;
 
 			this.item.rare = 2;

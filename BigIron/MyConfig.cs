@@ -23,8 +23,8 @@ namespace BigIron {
 
 		////////////////
 
-		[DefaultValue( true )]
-		public bool RecipeEnabled { get; set; } = true;
+		//[DefaultValue( true )]
+		//public bool RecipeEnabled { get; set; } = true;
 
 
 		[DefaultValue( true )]
@@ -34,7 +34,15 @@ namespace BigIron {
 		public bool PlayerSpawnsWithBandolier { get; set; } = true;
 
 
+		[Range( 1, 1000 )]
 		[DefaultValue( 40 )]
+		[ReloadRequired]
 		public int MaximumGunDamage { get; set; } = 40;
+
+		[Range( 0f, 359f )]
+		[DefaultValue( 60f )]
+		[ReloadRequired]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float UnaimedConeDegreesRange { get; set; } = 60f;
 	}
 }

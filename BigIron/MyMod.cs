@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 
 namespace BigIron {
-	public class BigIronMod : Mod {
+	public partial class BigIronMod : Mod {
 		public static BigIronMod Instance { get; private set; }
 
 
