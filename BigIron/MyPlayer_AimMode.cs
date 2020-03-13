@@ -2,20 +2,25 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Utilities;
 using HamstarHelpers.Helpers.Debug;
 using HamstarHelpers.Helpers.TModLoader;
-using Terraria.Utilities;
 
 
 namespace BigIron {
 	partial class BigIronPlayer : ModPlayer {
-		public static float GetAimShakeAddedRadians() {
+		public static float ComputeAimShakeMaxConeRadians() {
 			UnifiedRandom rand = TmlHelpers.SafelyGetRand();
 			float radRange = MathHelper.ToRadians( BigIronConfig.Instance.UnaimedConeDegreesRange );
 
 			return (rand.NextFloat() * radRange) - (radRange * 0.5f);
 		}
 
+
+
+		////////////////
+
+		public bool IsAiming => this.AimElapsed >= BigIronConfig.Instance.TickDurationUntilAimModeWhileIdling;
 
 
 		////////////////
@@ -30,7 +35,7 @@ namespace BigIron {
 
 		private void CheckAimState() {
 			if( this.player.velocity.LengthSquared() > 1f ) {
-				this.AimElapsed = Math.Max( this.AimElapsed - 2f, 0f );
+				this.AimElapsed = Math.Max( this.AimElapsed - 4f, 0f );
 				return;
 			}
 
@@ -39,7 +44,7 @@ namespace BigIron {
 			if( (this.LastAimMousePosition - mousePos).LengthSquared() > 1f ) {
 				this.AimElapsed = Math.Max( this.AimElapsed - 0.5f, 0f );
 			} else {
-				this.AimElapsed = Math.Min( this.AimElapsed + 1f, 60f );
+				this.AimElapsed = Math.Min( this.AimElapsed + 1f, (float)BigIronConfig.Instance.TickDurationUntilAimModeWhileIdling );
 			}
 
 			this.LastAimMousePosition = mousePos;
@@ -48,17 +53,22 @@ namespace BigIron {
 
 		////////////////
 
-		public float GetAimStateShakeAddedRadians() {
-			if( this.AimElapsed >= 60 ) {
+		public float GetAimStateShakeAddedRadians( bool isAiming ) {
+			if( this.IsAiming ) {
 				return 0f;
 			}
 
-			return BigIronPlayer.GetAimShakeAddedRadians() * 0.01f;
+			float rads = BigIronPlayer.ComputeAimShakeMaxConeRadians();
+			if( isAiming ) {
+				rads *= 0.02f;
+			}
+
+			return rads;
 		}
 
 
 		public int GetAimStateShakeDamage( int damage ) {
-			if( this.AimElapsed >= 60 ) {
+			if( this.IsAiming ) {
 				return damage;
 			}
 

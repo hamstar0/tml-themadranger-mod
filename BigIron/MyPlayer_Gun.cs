@@ -99,7 +99,7 @@ namespace BigIron {
 				plr.itemRotation = MathHelper.ToDegrees( plr.itemRotation ) - (float)( plr.direction * addedRotDeg );
 				plr.itemRotation = MathHelper.ToRadians( plr.itemRotation );
 			} else {
-				plr.itemRotation += this.GetAimStateShakeAddedRadians();
+				plr.itemRotation += this.GetAimStateShakeAddedRadians( true );
 			}
 
 			plr.itemLocation.X = plr.position.X

@@ -48,6 +48,8 @@ namespace BigIron {
 		private void CheckCurrentHeldItemState() {
 			if( BigIronPlayer.IsHoldingGun(this.player) ) {
 				this.CheckAimState();
+			} else {
+				this.AimElapsed = 0f;
 			}
 		}
 
@@ -70,7 +72,7 @@ namespace BigIron {
 				return false;
 			}
 
-			float shakeAddedRads = BigIronPlayer.GetAimShakeAddedRadians();
+			float shakeAddedRads = this.GetAimStateShakeAddedRadians( false );
 
 			Vector2 randSpeed = new Vector2( speedX, speedY )
 				.RotatedBy(shakeAddedRads);

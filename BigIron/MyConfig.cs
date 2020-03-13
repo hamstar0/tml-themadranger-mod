@@ -34,15 +34,23 @@ namespace BigIron {
 		public bool PlayerSpawnsWithBandolier { get; set; } = true;
 
 
+		[Range( 1, 60 * 60 * 60 )]
+		[DefaultValue( 120 )]
+		public int TickDurationUntilAimModeWhileIdling { get; set; } = 120;
+
+		[Range( 0, 60 * 60 )]
+		[DefaultValue( 60 )]
+		public int HolsterTwirlTickDuration { get; set; } = 60;
+
+
 		[Range( 1, 1000 )]
 		[DefaultValue( 40 )]
 		[ReloadRequired]
 		public int MaximumGunDamage { get; set; } = 40;
 
-		[Range( 0f, 359f )]
-		[DefaultValue( 60f )]
-		[ReloadRequired]
+		[Range( 0f, 360f )]
+		[DefaultValue( 30f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
-		public float UnaimedConeDegreesRange { get; set; } = 60f;
+		public float UnaimedConeDegreesRange { get; set; } = 30f;
 	}
 }

@@ -138,8 +138,11 @@ namespace BigIron {
 		}
 
 		public void BeginHolster( Player plr ) {
-			this.HolsterDuration = 60;
-			this.HolsterDurationMax = 60;
+			this.HolsterDuration = BigIronConfig.Instance.HolsterTwirlTickDuration;
+			this.HolsterDurationMax = BigIronConfig.Instance.HolsterTwirlTickDuration;
+			if( this.HolsterDuration == 0 ) {
+				return;
+			}
 
 			if( this.TwirlSound == null ) {
 				this.TwirlSound = BigIronMod.Instance.GetLegacySoundSlot(
