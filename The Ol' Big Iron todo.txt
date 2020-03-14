@@ -8,6 +8,7 @@ v1
 -	@MH: Debug MH "bad mods" route
 -	@Test in MP
 -	Sync aim position
+-	Set Bandolier to have ammo limit + require reloads from the Guide
 -	Draw gunshot flash + smokes
 -	Add minor aim variance when in aim mode (but not within the first few frames)
 -	Implement 'quick draw' aim mode
