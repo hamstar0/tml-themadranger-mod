@@ -8,7 +8,7 @@ using HamstarHelpers.Helpers.TModLoader;
 
 
 namespace BigIron {
-	partial class BigIronPlayer : ModPlayer {
+	class PlayerAimMode {
 		public static float ComputeAimShakeMaxConeRadians() {
 			UnifiedRandom rand = TmlHelpers.SafelyGetRand();
 			float radRange = MathHelper.ToRadians( BigIronConfig.Instance.UnaimedConeDegreesRange );
@@ -20,7 +20,7 @@ namespace BigIron {
 
 		////////////////
 
-		public bool IsAimingModeActive => this.AimElapsed >= BigIronConfig.Instance.TickDurationUntilAimModeWhileIdling;
+		public bool IsModeActive => this.AimElapsed >= BigIronConfig.Instance.TickDurationUntilAimModeWhileIdling;
 
 
 		////////////////
@@ -33,8 +33,8 @@ namespace BigIron {
 
 		////////////////
 
-		private void CheckEquippedAimState() {
-			if( this.player.velocity.LengthSquared() > 1f ) {
+		public void CheckEquippedAimState( Player plr ) {
+			if( plr.velocity.LengthSquared() > 1f ) {
 				this.AimElapsed = Math.Max( this.AimElapsed - 4f, 0f );
 				return;
 			}
@@ -50,7 +50,7 @@ namespace BigIron {
 			this.LastAimMousePosition = mousePos;
 		}
 
-		private void CheckUnequippedAimState() {
+		public void CheckUnequippedAimState() {
 			this.AimElapsed = 0f;
 		}
 
@@ -58,11 +58,11 @@ namespace BigIron {
 		////////////////
 
 		public float GetAimStateShakeAddedRadians( bool isIdling ) {
-			if( this.IsAimingModeActive ) {
+			if( this.IsModeActive ) {
 				return 0f;
 			}
 
-			float rads = BigIronPlayer.ComputeAimShakeMaxConeRadians();
+			float rads = PlayerAimMode.ComputeAimShakeMaxConeRadians();
 			if( isIdling ) {
 				rads *= 0.02f;
 			}
@@ -72,7 +72,7 @@ namespace BigIron {
 
 
 		public int GetAimStateShakeDamage( int damage ) {
-			if( this.IsAimingModeActive ) {
+			if( this.IsModeActive ) {
 				return damage;
 			}
 

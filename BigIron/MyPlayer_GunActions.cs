@@ -70,7 +70,7 @@ namespace BigIron {
 
 		////////////////
 
-		private (bool IsAimWithinArc, int AimDir) AimGun() {
+		private (bool IsAimWithinArc, int AimDir) ApplyGunAim() {
 			Player plr = this.player;
 			Texture2D itemTex = Main.itemTexture[plr.HeldItem.type];
 
@@ -126,7 +126,7 @@ namespace BigIron {
 				plr.itemRotation = MathHelper.ToDegrees( plr.itemRotation ) - (float)( plr.direction * addedRotDeg );
 				plr.itemRotation = MathHelper.ToRadians( plr.itemRotation );
 			} else {
-				plr.itemRotation += this.GetAimStateShakeAddedRadians( true );
+				plr.itemRotation += this.AimMode.GetAimStateShakeAddedRadians( true );
 			}
 
 			plr.itemLocation.X = plr.position.X

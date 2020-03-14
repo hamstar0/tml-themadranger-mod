@@ -28,14 +28,14 @@ namespace BigIron {
 				return true;
 			}
 
-			float shakeAddedRads = this.GetAimStateShakeAddedRadians( false );
+			float shakeAddedRads = this.AimMode.GetAimStateShakeAddedRadians( false );
 
 			Vector2 randSpeed = new Vector2( speedX, speedY )
 				.RotatedBy( shakeAddedRads );
 			speedX = randSpeed.X;
 			speedY = randSpeed.Y;
 
-			damage = this.GetAimStateShakeDamage( damage );
+			damage = this.AimMode.GetAimStateShakeDamage( damage );
 
 			this.GunAnim.BeginRecoil( MathHelper.ToDegrees(shakeAddedRads) * -this.player.direction );
 

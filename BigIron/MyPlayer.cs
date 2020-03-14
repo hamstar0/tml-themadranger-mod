@@ -16,6 +16,7 @@ namespace BigIron {
 		////////////////
 
 		public GunAnimation GunAnim { get; } = new GunAnimation();
+		public PlayerAimMode AimMode { get; } = new PlayerAimMode();
 
 		////////////////
 
@@ -48,10 +49,10 @@ namespace BigIron {
 		private void CheckCurrentHeldItemState() {
 			if( BigIronPlayer.IsHoldingGun(this.player) ) {
 				this.GunAnim.UpdateEquipped( this.player );
-				this.CheckEquippedAimState();
+				this.AimMode.CheckEquippedAimState( this.player );
 			} else {
 				this.GunAnim.UpdateUnequipped( this.player );
-				this.CheckUnequippedAimState();
+				this.AimMode.CheckUnequippedAimState();
 			}
 		}
 
@@ -98,7 +99,7 @@ namespace BigIron {
 		
 		public override void ModifyDrawLayers( List<PlayerLayer> layers ) {
 			if( BigIronPlayer.IsHoldingGun(this.player) ) {
-				(bool isAimWithinArc, int aimDir) aim = this.AimGun();
+				(bool isAimWithinArc, int aimDir) aim = this.ApplyGunAim();
 
 				if( !this.GunAnim.IsAnimating ) {
 					if( aim.aimDir == this.player.direction || this.GunAnim.RecoilDuration == 0 ) {
