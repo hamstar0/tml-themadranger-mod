@@ -49,7 +49,7 @@ namespace BigIron {
 		
 		private bool RunAnimation() {
 			var myplayer = Main.LocalPlayer.GetModPlayer<BigIronPlayer>();
-			if( !myplayer.IsAiming ) {
+			if( !myplayer.IsAimingModeActive ) {
 				if( this.AnimDuration >= 0f && this.AnimDuration < BigIronMod.CrosshairDurationTicksMax ) {
 					this.AnimDuration += 0.25f;
 				} else {

@@ -20,7 +20,7 @@ namespace BigIron {
 
 		////////////////
 
-		public bool IsAiming => this.AimElapsed >= BigIronConfig.Instance.TickDurationUntilAimModeWhileIdling;
+		public bool IsAimingModeActive => this.AimElapsed >= BigIronConfig.Instance.TickDurationUntilAimModeWhileIdling;
 
 
 		////////////////
@@ -33,7 +33,7 @@ namespace BigIron {
 
 		////////////////
 
-		private void CheckAimState() {
+		private void CheckEquippedAimState() {
 			if( this.player.velocity.LengthSquared() > 1f ) {
 				this.AimElapsed = Math.Max( this.AimElapsed - 4f, 0f );
 				return;
@@ -50,16 +50,20 @@ namespace BigIron {
 			this.LastAimMousePosition = mousePos;
 		}
 
+		private void CheckUnequippedAimState() {
+			this.AimElapsed = 0f;
+		}
+
 
 		////////////////
 
-		public float GetAimStateShakeAddedRadians( bool isAiming ) {
-			if( this.IsAiming ) {
+		public float GetAimStateShakeAddedRadians( bool isIdling ) {
+			if( this.IsAimingModeActive ) {
 				return 0f;
 			}
 
 			float rads = BigIronPlayer.ComputeAimShakeMaxConeRadians();
-			if( isAiming ) {
+			if( isIdling ) {
 				rads *= 0.02f;
 			}
 
@@ -68,7 +72,7 @@ namespace BigIron {
 
 
 		public int GetAimStateShakeDamage( int damage ) {
-			if( this.IsAiming ) {
+			if( this.IsAimingModeActive ) {
 				return damage;
 			}
 

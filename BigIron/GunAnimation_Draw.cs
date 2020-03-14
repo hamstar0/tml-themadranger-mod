@@ -14,6 +14,8 @@ namespace BigIron {
 		public void ModifyDrawLayers( Player plr, List<PlayerLayer> layers ) {
 			if( this.IsHolstering ) {
 				this.ModifyDrawLayersForHolstering( plr, layers );
+			} else if( this.IsReloading ) {
+				this.ModifyDrawLayersForReloading( plr, layers );
 			}
 		}
 

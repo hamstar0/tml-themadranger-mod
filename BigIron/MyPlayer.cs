@@ -15,7 +15,7 @@ namespace BigIron {
 
 		////////////////
 
-		internal GunAnimation GunAnim { get; } = new GunAnimation();
+		public GunAnimation GunAnim { get; } = new GunAnimation();
 
 		////////////////
 
@@ -47,9 +47,11 @@ namespace BigIron {
 
 		private void CheckCurrentHeldItemState() {
 			if( BigIronPlayer.IsHoldingGun(this.player) ) {
-				this.CheckAimState();
+				this.GunAnim.UpdateEquipped( this.player );
+				this.CheckEquippedAimState();
 			} else {
-				this.AimElapsed = 0f;
+				this.GunAnim.UpdateUnequipped( this.player );
+				this.CheckUnequippedAimState();
 			}
 		}
 
@@ -68,22 +70,7 @@ namespace BigIron {
 				return true;
 			}
 
-			if( this.GunAnim.IsHolstering ) {
-				return false;
-			}
-
-			float shakeAddedRads = this.GetAimStateShakeAddedRadians( false );
-
-			Vector2 randSpeed = new Vector2( speedX, speedY )
-				.RotatedBy(shakeAddedRads);
-			speedX = randSpeed.X;
-			speedY = randSpeed.Y;
-
-			this.GunAnim.BeginRecoil( MathHelper.ToDegrees(shakeAddedRads) * -player.direction );
-			
-			damage = this.GetAimStateShakeDamage( damage );
-
-			return true;
+			return this.ShootGun( item, ref speedX, ref speedY, ref damage, ref knockBack );
 		}
 
 
@@ -113,12 +100,14 @@ namespace BigIron {
 			if( BigIronPlayer.IsHoldingGun(this.player) ) {
 				(bool isAimWithinArc, int aimDir) aim = this.AimGun();
 
-				if( (aim.aimDir == this.player.direction || this.GunAnim.RecoilDuration == 0) && !this.GunAnim.IsHolstering ) {
-					if( this.ModifyDrawLayersForGun(layers, true) ) {
-						this.ModifyDrawLayerForTorsoWithGun( layers, true );
-					}
+				if( !this.GunAnim.IsAnimating ) {
+					if( aim.aimDir == this.player.direction || this.GunAnim.RecoilDuration == 0 ) {
+						if( this.ModifyDrawLayersForGun( layers, true ) ) {
+							this.ModifyDrawLayerForTorsoWithGun( layers, true );
+						}
 
-					this.player.headPosition.Y += 1;
+						this.player.headPosition.Y += 1;
+					}
 				}
 			}
 

@@ -19,7 +19,20 @@ namespace BigIron {
 
 		public int HolsterDuration { get; private set; } = 0;
 
-		public int HolsterDurationMax { get; private set; } = 0;
+		////
+
+		public int ReloadDuration { get; private set; } = 0;
+
+
+
+		////
+
+		public bool IsHolstering => this.HolsterDuration > 0;
+
+		public bool IsReloading => this.ReloadDuration > 0;
+
+		public bool IsAnimating => this.IsHolstering || this.IsReloading;
+
 
 		////
 
@@ -30,11 +43,8 @@ namespace BigIron {
 
 		////
 
-		public bool IsHolstering => this.HolsterDuration > 0;
+		public SoundStyle TwirlSound { get; private set; } = null;
 
-		////
-
-		public SoundStyle TwirlSound = null;
 
 		////
 
@@ -116,9 +126,21 @@ namespace BigIron {
 			} else {
 				this.HolsterTwirlAddedRotationDegrees = 0f;
 			}
+		}
 
+		public void UpdateEquipped( Player player ) {
 			if( this.RecoilDuration > 0 ) {
 				this.RecoilDuration--;
+			}
+
+			if( this.ReloadDuration > 0 ) {
+				if( this.ReloadDuration > 1 ) {
+					this.ReloadDuration--;
+				} else {
+					if( BigIronPlayer.AttemptGunReloadRound(player) ) {
+						this.ReloadDuration = BigIronConfig.Instance.ReloadRoundTickDuration;
+					}
+				}
 			}
 
 			if( this.MiscAddedRotationDegrees != 0f ) {
@@ -130,6 +152,21 @@ namespace BigIron {
 			}
 		}
 
+		public void UpdateUnequipped( Player player ) {
+			if( this.RecoilDuration > 0 ) {
+				this.RecoilDuration = 0;
+			}
+			
+			if( this.ReloadDuration > 0 ) {
+				this.ReloadDuration = 0;
+			}
+
+			if( this.MiscAddedRotationDegrees != 0f ) {
+				this.MiscAddedRotationDegrees = 0f;
+			}
+		}
+
+
 		////////////////
 
 		public void BeginRecoil( float addedRotationDegrees ) {
@@ -137,9 +174,12 @@ namespace BigIron {
 			this.RecoilDuration = 17;
 		}
 
+		public void BeginReload() {
+			this.ReloadDuration = BigIronConfig.Instance.ReloadInitTickDuration;
+		}
+
 		public void BeginHolster( Player plr ) {
 			this.HolsterDuration = BigIronConfig.Instance.HolsterTwirlTickDuration;
-			this.HolsterDurationMax = BigIronConfig.Instance.HolsterTwirlTickDuration;
 			if( this.HolsterDuration == 0 ) {
 				return;
 			}

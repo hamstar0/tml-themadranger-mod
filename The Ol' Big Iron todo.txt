@@ -1,4 +1,5 @@
 v1.1
+-	Draw cylinder on HUD?
 -	Add holster twirl animation tweak
 -	Block hold style items while holstering
 -	Cache PlayerLayers
@@ -11,11 +12,13 @@ v1
 -	Add minor aim variance when in aim mode (but not within the first few frames)
 -	Implement 'quick draw' aim mode
 -	Implement gun cylinder capacity + reloading
-	-	Animate reloading (+shells ejecting)
-	-	Draw cylinder on HUD
 	-	Add key binding for reloading
-	-	Implement cylinder
+	-	Animate reloading (+shells ejecting)
+	-	Implement auto reload
 
+	-	Implement reload sequence
+	-	Implement cylinder shots
+	-	Define cylinder data
 -	Implement gun aiming
 	-	Draw crosshair while aiming
 	-	Implement damage variance (1-max) while not in aim mode

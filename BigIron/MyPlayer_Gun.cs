@@ -14,6 +14,19 @@ namespace BigIron {
 			return heldItem != null && !heldItem.IsAir && heldItem.type == ModContent.ItemType<BigIronItem>();
 		}
 
+
+		////////////////
+
+		public static bool AttemptGunReloadRound( Player player ) {
+			Item heldItem = player.HeldItem;
+			var myitem = (BigIronItem)heldItem.modItem;
+
+			return myitem.ReloadRound( player );
+		}
+
+
+		////////////////
+
 		public static int AimGunForBodyFrameY( Player plr ) {
 			int frameY;
 			float rotDir = plr.itemRotation * (float)plr.direction;
