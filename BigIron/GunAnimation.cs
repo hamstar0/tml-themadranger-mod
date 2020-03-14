@@ -128,7 +128,7 @@ namespace BigIron {
 			}
 		}
 
-		public void UpdateEquipped( Player player ) {
+		public void UpdateEquipped( Player plr ) {
 			if( this.RecoilDuration > 0 ) {
 				this.RecoilDuration--;
 			}
@@ -137,8 +137,10 @@ namespace BigIron {
 				if( this.ReloadDuration > 1 ) {
 					this.ReloadDuration--;
 				} else {
-					if( BigIronPlayer.AttemptGunReloadRound(player) ) {
+					if( BigIronPlayer.AttemptGunReloadRound(plr) ) {
 						this.ReloadDuration = BigIronConfig.Instance.ReloadRoundTickDuration;
+					} else {
+						BigIronPlayer.AttemptGunReloadEnd( plr );
 					}
 				}
 			}
@@ -152,7 +154,7 @@ namespace BigIron {
 			}
 		}
 
-		public void UpdateUnequipped( Player player ) {
+		public void UpdateUnequipped( Player plr ) {
 			if( this.RecoilDuration > 0 ) {
 				this.RecoilDuration = 0;
 			}
@@ -174,8 +176,10 @@ namespace BigIron {
 			this.RecoilDuration = 17;
 		}
 
-		public void BeginReload() {
-			this.ReloadDuration = BigIronConfig.Instance.ReloadInitTickDuration;
+		public void BeginReload( Player plr ) {
+			if( BigIronPlayer.AttemptGunReloadBegin(plr) ) {
+				this.ReloadDuration = BigIronConfig.Instance.ReloadInitTickDuration;
+			}
 		}
 
 		public void BeginHolster( Player plr ) {

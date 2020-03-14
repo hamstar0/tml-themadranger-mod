@@ -26,6 +26,10 @@ namespace BigIron.Items.Weapons {
 
 		////////////////
 
+		public bool IsCylinderOpen { get; private set; } = false;
+
+		////
+
 		public override bool CloneNewInstances => false;
 
 
@@ -122,6 +126,20 @@ namespace BigIron.Items.Weapons {
 				Main.PlaySound( (LegacySoundStyle)this.DryFireSound, player.Center );
 			}
 
+			return true;
+		}
+
+		////
+
+		public bool OpenCylinder() {
+			f
+			this.IsCylinderOpen = true;
+			return true;
+		}
+
+		public bool CloseCylinder() {
+			f
+			this.IsCylinderOpen = false;
 			return true;
 		}
 

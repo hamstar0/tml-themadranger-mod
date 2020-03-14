@@ -17,11 +17,25 @@ namespace BigIron {
 
 		////////////////
 
+		public static bool AttemptGunReloadBegin( Player player ) {
+			Item heldItem = player.HeldItem;
+			var myitem = (BigIronItem)heldItem.modItem;
+
+			return myitem.OpenCylinder();
+		}
+
 		public static bool AttemptGunReloadRound( Player player ) {
 			Item heldItem = player.HeldItem;
 			var myitem = (BigIronItem)heldItem.modItem;
 
 			return myitem.ReloadRound( player );
+		}
+
+		public static bool AttemptGunReloadEnd( Player player ) {
+			Item heldItem = player.HeldItem;
+			var myitem = (BigIronItem)heldItem.modItem;
+
+			return myitem.CloseCylinder();
 		}
 
 
