@@ -21,7 +21,8 @@ namespace BigIron.Items.Weapons {
 
 		private SoundStyle FireSound;
 		private SoundStyle DryFireSound;
-		private SoundStyle ReloadSound;
+		private SoundStyle ReloadBeginSound;
+		private SoundStyle ReloadRoundSound;
 
 
 		////////////////

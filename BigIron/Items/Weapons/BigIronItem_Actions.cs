@@ -31,13 +31,21 @@ namespace BigIron.Items.Weapons {
 
 		////
 
-		public bool OpenCylinder() {
-			f
+		public bool OpenCylinder( Player player ) {
+			if( this.ReloadBeginSound == null ) {
+				this.ReloadBeginSound = BigIronMod.Instance.GetLegacySoundSlot(
+					Terraria.ModLoader.SoundType.Custom,
+					"Sounds/Custom/RevolverReloadBegin"
+				).WithVolume( 0.5f );
+			}
+
+			Main.PlaySound( (LegacySoundStyle)this.ReloadBeginSound, player.Center );
+
 			this.IsCylinderOpen = true;
 			return true;
 		}
 
-		public bool CloseCylinder() {
+		public bool CloseCylinder( Player player ) {
 			f
 			this.IsCylinderOpen = false;
 			return true;
@@ -50,14 +58,14 @@ namespace BigIron.Items.Weapons {
 
 			do {
 				if( this.CylinderReload() ) {
-					if( this.ReloadSound == null ) {
-						this.ReloadSound = BigIronMod.Instance.GetLegacySoundSlot(
+					if( this.ReloadRoundSound == null ) {
+						this.ReloadRoundSound = BigIronMod.Instance.GetLegacySoundSlot(
 							Terraria.ModLoader.SoundType.Custom,
-							"Sounds/Custom/RevolverReload"
+							"Sounds/Custom/RevolverReloadRound"
 						).WithVolume( 1f );
 					}
 
-					Main.PlaySound( (LegacySoundStyle)this.ReloadSound, player.Center );
+					Main.PlaySound( (LegacySoundStyle)this.ReloadRoundSound, player.Center );
 
 					return true;
 				}

@@ -10,13 +10,14 @@ v1
 -	Sync aim position
 -	Set Bandolier to have ammo limit + require reloads from the Guide
 -	Draw gunshot flash + smokes
--	Add minor aim variance when in aim mode (but not within the first few frames)
 -	Implement 'quick draw' aim mode
+-	Redo gun
 -	Implement gun cylinder capacity + reloading
 	-	Add key binding for reloading
 	-	Animate reloading (+shells ejecting)
 	-	Implement auto reload
 
+	-	Implement reload sfx
 	-	Implement reload sequence
 	-	Implement cylinder shots
 	-	Define cylinder data
