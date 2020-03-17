@@ -5,7 +5,7 @@ using System.ComponentModel;
 using Terraria.ModLoader.Config;
 
 
-namespace BigIron {
+namespace TheMadRanger {
 	class MyFloatInputElement : FloatInputElement { }
 
 

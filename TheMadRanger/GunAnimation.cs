@@ -6,7 +6,7 @@ using Terraria.Audio;
 using HamstarHelpers.Helpers.Debug;
 
 
-namespace BigIron {
+namespace TheMadRanger {
 	partial class GunAnimation {
 		private Rectangle BodyFrameShifted;
 
@@ -137,10 +137,10 @@ namespace BigIron {
 				if( this.ReloadDuration > 1 ) {
 					this.ReloadDuration--;
 				} else {
-					if( BigIronPlayer.AttemptGunReloadRound(plr) ) {
+					if( TMRPlayer.AttemptGunReloadRound(plr) ) {
 						this.ReloadDuration = BigIronConfig.Instance.ReloadRoundTickDuration;
 					} else {
-						BigIronPlayer.AttemptGunReloadEnd( plr );
+						TMRPlayer.AttemptGunReloadEnd( plr );
 					}
 				}
 			}
@@ -177,7 +177,7 @@ namespace BigIron {
 		}
 
 		public void BeginReload( Player plr ) {
-			if( BigIronPlayer.AttemptGunReloadBegin(plr) ) {
+			if( TMRPlayer.AttemptGunReloadBegin(plr) ) {
 				this.ReloadDuration = BigIronConfig.Instance.ReloadInitTickDuration;
 			}
 		}
@@ -189,7 +189,7 @@ namespace BigIron {
 			}
 
 			if( this.TwirlSound == null ) {
-				this.TwirlSound = BigIronMod.Instance.GetLegacySoundSlot(
+				this.TwirlSound = TMRMod.Instance.GetLegacySoundSlot(
 					Terraria.ModLoader.SoundType.Custom,
 					"Sounds/Custom/RevolverTwirl"
 				).WithVolume( 0.65f );

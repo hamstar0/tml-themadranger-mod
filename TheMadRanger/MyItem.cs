@@ -4,10 +4,10 @@ using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
 
 
-namespace BigIron {
-	class BigIronGlobalItem : GlobalItem {
+namespace TheMadRanger {
+	class TMRGlobalItem : GlobalItem {
 		public override bool CanUseItem( Item item, Player player ) {
-			return !player.GetModPlayer<BigIronPlayer>().GunAnim.IsAnimating;
+			return !player.GetModPlayer<TMRPlayer>().GunAnim.IsAnimating;
 		}
 	}
 }

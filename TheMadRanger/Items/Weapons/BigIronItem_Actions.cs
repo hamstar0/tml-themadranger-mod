@@ -3,12 +3,12 @@ using Terraria.Audio;
 using Terraria.ModLoader;
 
 
-namespace BigIron.Items.Weapons {
-	public partial class BigIronItem : ModItem {
+namespace TheMadRanger.Items.Weapons {
+	public partial class TheMadRangerItem : ModItem {
 		internal bool Shoot( Player player ) {
 			if( this.CylinderShoot() ) {
 				if( this.FireSound == null ) {
-					this.FireSound = BigIronMod.Instance.GetLegacySoundSlot(
+					this.FireSound = TMRMod.Instance.GetLegacySoundSlot(
 						Terraria.ModLoader.SoundType.Custom,
 						"Sounds/Custom/RevolverFire"
 					).WithVolume( 0.2f );
@@ -17,7 +17,7 @@ namespace BigIron.Items.Weapons {
 				Main.PlaySound( (LegacySoundStyle)this.FireSound, player.Center );
 			} else {
 				if( this.DryFireSound == null ) {
-					this.DryFireSound = BigIronMod.Instance.GetLegacySoundSlot(
+					this.DryFireSound = TMRMod.Instance.GetLegacySoundSlot(
 						Terraria.ModLoader.SoundType.Custom,
 						"Sounds/Custom/RevolverDryFire"
 					).WithVolume( 0.2f );
@@ -33,7 +33,7 @@ namespace BigIron.Items.Weapons {
 
 		public bool OpenCylinder( Player player ) {
 			if( this.ReloadBeginSound == null ) {
-				this.ReloadBeginSound = BigIronMod.Instance.GetLegacySoundSlot(
+				this.ReloadBeginSound = TMRMod.Instance.GetLegacySoundSlot(
 					Terraria.ModLoader.SoundType.Custom,
 					"Sounds/Custom/RevolverReloadBegin"
 				).WithVolume( 0.5f );
@@ -59,7 +59,7 @@ namespace BigIron.Items.Weapons {
 			do {
 				if( this.CylinderReload() ) {
 					if( this.ReloadRoundSound == null ) {
-						this.ReloadRoundSound = BigIronMod.Instance.GetLegacySoundSlot(
+						this.ReloadRoundSound = TMRMod.Instance.GetLegacySoundSlot(
 							Terraria.ModLoader.SoundType.Custom,
 							"Sounds/Custom/RevolverReloadRound"
 						).WithVolume( 1f );

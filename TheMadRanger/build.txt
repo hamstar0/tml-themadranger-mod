@@ -1,4 +1,4 @@
-displayName = The Ol' Big Iron
+displayName = The Mad Ranger
 author = hamstar
 version = 0.6.1
 modReferences = HamstarHelpers@5.5.1

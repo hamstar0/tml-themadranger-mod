@@ -3,11 +3,11 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
-using BigIron.Items.Weapons;
+using TheMadRanger.Items.Weapons;
 
 
-namespace BigIron {
-	partial class BigIronPlayer : ModPlayer {
+namespace TheMadRanger {
+	partial class TMRPlayer : ModPlayer {
 		public bool CanShootGun() {
 			return !this.GunAnim.IsAnimating;
 		}
@@ -23,7 +23,7 @@ namespace BigIron {
 				return false;
 			}
 
-			var myitem = (BigIronItem)item.modItem;
+			var myitem = (TheMadRangerItem)item.modItem;
 			if( !myitem.Shoot(this.player) ) {
 				return true;
 			}

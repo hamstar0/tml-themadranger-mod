@@ -4,14 +4,14 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
-using BigIron.Items.Weapons;
+using TheMadRanger.Items.Weapons;
 
 
-namespace BigIron {
-	partial class BigIronPlayer : ModPlayer {
+namespace TheMadRanger {
+	partial class TMRPlayer : ModPlayer {
 		public static bool IsHoldingGun( Player player ) {
 			Item heldItem = player.HeldItem;
-			return heldItem != null && !heldItem.IsAir && heldItem.type == ModContent.ItemType<BigIronItem>();
+			return heldItem != null && !heldItem.IsAir && heldItem.type == ModContent.ItemType<TheMadRangerItem>();
 		}
 
 
@@ -19,21 +19,21 @@ namespace BigIron {
 
 		public static bool AttemptGunReloadBegin( Player player ) {
 			Item heldItem = player.HeldItem;
-			var myitem = (BigIronItem)heldItem.modItem;
+			var myitem = (TheMadRangerItem)heldItem.modItem;
 
 			return myitem.OpenCylinder();
 		}
 
 		public static bool AttemptGunReloadRound( Player player ) {
 			Item heldItem = player.HeldItem;
-			var myitem = (BigIronItem)heldItem.modItem;
+			var myitem = (TheMadRangerItem)heldItem.modItem;
 
 			return myitem.ReloadRound( player );
 		}
 
 		public static bool AttemptGunReloadEnd( Player player ) {
 			Item heldItem = player.HeldItem;
-			var myitem = (BigIronItem)heldItem.modItem;
+			var myitem = (TheMadRangerItem)heldItem.modItem;
 
 			return myitem.CloseCylinder();
 		}

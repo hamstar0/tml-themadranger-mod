@@ -5,11 +5,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
-using BigIron.Helpers.Players;
+using TheMadRanger.Helpers.Players;
 using HamstarHelpers.Helpers.Debug;
 
 
-namespace BigIron {
+namespace TheMadRanger {
 	partial class PlayerDraw {
 		public static IEnumerable<DrawData> GetPlayerLayerForArms( PlayerDrawInfo plrDrawInfo, Rectangle plrBodyFrame ) {
 			Player plr = plrDrawInfo.drawPlayer;

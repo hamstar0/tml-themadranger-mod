@@ -6,10 +6,10 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
-using BigIron.Items.Weapons;
+using TheMadRanger.Items.Weapons;
 
 
-namespace BigIron {
+namespace TheMadRanger {
 	partial class GunAnimation {
 		public void ModifyDrawLayers( Player plr, List<PlayerLayer> layers ) {
 			if( this.IsHolstering ) {
@@ -49,7 +49,7 @@ namespace BigIron {
 
 		public DrawData DrawGun( PlayerDrawInfo plrDrawInfo ) {
 			Player plr = plrDrawInfo.drawPlayer;
-			Texture2D itemTex = Main.itemTexture[ ModContent.ItemType<BigIronItem>() ];
+			Texture2D itemTex = Main.itemTexture[ ModContent.ItemType<TheMadRangerItem>() ];
 			Vector2 origin = new Vector2( itemTex.Width/2, itemTex.Height/2 );
 
 			//double progress = 1d - ( (double)this.HolsterDuration / (double)this.HolsterDurationMax );
@@ -71,7 +71,7 @@ namespace BigIron {
 					color: color,
 					rotation: rot,
 					origin: origin,
-					scale: BigIronItem.Scale,
+					scale: TheMadRangerItem.Scale,
 					effect: plrDrawInfo.spriteEffects,
 					inactiveLayerDepth: 0
 				);

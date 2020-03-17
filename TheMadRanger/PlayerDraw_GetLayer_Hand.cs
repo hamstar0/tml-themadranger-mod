@@ -8,7 +8,7 @@ using Terraria.DataStructures;
 using HamstarHelpers.Helpers.Debug;
 
 
-namespace BigIron {
+namespace TheMadRanger {
 	partial class PlayerDraw {
 		public static IEnumerable<DrawData> GetPlayerLayerForHand( PlayerDrawInfo plrDrawInfo, Color plrLight, Rectangle plrBodyFrame, float shadow=0f ) {
 			DrawData drawData;

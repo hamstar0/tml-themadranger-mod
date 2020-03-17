@@ -10,7 +10,7 @@ using HamstarHelpers.Helpers.Debug;
 using HamstarHelpers.Helpers.DotNET.Reflection;
 
 
-namespace BigIron {
+namespace TheMadRanger {
 	partial class PlayerDraw {
 		public static Color GetItemLightColor( Player plr, Color plrLight ) {
 			Color itemLight = plrLight;

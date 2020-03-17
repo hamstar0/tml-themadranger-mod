@@ -1,1 +1,0 @@
-Starts your player with an unusually-powerful, hard-to-master antique hand gun. Uses its own ammo supply. Reloads slowly and manually. Configurable.

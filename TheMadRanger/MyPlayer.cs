@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
-using BigIron.Items.Weapons;
-using BigIron.Items.Accessories;
+using TheMadRanger.Items.Weapons;
+using TheMadRanger.Items.Accessories;
 
 
-namespace BigIron {
-	partial class BigIronPlayer : ModPlayer {
+namespace TheMadRanger {
+	partial class TMRPlayer : ModPlayer {
 		private int LastSlot = -1;
 
 
@@ -41,13 +41,13 @@ namespace BigIron {
 
 
 		private void CheckPreviousHeldItemState( Item prevHeldItem ) {
-			if( prevHeldItem != null && !prevHeldItem.IsAir && prevHeldItem.type == ModContent.ItemType<BigIronItem>() ) {
+			if( prevHeldItem != null && !prevHeldItem.IsAir && prevHeldItem.type == ModContent.ItemType<TheMadRangerItem>() ) {
 				this.GunAnim.BeginHolster( this.player );
 			}
 		}
 
 		private void CheckCurrentHeldItemState() {
-			if( BigIronPlayer.IsHoldingGun(this.player) ) {
+			if( TMRPlayer.IsHoldingGun(this.player) ) {
 				this.GunAnim.UpdateEquipped( this.player );
 				this.AimMode.CheckEquippedAimState( this.player );
 			} else {
@@ -67,7 +67,7 @@ namespace BigIron {
 					ref int type,
 					ref int damage,
 					ref float knockBack ) {
-			if( !BigIronPlayer.IsHoldingGun(this.player) ) {
+			if( !TMRPlayer.IsHoldingGun(this.player) ) {
 				return true;
 			}
 
@@ -81,7 +81,7 @@ namespace BigIron {
 			if( !mediumcoreDeath ) {
 				if( BigIronConfig.Instance.PlayerSpawnsWithGun ) {
 					var revolver = new Item();
-					revolver.SetDefaults( ModContent.ItemType<BigIronItem>() );
+					revolver.SetDefaults( ModContent.ItemType<TheMadRangerItem>() );
 
 					items.Add( revolver );
 				}
@@ -98,7 +98,7 @@ namespace BigIron {
 		////////////////
 		
 		public override void ModifyDrawLayers( List<PlayerLayer> layers ) {
-			if( BigIronPlayer.IsHoldingGun(this.player) ) {
+			if( TMRPlayer.IsHoldingGun(this.player) ) {
 				(bool isAimWithinArc, int aimDir) aim = this.ApplyGunAim();
 
 				if( !this.GunAnim.IsAnimating ) {

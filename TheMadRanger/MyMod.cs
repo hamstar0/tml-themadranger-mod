@@ -2,26 +2,26 @@ using Terraria;
 using Terraria.ModLoader;
 
 
-namespace BigIron {
-	public partial class BigIronMod : Mod {
-		public static BigIronMod Instance { get; private set; }
+namespace TheMadRanger {
+	public partial class TMRMod : Mod {
+		public static TMRMod Instance { get; private set; }
 
 
 		////////////////
 
 		public static string GithubUserName => "hamstar0";
-		public static string GithubProjectName => "tml-theolbigiron-mod";
+		public static string GithubProjectName => "tml-themadranger-mod";
 
 
 
 		////////////////
 
-		public BigIronMod() {
-			BigIronMod.Instance = this;
+		public TMRMod() {
+			TMRMod.Instance = this;
 		}
 
 		public override void Unload() {
-			BigIronMod.Instance = null;
+			TMRMod.Instance = null;
 		}
 
 

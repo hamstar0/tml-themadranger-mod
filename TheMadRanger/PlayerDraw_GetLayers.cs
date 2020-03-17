@@ -7,7 +7,7 @@ using Terraria.DataStructures;
 using HamstarHelpers.Helpers.Debug;
 
 
-namespace BigIron {
+namespace TheMadRanger {
 	partial class PlayerDraw {
 		public static bool GetPlayerLayersForItemHolding(
 					Player plr,

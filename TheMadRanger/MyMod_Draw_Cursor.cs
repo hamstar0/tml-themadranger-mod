@@ -9,8 +9,8 @@ using Terraria.ModLoader;
 using Terraria.UI;
 
 
-namespace BigIron {
-	public partial class BigIronMod : Mod {
+namespace TheMadRanger {
+	public partial class TMRMod : Mod {
 		public const float CrosshairDurationTicksMax = 9f;
 
 
@@ -48,9 +48,9 @@ namespace BigIron {
 		////////////////
 		
 		private bool RunAnimation() {
-			var myplayer = Main.LocalPlayer.GetModPlayer<BigIronPlayer>();
+			var myplayer = Main.LocalPlayer.GetModPlayer<TMRPlayer>();
 			if( !myplayer.AimMode.IsModeActive ) {
-				if( this.AnimDuration >= 0f && this.AnimDuration < BigIronMod.CrosshairDurationTicksMax ) {
+				if( this.AnimDuration >= 0f && this.AnimDuration < TMRMod.CrosshairDurationTicksMax ) {
 					this.AnimDuration += 0.25f;
 				} else {
 					this.AnimDuration = -1f;
@@ -62,7 +62,7 @@ namespace BigIron {
 			this.AnimDuration = (float)Math.Floor( this.AnimDuration );
 
 			if( this.AnimDuration == -1f ) {
-				this.AnimDuration = BigIronMod.CrosshairDurationTicksMax;
+				this.AnimDuration = TMRMod.CrosshairDurationTicksMax;
 			} else if( this.AnimDuration > 0 ) {
 				this.AnimDuration -= 1f;
 			}
@@ -76,7 +76,7 @@ namespace BigIron {
 		private void DrawAimCursor() {
 			Texture2D tex = this.GetTexture( "crosshair" );
 
-			float percentEmpty = this.AnimDuration / BigIronMod.CrosshairDurationTicksMax;
+			float percentEmpty = this.AnimDuration / TMRMod.CrosshairDurationTicksMax;
 			float scale = 0.25f + (1.75f * percentEmpty );
 
 			Color color = this.ColorAnim.CurrentColor;

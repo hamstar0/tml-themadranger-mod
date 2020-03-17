@@ -6,15 +6,15 @@ using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
 
 
-namespace BigIron {
-	partial class BigIronPlayer : ModPlayer {
+namespace TheMadRanger {
+	partial class TMRPlayer : ModPlayer {
 		private bool ModifyDrawLayersForGun( List<PlayerLayer> layers, bool aimGun ) {
 			PlayerLayer plrLayer;
 			Action<PlayerDrawInfo> itemLayer, armLayer, handLayer;
 
 			int newBodyFrameY;
 			if( aimGun ) {
-				newBodyFrameY = BigIronPlayer.AimGunForBodyFrameY( this.player );
+				newBodyFrameY = TMRPlayer.AimGunForBodyFrameY( this.player );
 			} else {
 				newBodyFrameY = this.player.bodyFrame.Height * 3;
 			}
@@ -56,7 +56,7 @@ namespace BigIron {
 			Rectangle newFrame, oldFrame;
 			newFrame = oldFrame = this.player.bodyFrame;
 			if( aimGun ) {
-				newFrame.Y = BigIronPlayer.AimGunForBodyFrameY( this.player );
+				newFrame.Y = TMRPlayer.AimGunForBodyFrameY( this.player );
 			} else {
 				newFrame.Y = this.player.bodyFrame.Height * 3;
 			}

@@ -5,8 +5,8 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
 
-namespace BigIron.Items.Weapons {
-	public partial class BigIronItem : ModItem {
+namespace TheMadRanger.Items.Weapons {
+	public partial class TheMadRangerItem : ModItem {
 		public static int Width { get; } = 24;
 		public static int Height { get; } = 16;
 		public static float Scale { get; } = 0.5f;
@@ -38,17 +38,17 @@ namespace BigIron.Items.Weapons {
 		////////////////
 
 		public override void SetStaticDefaults() {
-			this.DisplayName.SetDefault( "Ol' Big Iron" );
-			this.Tooltip.SetDefault( "An antique gun from a far away land."
-				+ "\nAn unusually powerful hand gun; needs a steady hand"
+			this.DisplayName.SetDefault( "The Mad Ranger" );
+			this.Tooltip.SetDefault( "A temperamental gun from a far away land."
+				+ "\nUnusually powerful; needs a steady hand"
 				+ "\nOnly uses a specific, manufactured ammo"
 			);
 		}
 
 		public override void SetDefaults() {
-			this.item.width = BigIronItem.Width;
-			this.item.height = BigIronItem.Height;
-			this.item.scale = BigIronItem.Scale;
+			this.item.width = TheMadRangerItem.Width;
+			this.item.height = TheMadRangerItem.Height;
+			this.item.scale = TheMadRangerItem.Scale;
 
 			this.item.ranged = true;
 			this.item.useStyle = 5;
@@ -100,7 +100,7 @@ namespace BigIron.Items.Weapons {
 		////////////////
 
 		public override bool CanUseItem( Player player ) {
-			return !player.GetModPlayer<BigIronPlayer>().CanShootGun();
+			return !player.GetModPlayer<TMRPlayer>().CanShootGun();
 		}
 	}
 }

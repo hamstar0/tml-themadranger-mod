@@ -7,7 +7,7 @@ using HamstarHelpers.Helpers.Debug;
 using HamstarHelpers.Helpers.TModLoader;
 
 
-namespace BigIron {
+namespace TheMadRanger {
 	class PlayerAimMode {
 		public static float ComputeAimShakeMaxConeRadians() {
 			UnifiedRandom rand = TmlHelpers.SafelyGetRand();
