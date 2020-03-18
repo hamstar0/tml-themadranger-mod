@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
 using TheMadRanger.Items.Weapons;
+using TheMadRanger.Helpers.Misc;
 
 
 namespace TheMadRanger {
@@ -18,10 +19,9 @@ namespace TheMadRanger {
 		////////////////
 
 		public static bool AttemptGunReloadBegin( Player player ) {
-			Item heldItem = player.HeldItem;
-			var myitem = (TheMadRangerItem)heldItem.modItem;
+			SoundHelpers.PlaySound( "RevolverReloadBegin", player.Center, 0.5f );
 
-			return myitem.OpenCylinder( player );
+			return true;
 		}
 
 		public static bool AttemptGunReloadRound( Player player ) {

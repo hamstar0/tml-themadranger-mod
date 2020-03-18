@@ -1,6 +1,7 @@
 using HamstarHelpers.Helpers.Debug;
+using Microsoft.Xna.Framework;
+using System.Linq;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -16,7 +17,7 @@ namespace TheMadRanger.Items.Weapons {
 
 		////////////////
 
-		private bool[] Cylinder = new bool[6] { true, true, true, true, true, true };
+		private int[] Cylinder = new int[6] { 1, 1, 1, 1, 1, 1 };
 
 		private int CylinderPos = 0;
 
@@ -24,10 +25,6 @@ namespace TheMadRanger.Items.Weapons {
 
 
 		////////////////
-
-		public bool IsCylinderOpen { get; private set; } = false;
-
-		////
 
 		public override bool CloneNewInstances => false;
 
@@ -72,23 +69,23 @@ namespace TheMadRanger.Items.Weapons {
 		////////////////
 
 		public override void Load( TagCompound tag ) {
-			if( !tag.ContainsKey("cylinder_pos") ) {
+			if( !tag.ContainsKey("cylinder_idx") ) {
 				return;
 			}
 
-			this.CylinderPos = tag.GetInt( "cylinder_pos" );
+			this.CylinderPos = tag.GetInt( "cylinder_idx" );
 
 			for( int i = 0; i < 6; i++ ) {
-				this.Cylinder[i] = tag.GetBool( "cylinder_" + i );
+				this.Cylinder[i] = tag.GetInt( "cylinder_round_" + i );
 			}
 		}
 
 		public override TagCompound Save() {
 			var tag = new TagCompound {
-				{ "cylinder_pos", this.CylinderPos }
+				{ "cylinder_idx", this.CylinderPos }
 			};
 			for( int i=0; i<6; i++ ) {
-				tag[ "cylinder_"+i ] = this.Cylinder[i];
+				tag["cylinder_round_" + i ] = this.Cylinder[i];
 			}
 
 			return tag;
@@ -106,7 +103,20 @@ DebugHelpers.Print( "cylinder", this.CylinderPos+" - "+string.Join( ", ", this.C
 		////////////////
 
 		public override bool CanUseItem( Player player ) {
+Main.NewText("1");
+			return player.GetModPlayer<TMRPlayer>().CanAttemptToShootGun();
+		}
+
+		public override bool Shoot( Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack ) {
+Main.NewText("2");
 			return player.GetModPlayer<TMRPlayer>().CanShootGun();
+		}
+
+
+		////
+
+		public bool IsCylinderEmpty() {
+			return this.Cylinder.Any( c => c != 0 );
 		}
 	}
 }

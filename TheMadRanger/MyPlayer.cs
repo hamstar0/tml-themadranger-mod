@@ -59,28 +59,6 @@ namespace TheMadRanger {
 
 		////////////////
 
-		public override bool Shoot(
-					Item item,
-					ref Vector2 position,
-					ref float speedX,
-					ref float speedY,
-					ref int type,
-					ref int damage,
-					ref float knockBack ) {
-			if( !TMRPlayer.IsHoldingGun(this.player) ) {
-				return true;
-			}
-			if( !this.CanShootGun() ) {
-				return true;
-			}
-
-			this.AttemptGunShot( item, ref speedX, ref speedY, ref damage, ref knockBack );
-			return true;
-		}
-
-
-		////////////////
-
 		public override void SetupStartInventory( IList<Item> items, bool mediumcoreDeath ) {
 			if( !mediumcoreDeath ) {
 				if( TMRConfig.Instance.PlayerSpawnsWithGun ) {

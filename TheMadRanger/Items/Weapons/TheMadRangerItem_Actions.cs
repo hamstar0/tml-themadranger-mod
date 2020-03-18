@@ -11,7 +11,7 @@ namespace TheMadRanger.Items.Weapons {
 			wantsReload = false;
 
 			if( this.ElapsedTimeSinceLastShotAttempt >= 60 ) {
-				if( !this.Cylinder.Any(c=>c) ) {
+				if( !this.Cylinder.Any(c => c >= 1) ) {
 					wantsReload = true;
 					return false;
 				}
@@ -32,57 +32,72 @@ namespace TheMadRanger.Items.Weapons {
 			return hasShot;
 		}
 
+
+		////////////////
+
+		public bool ReloadRound( Player player ) {
+			int initPos = this.CylinderPos;
+			bool hasReloaded = false;
+
+			do {
+				if( this.CylinderReload() ) {
+					hasReloaded = true;
+					SoundHelpers.PlaySound( "RevolverReloadRound", player.Center, 1f );
+					break;
+				}
+			} while( this.CylinderPos != initPos );
+
+			return hasReloaded;
+		}
+
 		////
 
-		public bool OpenCylinder( Player player ) {
-			SoundHelpers.PlaySound( "RevolverReloadBegin", player.Center, 0.5f );
+		public int UnloadCylinder( Player player ) {
+			int liveRounds = 0;
 
-			this.IsCylinderOpen = true;
-			return true;
+			for( int i=0; i<this.Cylinder.Length; i++ ) {
+				if( this.Cylinder[i] >= 1 ) {
+					liveRounds += this.Cylinder[i];
+				}
+				this.Cylinder[i] = 0;
+			}
+
+			return liveRounds;
 		}
 
 		public bool CloseCylinder( Player player ) {
 			SoundHelpers.PlaySound( "RevolverDryFire", player.Center, 0.2f );
 
-			this.IsCylinderOpen = false;
 			return true;
-		}
-
-		////
-
-		public bool ReloadRound( Player player ) {
-			int initPos = this.CylinderPos;
-
-			do {
-				if( !this.CylinderReload() ) {
-					SoundHelpers.PlaySound( "RevolverReloadRound", player.Center, 1f );
-
-					return true;
-				}
-			} while( this.CylinderPos != initPos );
-
-			return false;
 		}
 
 
 		////////////////
-		
-		private bool CylinderShoot() {
-			bool canShoot = this.Cylinder[ this.CylinderPos ];
 
-			this.Cylinder[ this.CylinderPos ] = false;
+		private bool CylinderShoot() {
+			int roundSlot = this.Cylinder[ this.CylinderPos ];
+
+			if( roundSlot == 1 ) {
+				this.Cylinder[this.CylinderPos] = -1;
+			}
+
 			this.CylinderPos = (this.CylinderPos + 1) % 6;
 
-			return canShoot;
+			return roundSlot == 1;
 		}
 
-		private bool CylinderReload() {
-			bool isLoaded = this.Cylinder[ this.CylinderPos ];
+		////
 
-			this.Cylinder[ this.CylinderPos ] = true;
+		private bool CylinderReload() {
+			int roundSlot = this.Cylinder[ this.CylinderPos ];
+
+			if( roundSlot == 0 ) {
+				this.Cylinder[this.CylinderPos] = 1;
+			}
+
 			this.CylinderPos = (this.CylinderPos + 1) % 6;
 
-			return isLoaded;
+			return roundSlot == 0;
 		}
 	}
 }

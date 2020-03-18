@@ -15,8 +15,10 @@ v1
 	-	Add key binding for reloading
 	-	Animate reloading (+shells ejecting)
 		-	Animate shot loading
-		-	Add shell eject
+		-	Animate shell eject
 
+		-	Add individual round reloading
+		-	Add shell eject stage
 		-	Define animation sequence
 	-	Implement auto reload
 	-	Implement reload sfx

@@ -8,26 +8,31 @@ using TheMadRanger.Items.Weapons;
 namespace TheMadRanger {
 	partial class GunAnimation {
 		public float GetAddedRotationDegrees( Player plr ) {
+			float degrees;
+
 			if( this.IsReloading ) {
 				var myitem = plr.HeldItem.modItem as TheMadRangerItem;
-				return myitem?.IsCylinderOpen == true
-					? 270
-					: 90;
+
+				if( plr.direction > 0 ) {
+					degrees = myitem?.IsCylinderEmpty() == true ? 90f : 270f;
+				} else {
+					degrees = myitem?.IsCylinderEmpty() == true ? 270f : 90f;
+				}
+			} else {
+				int recoilDeg = this.RecoilDuration <= 15
+					? this.RecoilDuration
+					: 0;
+
+				degrees = this.HolsterTwirlAddedRotationDegrees
+					+ this.MiscAddedRotationDegrees
+					+ recoilDeg;
 			}
-
-			int recoilDeg = this.RecoilDuration <= 15
-				? this.RecoilDuration
-				: 0;
-
-			float degrees = this.HolsterTwirlAddedRotationDegrees
-				+ this.MiscAddedRotationDegrees
-				+ recoilDeg;
 
 			return degrees % 360;
 		}
 
 		public float GetAddedRotationRadians( Player plr ) {
-			return MathHelper.ToRadians( this.GetAddedRotationDegrees(plr) );
+			return MathHelper.ToRadians( this.GetAddedRotationDegrees( plr ) );
 		}
 
 
@@ -58,17 +63,7 @@ namespace TheMadRanger {
 				this.RecoilDuration--;
 			}
 
-			if( this.ReloadDuration > 0 ) {
-				if( this.ReloadDuration > 1 ) {
-					this.ReloadDuration--;
-				} else {
-					if( TMRPlayer.AttemptGunReloadRound(plr) ) {
-						this.ReloadDuration = TMRConfig.Instance.ReloadRoundTickDuration;
-					} else {
-						TMRPlayer.AttemptGunReloadEnd( plr );
-					}
-				}
-			}
+			this.UpdateReload( plr );
 
 			if( this.MiscAddedRotationDegrees != 0f ) {
 				this.MiscAddedRotationDegrees -= Math.Sign( this.MiscAddedRotationDegrees ) / 3f;
@@ -83,13 +78,42 @@ namespace TheMadRanger {
 			if( this.RecoilDuration > 0 ) {
 				this.RecoilDuration = 0;
 			}
-			
+
 			if( this.ReloadDuration > 0 ) {
 				this.ReloadDuration = 0;
 			}
 
 			if( this.MiscAddedRotationDegrees != 0f ) {
 				this.MiscAddedRotationDegrees = 0f;
+			}
+		}
+
+
+		////
+
+		private void UpdateReload( Player plr ) {
+			if( this.ReloadDuration == 0 ) {
+				return;
+			}
+
+			if( this.ReloadDuration > 1 ) {
+				this.ReloadDuration--;
+				return;
+			}
+
+			var myitem = plr.HeldItem.modItem as TheMadRangerItem;
+			if( !myitem.IsCylinderEmpty() ) {
+				this.ReloadDuration = TMRConfig.Instance.ReloadRoundTickDuration;
+				myitem.UnloadCylinder( plr );
+				return;
+			}
+
+			if( TMRPlayer.AttemptGunReloadRound( plr ) ) {
+				this.ReloadDuration = TMRConfig.Instance.ReloadRoundTickDuration;
+				return;
+			} else {
+				TMRPlayer.AttemptGunReloadEnd( plr );
+				this.ReloadDuration = 0;
 			}
 		}
 	}
