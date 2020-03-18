@@ -23,8 +23,13 @@ namespace TheMadRanger {
 				return false;
 			}
 
+			bool wantsReload;
 			var myitem = (TheMadRangerItem)item.modItem;
-			if( !myitem.Shoot(this.player) ) {
+
+			if( !myitem.AttemptShot(this.player, out wantsReload) ) {
+				if( wantsReload ) {
+					this.GunAnim.BeginReload( this.player );
+				}
 				return true;
 			}
 

@@ -19,10 +19,13 @@ namespace TheMadRanger.Items.Weapons {
 
 		private int CylinderPos = 0;
 
+		private int ElapsedTimeSinceLastShotAttempt = 0;
+
 		private SoundStyle FireSound;
 		private SoundStyle DryFireSound;
 		private SoundStyle ReloadBeginSound;
 		private SoundStyle ReloadRoundSound;
+		private SoundStyle ReloadEndSound;
 
 
 		////////////////
@@ -94,6 +97,13 @@ namespace TheMadRanger.Items.Weapons {
 			}
 
 			return tag;
+		}
+
+
+		////////////////
+
+		public override void UpdateInventory( Player player ) {
+			this.ElapsedTimeSinceLastShotAttempt++;
 		}
 
 

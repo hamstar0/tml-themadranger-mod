@@ -12,10 +12,8 @@ using TheMadRanger.Items.Weapons;
 namespace TheMadRanger {
 	partial class GunAnimation {
 		public void ModifyDrawLayers( Player plr, List<PlayerLayer> layers ) {
-			if( this.IsHolstering ) {
+			if( this.IsAnimating ) {
 				this.ModifyDrawLayersForHolstering( plr, layers );
-			} else if( this.IsReloading ) {
-				this.ModifyDrawLayersForReloading( plr, layers );
 			}
 		}
 
@@ -50,6 +48,7 @@ namespace TheMadRanger {
 		public DrawData DrawGun( PlayerDrawInfo plrDrawInfo ) {
 			Player plr = plrDrawInfo.drawPlayer;
 			Texture2D itemTex = Main.itemTexture[ ModContent.ItemType<TheMadRangerItem>() ];
+
 			Vector2 origin = new Vector2( itemTex.Width/2, itemTex.Height/2 );
 
 			//double progress = 1d - ( (double)this.HolsterDuration / (double)this.HolsterDurationMax );

@@ -11,16 +11,19 @@ v1
 -	Set Bandolier to have ammo limit + require reloads from the Guide
 -	Draw gunshot flash + smokes
 -	Implement 'quick draw' aim mode
--	Redo gun
 -	Implement gun cylinder capacity + reloading
 	-	Add key binding for reloading
 	-	Animate reloading (+shells ejecting)
-	-	Implement auto reload
+		-	Add shell eject
+		-	Create sprite
 
+		-	Define animation sequence
+	-	Implement auto reload
 	-	Implement reload sfx
 	-	Implement reload sequence
 	-	Implement cylinder shots
 	-	Define cylinder data
+-	Redo gun
 -	Implement gun aiming
 	-	Draw crosshair while aiming
 	-	Implement damage variance (1-max) while not in aim mode

@@ -1,3 +1,4 @@
+using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
@@ -5,7 +6,16 @@ using Terraria.ModLoader;
 
 namespace TheMadRanger.Items.Weapons {
 	public partial class TheMadRangerItem : ModItem {
-		internal bool Shoot( Player player ) {
+		internal bool AttemptShot( Player player, out bool wantsReload ) {
+			wantsReload = false;
+
+			if( this.ElapsedTimeSinceLastShotAttempt >= 60 ) {
+				if( !this.Cylinder.Any(c=>c) ) {
+					wantsReload = true;
+					return false;
+				}
+			}
+
 			if( this.CylinderShoot() ) {
 				if( this.FireSound == null ) {
 					this.FireSound = TMRMod.Instance.GetLegacySoundSlot(
@@ -25,6 +35,8 @@ namespace TheMadRanger.Items.Weapons {
 
 				Main.PlaySound( (LegacySoundStyle)this.DryFireSound, player.Center );
 			}
+
+			this.ElapsedTimeSinceLastShotAttempt = 0;
 
 			return true;
 		}
@@ -46,7 +58,15 @@ namespace TheMadRanger.Items.Weapons {
 		}
 
 		public bool CloseCylinder( Player player ) {
-			f
+			if( this.ReloadEndSound == null ) {
+				this.ReloadEndSound = TMRMod.Instance.GetLegacySoundSlot(
+					Terraria.ModLoader.SoundType.Custom,
+					"Sounds/Custom/RevolverDryFire"
+				).WithVolume( 0.2f );
+			}
+
+			Main.PlaySound( (LegacySoundStyle)this.ReloadEndSound, player.Center );
+
 			this.IsCylinderOpen = false;
 			return true;
 		}

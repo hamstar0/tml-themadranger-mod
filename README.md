@@ -1,5 +1,5 @@
-# Ol' Big Iron
+# The Mad Ranger
 
-Starts your player with an unusually-powerful, hard-to-master antique hand gun. Uses its own ammo supply. Reloads slowly and manually. Configurable.
+Starts your player with an unusually powerful, hard-to-master antique six-shooter. Requires its own unique specialty ammo. Configurable.
 
-https://forums.terraria.org/index.php?threads/powerups.86119/
+https://github.com/hamstar0/tml-themadranger-mod

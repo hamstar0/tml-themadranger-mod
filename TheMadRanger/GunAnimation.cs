@@ -91,6 +91,10 @@ namespace TheMadRanger {
 		////////////////
 
 		public float GetAddedRotationDegrees() {
+			if( this.IsReloading ) {
+				return 90;
+			}
+
 			int recoilDeg = this.RecoilDuration <= 15
 				? this.RecoilDuration
 				: 0;
@@ -98,6 +102,7 @@ namespace TheMadRanger {
 			float degrees = this.HolsterTwirlAddedRotationDegrees
 				+ this.MiscAddedRotationDegrees
 				+ recoilDeg;
+
 			return degrees % 360;
 		}
 
