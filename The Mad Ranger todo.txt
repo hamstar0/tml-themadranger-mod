@@ -14,8 +14,8 @@ v1
 -	Implement gun cylinder capacity + reloading
 	-	Add key binding for reloading
 	-	Animate reloading (+shells ejecting)
+		-	Animate shot loading
 		-	Add shell eject
-		-	Create sprite
 
 		-	Define animation sequence
 	-	Implement auto reload

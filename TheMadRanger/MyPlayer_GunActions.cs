@@ -21,7 +21,7 @@ namespace TheMadRanger {
 			Item heldItem = player.HeldItem;
 			var myitem = (TheMadRangerItem)heldItem.modItem;
 
-			return myitem.OpenCylinder();
+			return myitem.OpenCylinder( player );
 		}
 
 		public static bool AttemptGunReloadRound( Player player ) {
@@ -35,7 +35,7 @@ namespace TheMadRanger {
 			Item heldItem = player.HeldItem;
 			var myitem = (TheMadRangerItem)heldItem.modItem;
 
-			return myitem.CloseCylinder();
+			return myitem.CloseCylinder( player );
 		}
 
 
