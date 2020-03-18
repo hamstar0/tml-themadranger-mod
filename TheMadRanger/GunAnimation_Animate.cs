@@ -11,8 +11,6 @@ namespace TheMadRanger {
 			float degrees;
 
 			if( this.IsReloading ) {
-				var myitem = plr.HeldItem.modItem as TheMadRangerItem;
-
 				if( plr.direction > 0 ) {
 					degrees = this.ReloadingRounds ? 90f : 270f;
 				} else {
@@ -29,6 +27,14 @@ namespace TheMadRanger {
 			}
 
 			return degrees % 360;
+		}
+
+		public Vector2 GetAddedPositionOffset( Player plr ) {
+			if( this.IsReloading && this.ReloadingRounds ) {
+				return new Vector2( 0f, 16f );
+			}
+
+			return default( Vector2 );
 		}
 
 		public float GetAddedRotationRadians( Player plr ) {

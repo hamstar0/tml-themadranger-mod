@@ -5,7 +5,6 @@ using Terraria;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
 using TheMadRanger.Items.Weapons;
-using TheMadRanger.Helpers.Misc;
 
 
 namespace TheMadRanger {

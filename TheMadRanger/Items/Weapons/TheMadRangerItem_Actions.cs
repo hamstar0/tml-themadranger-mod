@@ -1,6 +1,5 @@
 using System.Linq;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ModLoader;
 using TheMadRanger.Helpers.Misc;
 

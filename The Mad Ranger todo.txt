@@ -17,8 +17,8 @@ v1
 	-	Animate reloading (+shells ejecting)
 		-	Animate shot loading
 		-	Animate shell eject
-		-	Fix reload rotation phases
 
+		-	Fix reload rotation phases
 		-	Add individual round reloading
 		-	Add shell eject stage
 		-	Define animation sequence

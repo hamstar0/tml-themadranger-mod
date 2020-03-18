@@ -49,6 +49,7 @@ namespace TheMadRanger {
 			Player plr = plrDrawInfo.drawPlayer;
 			Texture2D itemTex = Main.itemTexture[ ModContent.ItemType<TheMadRangerItem>() ];
 
+			Vector2 offset = this.GetAddedPositionOffset( plr );
 			Vector2 origin = new Vector2( itemTex.Width/2, itemTex.Height/2 );
 
 			//double progress = 1d - ( (double)this.HolsterDuration / (double)this.HolsterDurationMax );
@@ -59,7 +60,10 @@ namespace TheMadRanger {
 
 			//float curve = (float)Math.Sin( progress * Math.PI );
 
-			Vector2 pos = plr.MountedCenter + new Vector2(plr.direction * 8, 0) - Main.screenPosition;
+			Vector2 pos = plr.MountedCenter
+				+ new Vector2(plr.direction * 8, 0)
+				+ new Vector2(plr.direction * offset.X, offset.Y)
+				- Main.screenPosition;
 			float rot = this.GetAddedRotationRadians( plr );
 
 			DrawData getDrawData( Texture2D tex, Color color ) {
