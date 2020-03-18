@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using HamstarHelpers.Helpers.Debug;
+using TheMadRanger.Helpers.Misc;
 
 
 namespace TheMadRanger {
@@ -43,11 +44,6 @@ namespace TheMadRanger {
 
 		////
 
-		public SoundStyle TwirlSound { get; private set; } = null;
-
-
-		////
-
 		public PlayerLayer GunDrawLayer { get; }
 		public PlayerLayer ArmsShiftLayer { get; }
 		public PlayerLayer ArmsUnshiftLayer { get; }
@@ -67,7 +63,7 @@ namespace TheMadRanger {
 				Main.playerDrawData.Add( this.DrawGun(plrDrawInfo) );
 			} );
 
-			Rectangle unshiftedBodyFrame = default(Rectangle);
+			var unshiftedBodyFrame = default(Rectangle);
 
 			Action<PlayerDrawInfo> shiftAction = ( plrDrawInfo ) => {
 				unshiftedBodyFrame = plrDrawInfo.drawPlayer.bodyFrame;
@@ -114,14 +110,7 @@ namespace TheMadRanger {
 				return;
 			}
 
-			if( this.TwirlSound == null ) {
-				this.TwirlSound = TMRMod.Instance.GetLegacySoundSlot(
-					Terraria.ModLoader.SoundType.Custom,
-					"Sounds/Custom/RevolverTwirl"
-				).WithVolume( 0.65f );
-			}
-
-			Main.PlaySound( (LegacySoundStyle)this.TwirlSound, plr.Center );
+			SoundHelpers.PlaySound( "RevolverTwirl", plr.Center, 0.65f );
 		}
 	}
 }

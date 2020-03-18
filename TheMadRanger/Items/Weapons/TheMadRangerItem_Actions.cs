@@ -2,6 +2,7 @@ using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
+using TheMadRanger.Helpers.Misc;
 
 
 namespace TheMadRanger.Items.Weapons {
@@ -19,24 +20,10 @@ namespace TheMadRanger.Items.Weapons {
 			bool hasShot = false;
 
 			if( this.CylinderShoot() ) {
-				if( this.FireSound == null ) {
-					this.FireSound = TMRMod.Instance.GetLegacySoundSlot(
-						Terraria.ModLoader.SoundType.Custom,
-						"Sounds/Custom/RevolverFire"
-					).WithVolume( 0.2f );
-				}
-
-				Main.PlaySound( (LegacySoundStyle)this.FireSound, player.Center );
+				SoundHelpers.PlaySound( "RevolverFire", player.Center, 0.2f );
 				hasShot = true;
 			} else {
-				if( this.DryFireSound == null ) {
-					this.DryFireSound = TMRMod.Instance.GetLegacySoundSlot(
-						Terraria.ModLoader.SoundType.Custom,
-						"Sounds/Custom/RevolverDryFire"
-					).WithVolume( 0.2f );
-				}
-
-				Main.PlaySound( (LegacySoundStyle)this.DryFireSound, player.Center );
+				SoundHelpers.PlaySound( "RevolverDryFire", player.Center, 0.2f );
 				hasShot = false;
 			}
 
@@ -48,28 +35,14 @@ namespace TheMadRanger.Items.Weapons {
 		////
 
 		public bool OpenCylinder( Player player ) {
-			if( this.ReloadBeginSound == null ) {
-				this.ReloadBeginSound = TMRMod.Instance.GetLegacySoundSlot(
-					Terraria.ModLoader.SoundType.Custom,
-					"Sounds/Custom/RevolverReloadBegin"
-				).WithVolume( 0.5f );
-			}
-
-			Main.PlaySound( (LegacySoundStyle)this.ReloadBeginSound, player.Center );
+			SoundHelpers.PlaySound( "RevolverReloadBegin", player.Center, 0.5f );
 
 			this.IsCylinderOpen = true;
 			return true;
 		}
 
 		public bool CloseCylinder( Player player ) {
-			if( this.ReloadEndSound == null ) {
-				this.ReloadEndSound = TMRMod.Instance.GetLegacySoundSlot(
-					Terraria.ModLoader.SoundType.Custom,
-					"Sounds/Custom/RevolverDryFire"
-				).WithVolume( 0.2f );
-			}
-
-			Main.PlaySound( (LegacySoundStyle)this.ReloadEndSound, player.Center );
+			SoundHelpers.PlaySound( "RevolverDryFire", player.Center, 0.2f );
 
 			this.IsCylinderOpen = false;
 			return true;
@@ -81,15 +54,8 @@ namespace TheMadRanger.Items.Weapons {
 			int initPos = this.CylinderPos;
 
 			do {
-				if( this.CylinderReload() ) {
-					if( this.ReloadRoundSound == null ) {
-						this.ReloadRoundSound = TMRMod.Instance.GetLegacySoundSlot(
-							Terraria.ModLoader.SoundType.Custom,
-							"Sounds/Custom/RevolverReloadRound"
-						).WithVolume( 1f );
-					}
-
-					Main.PlaySound( (LegacySoundStyle)this.ReloadRoundSound, player.Center );
+				if( !this.CylinderReload() ) {
+					SoundHelpers.PlaySound( "RevolverReloadRound", player.Center, 1f );
 
 					return true;
 				}

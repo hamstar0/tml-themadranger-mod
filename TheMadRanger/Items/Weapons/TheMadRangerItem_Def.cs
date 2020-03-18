@@ -1,3 +1,4 @@
+using HamstarHelpers.Helpers.Debug;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -20,12 +21,6 @@ namespace TheMadRanger.Items.Weapons {
 		private int CylinderPos = 0;
 
 		private int ElapsedTimeSinceLastShotAttempt = 0;
-
-		private SoundStyle FireSound;
-		private SoundStyle DryFireSound;
-		private SoundStyle ReloadBeginSound;
-		private SoundStyle ReloadRoundSound;
-		private SoundStyle ReloadEndSound;
 
 
 		////////////////
@@ -104,6 +99,7 @@ namespace TheMadRanger.Items.Weapons {
 
 		public override void UpdateInventory( Player player ) {
 			this.ElapsedTimeSinceLastShotAttempt++;
+DebugHelpers.Print( "cylinder", this.CylinderPos+" - "+string.Join( ", ", this.Cylinder) );
 		}
 
 
