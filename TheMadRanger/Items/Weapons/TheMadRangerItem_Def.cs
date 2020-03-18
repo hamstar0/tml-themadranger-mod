@@ -103,13 +103,19 @@ DebugHelpers.Print( "cylinder", this.CylinderPos+" - "+string.Join( ", ", this.C
 		////////////////
 
 		public override bool CanUseItem( Player player ) {
-Main.NewText("1");
 			return player.GetModPlayer<TMRPlayer>().CanAttemptToShootGun();
 		}
 
-		public override bool Shoot( Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack ) {
-Main.NewText("2");
-			return player.GetModPlayer<TMRPlayer>().CanShootGun();
+		public override bool Shoot(
+					Player player,
+					ref Vector2 position,
+					ref float speedX,
+					ref float speedY,
+					ref int type,
+					ref int damage,
+					ref float knockBack ) {
+			bool canShoot = this.AttemptGunShot( player, ref speedX, ref speedY, ref damage, ref knockBack );
+			return canShoot;
 		}
 
 

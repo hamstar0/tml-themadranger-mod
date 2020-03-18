@@ -78,7 +78,7 @@ namespace TheMadRanger {
 
 
 		////////////////
-		
+
 		public override void ModifyDrawLayers( List<PlayerLayer> layers ) {
 			if( TMRPlayer.IsHoldingGun(this.player) ) {
 				(bool isAimWithinArc, int aimDir) aim = this.ApplyGunAim();
