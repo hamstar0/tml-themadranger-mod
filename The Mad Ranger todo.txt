@@ -3,19 +3,21 @@ v1.1
 -	Add holster twirl animation tweak
 -	Block hold style items while holstering
 -	Cache PlayerLayers
+-	Draw gunshot smoke
 v1
 -	@B&D: Diluted Ectoplasm in pots
 -	@MH: Debug MH "bad mods" route
 -	@Test in MP
 -	Sync aim position
 -	Set Bandolier to have ammo limit + require reloads from the Guide
--	Draw gunshot flash + smokes
+-	Draw gunshot flash
 -	Implement 'quick draw' aim mode
 -	Implement gun cylinder capacity + reloading
 	-	Add key binding for reloading
 	-	Animate reloading (+shells ejecting)
 		-	Animate shot loading
 		-	Animate shell eject
+		-	Fix reload rotation phases
 
 		-	Add individual round reloading
 		-	Add shell eject stage

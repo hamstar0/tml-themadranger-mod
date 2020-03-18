@@ -19,7 +19,7 @@ namespace TheMadRanger.Items.Weapons {
 
 			bool hasShot = false;
 
-			if( this.CylinderShoot() ) {
+			if( this.CylinderShootOnce() ) {
 				SoundHelpers.PlaySound( "RevolverFire", player.Center, 0.2f );
 				hasShot = true;
 			} else {
@@ -35,67 +35,72 @@ namespace TheMadRanger.Items.Weapons {
 
 		////////////////
 
-		public bool ReloadRound( Player player ) {
-			int initPos = this.CylinderPos;
-			bool hasReloaded = false;
-
-			do {
-				if( this.CylinderReload() ) {
-					hasReloaded = true;
-					SoundHelpers.PlaySound( "RevolverReloadRound", player.Center, 1f );
-					break;
-				}
-			} while( this.CylinderPos != initPos );
-
-			return hasReloaded;
+		public void OpenCylinder( Player player ) {
+			SoundHelpers.PlaySound( "RevolverReloadBegin", player.Center, 0.5f );
 		}
 
-		////
-
-		public int UnloadCylinder( Player player ) {
+		public (int Shells, int Rounds) UnloadCylinder( Player player ) {
 			int liveRounds = 0;
+			int shells = 0;
 
 			for( int i=0; i<this.Cylinder.Length; i++ ) {
 				if( this.Cylinder[i] >= 1 ) {
-					liveRounds += this.Cylinder[i];
+					liveRounds += 1;	//this.Cylinder[i];?
+				} else {
+					shells += 1;
 				}
 				this.Cylinder[i] = 0;
 			}
 
-			return liveRounds;
+			return (shells, liveRounds);
 		}
 
-		public bool CloseCylinder( Player player ) {
+		public void CloseCylinder( Player player ) {
 			SoundHelpers.PlaySound( "RevolverDryFire", player.Center, 0.2f );
+		}
 
-			return true;
+		////
+
+		public bool InsertRound( Player player ) {
+			bool hasInserted = false;
+			int initPos = this.CylinderIdx;
+
+			do {
+				if( this.CylinderInsertOnce() ) {
+					hasInserted = true;
+					SoundHelpers.PlaySound( "RevolverReloadRound", player.Center, 1f );
+					break;
+				}
+			} while( this.CylinderIdx != initPos );
+
+			return hasInserted;
 		}
 
 
 		////////////////
 
-		private bool CylinderShoot() {
-			int roundSlot = this.Cylinder[ this.CylinderPos ];
+		private bool CylinderShootOnce() {
+			int roundSlot = this.Cylinder[ this.CylinderIdx ];
 
 			if( roundSlot == 1 ) {
-				this.Cylinder[this.CylinderPos] = -1;
+				this.Cylinder[this.CylinderIdx] = -1;
 			}
 
-			this.CylinderPos = (this.CylinderPos + 1) % 6;
+			this.CylinderIdx = (this.CylinderIdx + 1) % this.Cylinder.Length;
 
 			return roundSlot == 1;
 		}
 
 		////
 
-		private bool CylinderReload() {
-			int roundSlot = this.Cylinder[ this.CylinderPos ];
+		private bool CylinderInsertOnce() {
+			int roundSlot = this.Cylinder[ this.CylinderIdx ];
 
 			if( roundSlot == 0 ) {
-				this.Cylinder[this.CylinderPos] = 1;
+				this.Cylinder[this.CylinderIdx] = 1;
 			}
 
-			this.CylinderPos = (this.CylinderPos + 1) % 6;
+			this.CylinderIdx = (this.CylinderIdx + 1) % this.Cylinder.Length;
 
 			return roundSlot == 0;
 		}

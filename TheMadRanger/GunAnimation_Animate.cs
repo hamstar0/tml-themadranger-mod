@@ -14,9 +14,9 @@ namespace TheMadRanger {
 				var myitem = plr.HeldItem.modItem as TheMadRangerItem;
 
 				if( plr.direction > 0 ) {
-					degrees = myitem?.IsCylinderEmpty() == true ? 90f : 270f;
+					degrees = this.ReloadingRounds ? 90f : 270f;
 				} else {
-					degrees = myitem?.IsCylinderEmpty() == true ? 270f : 90f;
+					degrees = this.ReloadingRounds ? 270f : 90f;
 				}
 			} else {
 				int recoilDeg = this.RecoilDuration <= 15
@@ -63,7 +63,7 @@ namespace TheMadRanger {
 				this.RecoilDuration--;
 			}
 
-			this.UpdateReload( plr );
+			this.UpdateReloadingSequence( plr );
 
 			if( this.MiscAddedRotationDegrees != 0f ) {
 				this.MiscAddedRotationDegrees -= Math.Sign( this.MiscAddedRotationDegrees ) / 3f;
@@ -81,6 +81,7 @@ namespace TheMadRanger {
 
 			if( this.ReloadDuration > 0 ) {
 				this.ReloadDuration = 0;
+				this.ReloadingRounds = false;
 			}
 
 			if( this.MiscAddedRotationDegrees != 0f ) {
@@ -89,9 +90,9 @@ namespace TheMadRanger {
 		}
 
 
-		////
+		////////////////
 
-		private void UpdateReload( Player plr ) {
+		private void UpdateReloadingSequence( Player plr ) {
 			if( this.ReloadDuration == 0 ) {
 				return;
 			}
@@ -101,19 +102,27 @@ namespace TheMadRanger {
 				return;
 			}
 
-			var myitem = plr.HeldItem.modItem as TheMadRangerItem;
-			if( !myitem.IsCylinderEmpty() ) {
-				this.ReloadDuration = TMRConfig.Instance.ReloadRoundTickDuration;
-				myitem.UnloadCylinder( plr );
+			var myitem = (TheMadRangerItem)plr.HeldItem.modItem;
+			if( myitem == null ) {
 				return;
 			}
 
-			if( TMRPlayer.AttemptGunReloadRound( plr ) ) {
+			if( !this.ReloadingRounds ) {
+				if( !myitem.IsCylinderEmpty() ) {
+					myitem.UnloadCylinder( plr );   // TODO: Recycle bullets
+					this.ReloadDuration = TMRConfig.Instance.ReloadRoundTickDuration;
+					this.ReloadingRounds = true;
+					return;
+				}
+			}
+
+			if( myitem.InsertRound( plr ) ) {
 				this.ReloadDuration = TMRConfig.Instance.ReloadRoundTickDuration;
 				return;
 			} else {
-				TMRPlayer.AttemptGunReloadEnd( plr );
+				myitem.CloseCylinder( plr );
 				this.ReloadDuration = 0;
+				this.ReloadingRounds = false;
 			}
 		}
 	}

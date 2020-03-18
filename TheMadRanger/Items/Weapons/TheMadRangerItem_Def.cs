@@ -19,7 +19,7 @@ namespace TheMadRanger.Items.Weapons {
 
 		private int[] Cylinder = new int[6] { 1, 1, 1, 1, 1, 1 };
 
-		private int CylinderPos = 0;
+		private int CylinderIdx = 0;
 
 		private int ElapsedTimeSinceLastShotAttempt = 0;
 
@@ -73,18 +73,21 @@ namespace TheMadRanger.Items.Weapons {
 				return;
 			}
 
-			this.CylinderPos = tag.GetInt( "cylinder_idx" );
+			this.CylinderIdx = tag.GetInt( "cylinder_idx" );
 
-			for( int i = 0; i < 6; i++ ) {
+			for( int i = 0; i < this.Cylinder.Length; i++ ) {
+				if( !tag.ContainsKey("cylinder_round_" + i) ) {
+					break;
+				}
 				this.Cylinder[i] = tag.GetInt( "cylinder_round_" + i );
 			}
 		}
 
 		public override TagCompound Save() {
 			var tag = new TagCompound {
-				{ "cylinder_idx", this.CylinderPos }
+				{ "cylinder_idx", this.CylinderIdx }
 			};
-			for( int i=0; i<6; i++ ) {
+			for( int i = 0; i < this.Cylinder.Length; i++ ) {
 				tag["cylinder_round_" + i ] = this.Cylinder[i];
 			}
 
@@ -96,7 +99,7 @@ namespace TheMadRanger.Items.Weapons {
 
 		public override void UpdateInventory( Player player ) {
 			this.ElapsedTimeSinceLastShotAttempt++;
-DebugHelpers.Print( "cylinder", this.CylinderPos+" - "+string.Join( ", ", this.Cylinder) );
+DebugHelpers.Print( "cylinder", this.CylinderIdx+" - "+string.Join( ", ", this.Cylinder) );
 		}
 
 
@@ -122,7 +125,7 @@ DebugHelpers.Print( "cylinder", this.CylinderPos+" - "+string.Join( ", ", this.C
 		////
 
 		public bool IsCylinderEmpty() {
-			return this.Cylinder.Any( c => c != 0 );
+			return this.Cylinder.All( c => c == 0 );
 		}
 	}
 }

@@ -22,29 +22,6 @@ namespace TheMadRanger {
 
 		////////////////
 
-		public static bool AttemptGunReloadBegin( Player player ) {
-			SoundHelpers.PlaySound( "RevolverReloadBegin", player.Center, 0.5f );
-
-			return true;
-		}
-
-		public static bool AttemptGunReloadRound( Player player ) {
-			Item heldItem = player.HeldItem;
-			var myitem = (TheMadRangerItem)heldItem.modItem;
-
-			return myitem.ReloadRound( player );
-		}
-
-		public static bool AttemptGunReloadEnd( Player player ) {
-			Item heldItem = player.HeldItem;
-			var myitem = (TheMadRangerItem)heldItem.modItem;
-
-			return myitem.CloseCylinder( player );
-		}
-
-
-		////////////////
-
 		public static int AimGunForBodyFrameY( Player plr ) {
 			int frameY;
 			float rotDir = plr.itemRotation * (float)plr.direction;

@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using HamstarHelpers.Helpers.Debug;
 using TheMadRanger.Helpers.Misc;
+using TheMadRanger.Items.Weapons;
 
 
 namespace TheMadRanger {
@@ -23,6 +24,8 @@ namespace TheMadRanger {
 		////
 
 		public int ReloadDuration { get; private set; } = 0;
+
+		public bool ReloadingRounds { get; private set; } = false;
 
 
 
@@ -99,9 +102,10 @@ namespace TheMadRanger {
 		}
 
 		public void BeginReload( Player plr ) {
-			if( TMRPlayer.AttemptGunReloadBegin(plr) ) {
-				this.ReloadDuration = TMRConfig.Instance.ReloadInitTickDuration;
-			}
+			var myitem = (TheMadRangerItem)plr.HeldItem.modItem;
+
+			myitem.OpenCylinder( plr );
+			this.ReloadDuration = TMRConfig.Instance.ReloadInitTickDuration;
 		}
 
 		public void BeginHolster( Player plr ) {
