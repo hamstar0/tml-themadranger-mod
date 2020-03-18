@@ -30,12 +30,12 @@ namespace TheMadRanger {
 		/*internal float RotRad = 0f;
 		internal int RotDeg = 0;
 		public override void PostSetupContent() {
-			CustomHotkeys.BindActionToKey1( "BigIronRotAngInc", () => {
+			CustomHotkeys.BindActionToKey1( "TheMadRangerRotAngInc", () => {
 				this.RotRad += 0.0174533f;
 				this.RotDeg += 1;
 				Main.NewText( "+1 deg ("+this.RotDeg+")" );
 			} );
-			CustomHotkeys.BindActionToKey2( "BigIronRotAngDec", () => {
+			CustomHotkeys.BindActionToKey2( "TheMadRangerRotAngDec", () => {
 				this.RotRad -= 0.0174533f;
 				this.RotDeg -= 1;
 				Main.NewText( "-1 deg ("+this.RotDeg+")" );

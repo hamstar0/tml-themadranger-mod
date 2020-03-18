@@ -16,6 +16,8 @@ namespace TheMadRanger.Items.Weapons {
 				}
 			}
 
+			bool hasShot = false;
+
 			if( this.CylinderShoot() ) {
 				if( this.FireSound == null ) {
 					this.FireSound = TMRMod.Instance.GetLegacySoundSlot(
@@ -25,6 +27,7 @@ namespace TheMadRanger.Items.Weapons {
 				}
 
 				Main.PlaySound( (LegacySoundStyle)this.FireSound, player.Center );
+				hasShot = true;
 			} else {
 				if( this.DryFireSound == null ) {
 					this.DryFireSound = TMRMod.Instance.GetLegacySoundSlot(
@@ -34,11 +37,12 @@ namespace TheMadRanger.Items.Weapons {
 				}
 
 				Main.PlaySound( (LegacySoundStyle)this.DryFireSound, player.Center );
+				hasShot = false;
 			}
 
 			this.ElapsedTimeSinceLastShotAttempt = 0;
 
-			return true;
+			return hasShot;
 		}
 
 		////

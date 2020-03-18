@@ -60,7 +60,7 @@ namespace TheMadRanger {
 			//float curve = (float)Math.Sin( progress * Math.PI );
 
 			Vector2 pos = plr.MountedCenter + new Vector2(plr.direction * 8, 0) - Main.screenPosition;
-			float rot = this.GetAddedRotationRadians();
+			float rot = this.GetAddedRotationRadians( plr );
 
 			DrawData getDrawData( Texture2D tex, Color color ) {
 				return new DrawData(
@@ -82,7 +82,7 @@ namespace TheMadRanger {
 			int lightTileY = (int)( ( plr.position.Y + ( (float)plr.height * 0.5f ) ) / 16f );
 			Color plrLight = Lighting.GetColor( lightTileX, lightTileY );
 			//ItemSlot.GetItemLight( ref plrLight, plr.HeldItem, false );
-			//Color itemLight = BigIronPlayer.GetItemLightColor( plr, plrLight );
+			//Color itemLight = TMRPlayer.GetItemLightColor( plr, plrLight );
 
 			return getDrawData( itemTex, plrLight );
 		}

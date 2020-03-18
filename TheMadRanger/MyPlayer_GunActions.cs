@@ -121,7 +121,7 @@ namespace TheMadRanger {
 				}
 			}
 
-			float addedRotDeg = this.GunAnim.GetAddedRotationDegrees();
+			float addedRotDeg = this.GunAnim.GetAddedRotationDegrees( plr );
 			if( addedRotDeg != 0f ) {
 				plr.itemRotation = MathHelper.ToDegrees( plr.itemRotation ) - (float)( plr.direction * addedRotDeg );
 				plr.itemRotation = MathHelper.ToRadians( plr.itemRotation );

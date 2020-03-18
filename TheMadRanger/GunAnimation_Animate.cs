@@ -2,13 +2,17 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using HamstarHelpers.Helpers.Debug;
+using TheMadRanger.Items.Weapons;
 
 
 namespace TheMadRanger {
 	partial class GunAnimation {
-		public float GetAddedRotationDegrees() {
+		public float GetAddedRotationDegrees( Player plr ) {
 			if( this.IsReloading ) {
-				return 90;
+				var myitem = plr.HeldItem.modItem as TheMadRangerItem;
+				return myitem?.IsCylinderOpen == true
+					? 270
+					: 90;
 			}
 
 			int recoilDeg = this.RecoilDuration <= 15
@@ -22,8 +26,8 @@ namespace TheMadRanger {
 			return degrees % 360;
 		}
 
-		public float GetAddedRotationRadians() {
-			return MathHelper.ToRadians( this.GetAddedRotationDegrees() );
+		public float GetAddedRotationRadians( Player plr ) {
+			return MathHelper.ToRadians( this.GetAddedRotationDegrees(plr) );
 		}
 
 
@@ -59,7 +63,7 @@ namespace TheMadRanger {
 					this.ReloadDuration--;
 				} else {
 					if( TMRPlayer.AttemptGunReloadRound(plr) ) {
-						this.ReloadDuration = BigIronConfig.Instance.ReloadRoundTickDuration;
+						this.ReloadDuration = TMRConfig.Instance.ReloadRoundTickDuration;
 					} else {
 						TMRPlayer.AttemptGunReloadEnd( plr );
 					}

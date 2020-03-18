@@ -66,7 +66,7 @@ namespace TheMadRanger.Items.Weapons {
 			//	.WithVolume( 0.25f );
 			////.WithPitchVariance( 0.5f );
 
-			this.item.damage = BigIronConfig.Instance.MaximumGunDamage;
+			this.item.damage = TMRConfig.Instance.MaximumGunDamage;
 			this.item.knockBack = 4;
 
 			this.item.rare = 2;
@@ -110,7 +110,7 @@ namespace TheMadRanger.Items.Weapons {
 		////////////////
 
 		public override bool CanUseItem( Player player ) {
-			return !player.GetModPlayer<TMRPlayer>().CanShootGun();
+			return player.GetModPlayer<TMRPlayer>().CanShootGun();
 		}
 	}
 }

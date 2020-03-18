@@ -13,16 +13,12 @@ namespace TheMadRanger {
 		}
 
 
-		public bool ShootGun(
+		public void AttemptGunShot(
 					Item item,
 					ref float speedX,
 					ref float speedY,
 					ref int damage,
 					ref float knockBack ) {
-			if( this.GunAnim.IsAnimating ) {
-				return false;
-			}
-
 			bool wantsReload;
 			var myitem = (TheMadRangerItem)item.modItem;
 
@@ -30,7 +26,7 @@ namespace TheMadRanger {
 				if( wantsReload ) {
 					this.GunAnim.BeginReload( this.player );
 				}
-				return true;
+				return;
 			}
 
 			float shakeAddedRads = this.AimMode.GetAimStateShakeAddedRadians( false );
@@ -43,8 +39,6 @@ namespace TheMadRanger {
 			damage = this.AimMode.GetAimStateShakeDamage( damage );
 
 			this.GunAnim.BeginRecoil( MathHelper.ToDegrees(shakeAddedRads) * -this.player.direction );
-
-			return true;
 		}
 	}
 }

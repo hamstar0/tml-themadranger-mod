@@ -11,7 +11,7 @@ namespace TheMadRanger {
 	class PlayerAimMode {
 		public static float ComputeAimShakeMaxConeRadians() {
 			UnifiedRandom rand = TmlHelpers.SafelyGetRand();
-			float radRange = MathHelper.ToRadians( BigIronConfig.Instance.UnaimedConeDegreesRange );
+			float radRange = MathHelper.ToRadians( TMRConfig.Instance.UnaimedConeDegreesRange );
 
 			return (rand.NextFloat() * radRange) - (radRange * 0.5f);
 		}
@@ -20,7 +20,7 @@ namespace TheMadRanger {
 
 		////////////////
 
-		public bool IsModeActive => this.AimElapsed >= BigIronConfig.Instance.TickDurationUntilAimModeWhileIdling;
+		public bool IsModeActive => this.AimElapsed >= TMRConfig.Instance.TickDurationUntilAimModeWhileIdling;
 
 
 		////////////////
@@ -44,7 +44,7 @@ namespace TheMadRanger {
 			if( (this.LastAimMousePosition - mousePos).LengthSquared() > 1f ) {
 				this.AimElapsed = Math.Max( this.AimElapsed - 0.5f, 0f );
 			} else {
-				this.AimElapsed = Math.Min( this.AimElapsed + 1f, (float)BigIronConfig.Instance.TickDurationUntilAimModeWhileIdling );
+				this.AimElapsed = Math.Min( this.AimElapsed + 1f, (float)TMRConfig.Instance.TickDurationUntilAimModeWhileIdling );
 			}
 
 			this.LastAimMousePosition = mousePos;

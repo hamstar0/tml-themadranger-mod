@@ -11,8 +11,8 @@ namespace TheMadRanger {
 
 
 
-	public partial class BigIronConfig : StackableModConfig {
-		public static BigIronConfig Instance => ModConfigStack.GetMergedConfigs<BigIronConfig>();
+	public partial class TMRConfig : StackableModConfig {
+		public static TMRConfig Instance => ModConfigStack.GetMergedConfigs<TMRConfig>();
 
 
 

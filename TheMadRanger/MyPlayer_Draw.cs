@@ -28,15 +28,15 @@ namespace TheMadRanger {
 			int handLayerIdx = layers.FindIndex( (lyr) => lyr == PlayerLayer.HandOnAcc );
 
 			if( itemLayerIdx != -1 ) {
-				plrLayer = new PlayerLayer( "BigIron", "Held Item", /*PlayerLayer.HeldItem,*/ itemLayer );
+				plrLayer = new PlayerLayer( "TheMadRanger", "Held Item", /*PlayerLayer.HeldItem,*/ itemLayer );
 				layers.Insert( itemLayerIdx + 1, plrLayer );
 			}
 			if( armLayerIdx != -1 ) {
-				plrLayer = new PlayerLayer( "BigIron", "Item Holding Arm", /*PlayerLayer.Arms,*/ armLayer );
+				plrLayer = new PlayerLayer( "TheMadRanger", "Item Holding Arm", /*PlayerLayer.Arms,*/ armLayer );
 				layers.Insert( armLayerIdx+1, plrLayer );
 			}
 			if( handLayerIdx != -1 ) {
-				plrLayer = new PlayerLayer( "BigIron", "Item Holding Hand", /*PlayerLayer.HandOnAcc,*/ handLayer );
+				plrLayer = new PlayerLayer( "TheMadRanger", "Item Holding Hand", /*PlayerLayer.HandOnAcc,*/ handLayer );
 				layers.Insert( handLayerIdx+1, plrLayer );
 			}
 
@@ -68,10 +68,10 @@ namespace TheMadRanger {
 				this.player.bodyFrame = oldFrame;
 			};
 
-			PlayerLayer preBodyLayer = new PlayerLayer( "BigIron", "Pre Torso Reframe", preLayerAction );
-			PlayerLayer postBodyLayer = new PlayerLayer( "BigIron", "Post Torso Reframe", postLayerAction );
-			PlayerLayer preSkinLayer = new PlayerLayer( "BigIron", "Pre Torso Skin Reframe", preLayerAction );
-			PlayerLayer postSkinLayer = new PlayerLayer( "BigIron", "Post Torso Skin Reframe", postLayerAction );
+			PlayerLayer preBodyLayer = new PlayerLayer( "TheMadRanger", "Pre Torso Reframe", preLayerAction );
+			PlayerLayer postBodyLayer = new PlayerLayer( "TheMadRanger", "Post Torso Reframe", postLayerAction );
+			PlayerLayer preSkinLayer = new PlayerLayer( "TheMadRanger", "Pre Torso Skin Reframe", preLayerAction );
+			PlayerLayer postSkinLayer = new PlayerLayer( "TheMadRanger", "Post Torso Skin Reframe", postLayerAction );
 
 			layers.Insert( bodyLayerIdx + 1, postBodyLayer );
 			layers.Insert( bodyLayerIdx, preBodyLayer );

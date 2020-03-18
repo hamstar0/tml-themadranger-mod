@@ -70,8 +70,12 @@ namespace TheMadRanger {
 			if( !TMRPlayer.IsHoldingGun(this.player) ) {
 				return true;
 			}
+			if( !this.CanShootGun() ) {
+				return true;
+			}
 
-			return this.ShootGun( item, ref speedX, ref speedY, ref damage, ref knockBack );
+			this.AttemptGunShot( item, ref speedX, ref speedY, ref damage, ref knockBack );
+			return true;
 		}
 
 
@@ -79,13 +83,13 @@ namespace TheMadRanger {
 
 		public override void SetupStartInventory( IList<Item> items, bool mediumcoreDeath ) {
 			if( !mediumcoreDeath ) {
-				if( BigIronConfig.Instance.PlayerSpawnsWithGun ) {
+				if( TMRConfig.Instance.PlayerSpawnsWithGun ) {
 					var revolver = new Item();
 					revolver.SetDefaults( ModContent.ItemType<TheMadRangerItem>() );
 
 					items.Add( revolver );
 				}
-				if( BigIronConfig.Instance.PlayerSpawnsWithBandolier ) {
+				if( TMRConfig.Instance.PlayerSpawnsWithBandolier ) {
 					var bandolier = new Item();
 					bandolier.SetDefaults( ModContent.ItemType<BandolierItem>() );
 

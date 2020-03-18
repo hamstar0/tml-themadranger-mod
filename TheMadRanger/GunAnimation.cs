@@ -63,7 +63,7 @@ namespace TheMadRanger {
 		////////////////
 		
 		public GunAnimation() {
-			this.GunDrawLayer = new PlayerLayer( "BigIron", "Custom Gun Animation", (plrDrawInfo) => {
+			this.GunDrawLayer = new PlayerLayer( "TheMadRanger", "Custom Gun Animation", (plrDrawInfo) => {
 				Main.playerDrawData.Add( this.DrawGun(plrDrawInfo) );
 			} );
 
@@ -77,14 +77,14 @@ namespace TheMadRanger {
 				plrDrawInfo.drawPlayer.bodyFrame = unshiftedBodyFrame;
 			};
 			
-			this.ArmsShiftLayer = new PlayerLayer( "BigIron", "Gun Holster Arms Shift Reframe", shiftAction );
-			this.ArmsUnshiftLayer = new PlayerLayer( "BigIron", "Gun Holster Arms Unshift Reframe", unshiftAction );
-			this.HandShiftLayer = new PlayerLayer( "BigIron", "Gun Holster Arm Shift Reframe", shiftAction );
-			this.HandUnshiftLayer = new PlayerLayer( "BigIron", "Gun Holster Arm Unshift Reframe", unshiftAction );
-			this.BodyShiftLayer = new PlayerLayer( "BigIron", "Gun Holster Torso Shift Reframe", shiftAction );
-			this.BodyUnshiftLayer = new PlayerLayer( "BigIron", "Gun Holster Torso Unshift Reframe", unshiftAction );
-			this.SkinShiftLayer = new PlayerLayer( "BigIron", "Gun Holster Torso Skin Shift Reframe", shiftAction );
-			this.SkinUnshiftLayer = new PlayerLayer( "BigIron", "Gun Holster Torso Skin Unshift Reframe", unshiftAction );
+			this.ArmsShiftLayer = new PlayerLayer( "TheMadRanger", "Gun Holster Arms Shift Reframe", shiftAction );
+			this.ArmsUnshiftLayer = new PlayerLayer( "TheMadRanger", "Gun Holster Arms Unshift Reframe", unshiftAction );
+			this.HandShiftLayer = new PlayerLayer( "TheMadRanger", "Gun Holster Arm Shift Reframe", shiftAction );
+			this.HandUnshiftLayer = new PlayerLayer( "TheMadRanger", "Gun Holster Arm Unshift Reframe", unshiftAction );
+			this.BodyShiftLayer = new PlayerLayer( "TheMadRanger", "Gun Holster Torso Shift Reframe", shiftAction );
+			this.BodyUnshiftLayer = new PlayerLayer( "TheMadRanger", "Gun Holster Torso Unshift Reframe", unshiftAction );
+			this.SkinShiftLayer = new PlayerLayer( "TheMadRanger", "Gun Holster Torso Skin Shift Reframe", shiftAction );
+			this.SkinUnshiftLayer = new PlayerLayer( "TheMadRanger", "Gun Holster Torso Skin Unshift Reframe", unshiftAction );
 		}
 
 
@@ -104,12 +104,12 @@ namespace TheMadRanger {
 
 		public void BeginReload( Player plr ) {
 			if( TMRPlayer.AttemptGunReloadBegin(plr) ) {
-				this.ReloadDuration = BigIronConfig.Instance.ReloadInitTickDuration;
+				this.ReloadDuration = TMRConfig.Instance.ReloadInitTickDuration;
 			}
 		}
 
 		public void BeginHolster( Player plr ) {
-			this.HolsterDuration = BigIronConfig.Instance.HolsterTwirlTickDuration;
+			this.HolsterDuration = TMRConfig.Instance.HolsterTwirlTickDuration;
 			if( this.HolsterDuration == 0 ) {
 				return;
 			}
