@@ -14,10 +14,15 @@ v1
 -	Implement 'quick draw' aim mode
 -	Implement gun cylinder capacity + reloading
 	-	Add key binding for reloading
+	-	Allow interrupting reloads
+	-	Set reload order to go in reverse
 	-	Animate reloading (+shells ejecting)
 		-	Animate shot loading
-		-	Animate shell eject
 
+		-	Animate shell eject
+			-	Spawn dusts
+			-	Define dust sprite
+			-	Define shell 'dust' template
 		-	Fix reload rotation phases
 		-	Add individual round reloading
 		-	Add shell eject stage

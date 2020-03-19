@@ -1,6 +1,10 @@
+using HamstarHelpers.Helpers.DotNET.Reflection;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using TheMadRanger.Gores;
 using TheMadRanger.Helpers.Misc;
 
 
@@ -35,6 +39,26 @@ namespace TheMadRanger.Items.Weapons {
 		////////////////
 
 		public void OpenCylinder( Player player ) {
+			int shellGoreSlot = this.mod.GetGoreSlot( "Gores/ShellCasing" );
+
+			Vector2 itemScrPos;
+			ReflectionHelpers.RunMethod(
+				Main.instance,
+				"DrawPlayerItemPos",
+				new object[] { player.gravDir, player.HeldItem.type },
+				out itemScrPos
+			);
+
+			Texture2D itemTex = Main.itemTexture[player.HeldItem.type];
+			var itemTexOffset = new Vector2( itemTex.Width / 2, itemScrPos.Y );
+
+			Vector2 itemWldPos = player.itemLocation + itemTexOffset;
+
+			for( int i=0; i<this.Cylinder.Length; i++ ) {
+				if( this.Cylinder[i] != -1 ) { continue; }
+				Gore.NewGore( itemWldPos, ShellCasing.GetVelocity(), shellGoreSlot, ShellCasing.GetScale() );
+			}
+
 			SoundHelpers.PlaySound( "RevolverReloadBegin", player.Center, 0.5f );
 		}
 
