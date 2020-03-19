@@ -9,9 +9,9 @@ using HamstarHelpers.Helpers.Debug;
 
 namespace TheMadRanger.Items.Weapons {
 	public partial class TheMadRangerItem : ModItem {
-		public static int Width { get; } = 24;
-		public static int Height { get; } = 16;
-		public static float Scale { get; } = 0.5f;
+		public static int Width { get; } = 28;
+		public static int Height { get; } = 14;
+		public static float Scale { get; } = 0.65f;
 
 
 
@@ -34,9 +34,9 @@ namespace TheMadRanger.Items.Weapons {
 
 		public override void SetStaticDefaults() {
 			this.DisplayName.SetDefault( "The Mad Ranger" );
-			this.Tooltip.SetDefault( "A temperamental gun from a far away land."
+			this.Tooltip.SetDefault( "An antique gun from a far away land."
 				+ "\nUnusually powerful; needs a steady hand"
-				+ "\nOnly uses a specific, manufactured ammo"
+				+ "\nOnly uses a particular, manufactured ammo"
 			);
 		}
 

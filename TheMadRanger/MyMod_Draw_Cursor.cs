@@ -17,7 +17,8 @@ namespace TheMadRanger {
 
 		////////////////
 
-		private float AnimDuration = -1f;
+		private float PreAimZoomAnimationPercent = 0f;
+		private float AimZoomAnimationDuration = -1f;
 		private AnimatedColors ColorAnim = null;
 
 
@@ -25,7 +26,14 @@ namespace TheMadRanger {
 		////////////////
 
 		public override void ModifyInterfaceLayers( List<GameInterfaceLayer> layers ) {
-			if( !this.RunAnimation() ) { return; }
+			bool isAiming = this.RunAimCursorAnimation();
+			bool isPreAiming = isAiming
+				? false
+				: this.RunPreAimCursorAnimation();
+
+			if( !isAiming && !isPreAiming ) {
+				return;
+			}
 
 			int idx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Cursor" ) );
 			if( idx == -1 ) { return; }
@@ -35,7 +43,11 @@ namespace TheMadRanger {
 			}
 
 			GameInterfaceDrawMethod draw = () => {
-				this.DrawAimCursor();
+				if( isPreAiming ) {
+					this.DrawPreAimCursor();
+				} else if( isAiming ) {
+					this.DrawAimCursor();
+				}
 				return true;
 			};
 			var interfaceLayer = new LegacyGameInterfaceLayer( "TheMadRanger: Crosshair", draw, InterfaceScaleType.UI );
@@ -46,25 +58,38 @@ namespace TheMadRanger {
 
 
 		////////////////
+
+		private bool RunPreAimCursorAnimation() {
+			var myplayer = Main.LocalPlayer.GetModPlayer<TMRPlayer>();
+			if( !myplayer.AimMode.IsModeBeingActivated || myplayer.AimMode.IsModeActive ) {
+				return false;
+			}
+
+			this.PreAimZoomAnimationPercent += 1f / 15f;
+			if( this.PreAimZoomAnimationPercent > 1f ) {
+				this.PreAimZoomAnimationPercent = 0f;
+			}
+			return true;
+		}
 		
-		private bool RunAnimation() {
+		private bool RunAimCursorAnimation() {
 			var myplayer = Main.LocalPlayer.GetModPlayer<TMRPlayer>();
 			if( !myplayer.AimMode.IsModeActive ) {
-				if( this.AnimDuration >= 0f && this.AnimDuration < TMRMod.CrosshairDurationTicksMax ) {
-					this.AnimDuration += 0.25f;
+				if( this.AimZoomAnimationDuration >= 0f && this.AimZoomAnimationDuration < TMRMod.CrosshairDurationTicksMax ) {
+					this.AimZoomAnimationDuration += 0.25f;
 				} else {
-					this.AnimDuration = -1f;
+					this.AimZoomAnimationDuration = -1f;
 				}
 
 				return false;
 			}
 
-			this.AnimDuration = (float)Math.Floor( this.AnimDuration );
+			this.AimZoomAnimationDuration = (float)Math.Floor( this.AimZoomAnimationDuration );
 
-			if( this.AnimDuration == -1f ) {
-				this.AnimDuration = TMRMod.CrosshairDurationTicksMax;
-			} else if( this.AnimDuration > 0 ) {
-				this.AnimDuration -= 1f;
+			if( this.AimZoomAnimationDuration == -1f ) {
+				this.AimZoomAnimationDuration = TMRMod.CrosshairDurationTicksMax;
+			} else if( this.AimZoomAnimationDuration > 0 ) {
+				this.AimZoomAnimationDuration -= 1f;
 			}
 
 			return true;
@@ -73,10 +98,29 @@ namespace TheMadRanger {
 
 		////////////////
 
+		private void DrawPreAimCursor() {
+			Texture2D tex = this.GetTexture( "crosshair" );
+
+			float zoomFocus = 1f - this.PreAimZoomAnimationPercent;
+			float scale = 0.5f + (0.25f * zoomFocus);
+
+			Main.spriteBatch.Draw(
+				texture: tex,
+				position: new Vector2( Main.mouseX, Main.mouseY ),
+				sourceRectangle: null,
+				color: Color.White * 0.025f * this.PreAimZoomAnimationPercent,
+				rotation: 0f,
+				origin: new Vector2( tex.Width / 2, tex.Height / 2 ),
+				scale: scale,
+				effects: SpriteEffects.None,
+				layerDepth: 0f
+			);
+		}
+
 		private void DrawAimCursor() {
 			Texture2D tex = this.GetTexture( "crosshair" );
 
-			float percentEmpty = this.AnimDuration / TMRMod.CrosshairDurationTicksMax;
+			float percentEmpty = this.AimZoomAnimationDuration / TMRMod.CrosshairDurationTicksMax;
 			float scale = 0.25f + (1.75f * percentEmpty );
 
 			Color color = this.ColorAnim.CurrentColor;

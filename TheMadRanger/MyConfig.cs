@@ -35,8 +35,8 @@ namespace TheMadRanger {
 
 
 		[Range( 1, 60 * 60 * 60 )]
-		[DefaultValue( 120 )]
-		public int TickDurationUntilAimModeWhileIdling { get; set; } = 120;
+		[DefaultValue( 90 )]
+		public int AimModeActivationDurationWhileIdling { get; set; } = 90;
 
 		[Range( 0, 60 * 60 )]
 		[DefaultValue( 60 )]

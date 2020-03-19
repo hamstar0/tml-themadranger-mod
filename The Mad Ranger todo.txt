@@ -12,9 +12,10 @@ v1
 -	Set Bandolier to have ammo limit + require reloads from the Guide
 -	Draw gunshot flash
 -	Implement 'quick draw' aim mode
--	Add indicator of 'is readying aim' for pre-aim mode
--	Update to new gun model
 
+-	Add indicator of 'is readying aim' for pre-aim mode
+-	Calibrate aim mode activation
+-	Update to new gun model
 -	Implement gun cylinder capacity + reloading
 	-	Add key binding for reloading
 	-	Allow interrupting reloads
