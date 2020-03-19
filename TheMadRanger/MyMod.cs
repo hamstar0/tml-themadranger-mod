@@ -16,8 +16,18 @@ namespace TheMadRanger {
 
 		////////////////
 
+		internal ModHotKey ReloadKey = null;
+
+
+
+		////////////////
+
 		public TMRMod() {
 			TMRMod.Instance = this;
+		}
+
+		public override void Load() {
+			this.ReloadKey = this.RegisterHotKey( "Reload", "R" );
 		}
 
 		public override void Unload() {
@@ -26,7 +36,7 @@ namespace TheMadRanger {
 
 
 		////////////////
-
+		
 		/*internal float RotRad = 0f;
 		internal int RotDeg = 0;
 		public override void PostSetupContent() {

@@ -106,11 +106,16 @@ namespace TheMadRanger {
 			this.RecoilDuration = 17;
 		}
 
-		public void BeginReload( Player plr ) {
+		public bool BeginReload( Player plr ) {
+			if( this.IsReloading ) { return false; }
+
 			var myitem = (TheMadRangerItem)plr.HeldItem.modItem;
+			if( myitem.IsCylinderFull() ) { return false; }
 
 			myitem.OpenCylinder( plr );
 			this.ReloadDuration = TMRConfig.Instance.ReloadInitTickDuration;
+
+			return true;
 		}
 
 		public void BeginHolster( Player plr ) {

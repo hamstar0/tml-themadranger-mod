@@ -13,9 +13,10 @@ v1
 -	Draw gunshot flash
 -	Implement 'quick draw' aim mode
 -	Add indicator of 'is readying aim' for pre-aim mode
+-	Update to new gun model
+
 -	Implement gun cylinder capacity + reloading
 	-	Add key binding for reloading
-
 	-	Allow interrupting reloads
 	-	Set reload order to go in reverse
 	-	Animate reloading (+shells ejecting)

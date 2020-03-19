@@ -124,6 +124,10 @@ DebugHelpers.Print( "cylinder", this.CylinderIdx+" - "+string.Join( ", ", this.C
 
 		////
 
+		public bool IsCylinderFull() {
+			return this.Cylinder.All( c => c == 1 );
+		}
+
 		public bool IsCylinderEmpty() {
 			return this.Cylinder.All( c => c == 0 );
 		}

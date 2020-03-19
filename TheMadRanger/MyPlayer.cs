@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.GameInput;
 using HamstarHelpers.Helpers.Debug;
 using TheMadRanger.Items.Weapons;
 using TheMadRanger.Items.Accessories;
@@ -53,6 +53,15 @@ namespace TheMadRanger {
 			} else {
 				this.GunAnim.UpdateUnequipped( this.player );
 				this.AimMode.CheckUnequippedAimState();
+			}
+		}
+
+
+		////////////////
+
+		public override void ProcessTriggers( TriggersSet triggersSet ) {
+			if( TMRMod.Instance.ReloadKey.JustPressed ) {
+				this.GunAnim.BeginReload( this.player );
 			}
 		}
 

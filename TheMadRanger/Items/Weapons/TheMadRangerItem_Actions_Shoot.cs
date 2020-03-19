@@ -22,6 +22,9 @@ namespace TheMadRanger.Items.Weapons {
 			}
 
 			if( myplayer.GunAnim.IsReloading ) {
+				if( !myplayer.GunAnim.ReloadingRounds ) {
+					return false;
+				}
 				myplayer.GunAnim.StopReloading( player );
 				this.ElapsedTimeSinceLastShotAttempt = 0;
 			}
