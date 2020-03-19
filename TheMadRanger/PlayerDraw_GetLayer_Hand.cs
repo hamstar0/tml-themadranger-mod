@@ -10,7 +10,11 @@ using HamstarHelpers.Helpers.Debug;
 
 namespace TheMadRanger {
 	partial class PlayerDraw {
-		public static IEnumerable<DrawData> GetPlayerLayerForHand( PlayerDrawInfo plrDrawInfo, Color plrLight, Rectangle plrBodyFrame, float shadow=0f ) {
+		public static IEnumerable<DrawData> GetPlayerLayerForHand(
+					PlayerDrawInfo plrDrawInfo,
+					Color plrLight,
+					Rectangle plrBodyFrame,
+					float shadow=0f ) {
 			DrawData drawData;
 
 			Player plr = plrDrawInfo.drawPlayer;
@@ -23,8 +27,7 @@ namespace TheMadRanger {
 				Vector2 pos = (plr.position - Main.screenPosition).Floor();
 				pos += plr.bodyPosition;
 				pos += new Vector2( plrBodyFrame.Width, plrBodyFrame.Height) * 0.5f;
-				pos.X += ( plrBodyFrame.Width / 2) - plrBodyFrame.Width / 2;
-				pos.Y += ( plrBodyFrame.Height + 4) + plr.height;
+				pos.Y += (plrBodyFrame.Height + 4) + plr.height;
 
 				drawData = new DrawData(
 					Main.accHandsOnTexture[(int)plr.handon],
@@ -52,12 +55,18 @@ namespace TheMadRanger {
 				&& (plr.itemAnimation > 0 || (plr.HeldItem.holdStyle > 0 && !plr.pulley));
 
 			if( canDrawClawItem ) {
-				Vector2 origin;
+				Vector2 itemOrigin;
 
 				if( plr.gravDir == -1f ) {
-					origin = new Vector2( ((float)itemTex.Width * 0.5f) - ((float)itemTex.Width * 0.5f * (float)plr.direction), 0f );
+					itemOrigin = new Vector2(
+						((float)itemTex.Width * 0.5f) - ((float)itemTex.Width * 0.5f * (float)plr.direction),
+						0f
+					);
 				} else {
-					origin = new Vector2( ((float)itemTex.Width * 0.5f) - ((float)itemTex.Width * 0.5f * (float)plr.direction), itemTex.Height );
+					itemOrigin = new Vector2(
+						((float)itemTex.Width * 0.5f) - ((float)itemTex.Width * 0.5f * (float)plr.direction),
+						itemTex.Height
+					);
 				}
 
 				drawData = new DrawData(
@@ -66,7 +75,7 @@ namespace TheMadRanger {
 					new Rectangle( 0, 0, itemTex.Width, itemTex.Height ),
 					plr.HeldItem.GetAlpha( plrLight ),
 					plr.itemRotation,
-					origin,
+					itemOrigin,
 					plr.HeldItem.scale,
 					plrDrawInfo.spriteEffects,
 					0

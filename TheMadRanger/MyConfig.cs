@@ -43,8 +43,8 @@ namespace TheMadRanger {
 		public int ReloadInitTickDuration { get; set; } = 60;
 
 		[Range( 0, 60 * 60 )]
-		[DefaultValue( 60 )]
-		public int ReloadRoundTickDuration { get; set; } = 60;
+		[DefaultValue( 30 )]
+		public int ReloadRoundTickDuration { get; set; } = 30;
 
 		[Range( 0, 60 * 60 )]
 		[DefaultValue( 60 )]

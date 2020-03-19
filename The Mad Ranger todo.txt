@@ -12,13 +12,14 @@ v1
 -	Set Bandolier to have ammo limit + require reloads from the Guide
 -	Draw gunshot flash
 -	Implement 'quick draw' aim mode
+-	Add indicator of 'is readying aim' for pre-aim mode
 -	Implement gun cylinder capacity + reloading
 	-	Add key binding for reloading
 	-	Allow interrupting reloads
 	-	Set reload order to go in reverse
+
 	-	Animate reloading (+shells ejecting)
 		-	Animate shot loading
-
 		-	Animate shell eject
 			-	Spawn dusts
 			-	Define dust sprite

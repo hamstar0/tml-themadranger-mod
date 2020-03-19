@@ -13,11 +13,11 @@ namespace TheMadRanger {
 	partial class GunAnimation {
 		public void ModifyDrawLayers( Player plr, List<PlayerLayer> layers ) {
 			if( this.IsAnimating ) {
-				this.ModifyDrawLayersForHolstering( plr, layers );
+				this.ModifyDrawLayersForAnimating( plr, layers );
 			}
 		}
 
-		private void ModifyDrawLayersForHolstering( Player plr, List<PlayerLayer> layers ) {
+		private void ModifyDrawLayersForAnimating( Player plr, List<PlayerLayer> layers ) {
 			int heldItemIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HeldItem );
 			int armsLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.Arms );
 			int handLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HandOnAcc );
@@ -39,13 +39,18 @@ namespace TheMadRanger {
 				layers.Insert( bodyLayerIdx, this.BodyShiftLayer );
 				layers.Insert( skinLayerIdx + 1, this.SkinUnshiftLayer );
 				layers.Insert( skinLayerIdx, this.SkinShiftLayer );
+
+				armsLayerIdx++;
+				handLayerIdx++;
+				bodyLayerIdx++;
+				skinLayerIdx++;
 			}
 		}
 
 
 		////////////////
 
-		public DrawData DrawGun( PlayerDrawInfo plrDrawInfo ) {
+		public DrawData GetGunDrawData( PlayerDrawInfo plrDrawInfo ) {
 			Player plr = plrDrawInfo.drawPlayer;
 			Texture2D itemTex = Main.itemTexture[ ModContent.ItemType<TheMadRangerItem>() ];
 
@@ -89,6 +94,46 @@ namespace TheMadRanger {
 			//Color itemLight = TMRPlayer.GetItemLightColor( plr, plrLight );
 
 			return getDrawData( itemTex, plrLight );
+		}
+
+
+		private DrawData? GetReloadDrawData( PlayerDrawInfo plrDrawInfo ) {
+			if( !this.IsReloading || !this.ReloadingRounds ) {
+				return null;
+			}
+			if( this.ReloadDuration > 15 ) {
+				return null;
+			}
+
+			Player plr = plrDrawInfo.drawPlayer;
+			Texture2D handTex;
+			Rectangle frame = plr.bodyFrame;
+			frame.Y = 0;
+
+			if( plr.handon <= 0 ) {
+				handTex = Main.playerTextures[ plr.skinVariant, 9 ];
+			} else {
+				handTex = Main.accHandsOnTexture[ (int)plr.handon ];
+			}
+
+			Vector2 pos = plr.MountedCenter
+				+ new Vector2( plr.direction * 18, -16 )
+				- new Vector2( frame.Width / 2, frame.Height / 2 )
+				- Main.screenPosition;
+			pos.Y += 5 - (this.ReloadDuration / 3);
+
+//Utils.DrawRectangle( Main.spriteBatch, pos+Main.screenPosition, pos+frame.BottomRight()+Main.screenPosition, Color.Blue, Color.Red, 1f );
+			return new DrawData(
+				texture: handTex,
+				position: pos,
+				sourceRect: frame,
+				color: plrDrawInfo.bodyColor,
+				rotation: 0f,
+				origin: default(Vector2),
+				scale: 1f,
+				effect: plrDrawInfo.spriteEffects,
+				inactiveLayerDepth: 0
+			);
 		}
 	}
 }

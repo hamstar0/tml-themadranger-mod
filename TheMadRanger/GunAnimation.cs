@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.Audio;
+using Terraria.DataStructures;
 using HamstarHelpers.Helpers.Debug;
 using TheMadRanger.Helpers.Misc;
 using TheMadRanger.Items.Weapons;
@@ -63,7 +63,12 @@ namespace TheMadRanger {
 		
 		public GunAnimation() {
 			this.GunDrawLayer = new PlayerLayer( "TheMadRanger", "Custom Gun Animation", (plrDrawInfo) => {
-				Main.playerDrawData.Add( this.DrawGun(plrDrawInfo) );
+				Main.playerDrawData.Add( this.GetGunDrawData(plrDrawInfo) );
+
+				DrawData? drawData = this.GetReloadDrawData( plrDrawInfo );
+				if( drawData.HasValue ) {
+					Main.playerDrawData.Add( drawData.Value );
+				}
 			} );
 
 			var unshiftedBodyFrame = default(Rectangle);
