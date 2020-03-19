@@ -9,15 +9,10 @@ using TheMadRanger.Items.Weapons;
 
 namespace TheMadRanger {
 	partial class TMRPlayer : ModPlayer {
-		public bool CanAttemptToShootGun() {
-			return !this.GunAnim.IsAnimating;
-		}
-
 		public static bool IsHoldingGun( Player player ) {
 			Item heldItem = player.HeldItem;
 			return heldItem != null && !heldItem.IsAir && heldItem.type == ModContent.ItemType<TheMadRangerItem>();
 		}
-
 
 		////////////////
 
@@ -47,6 +42,13 @@ namespace TheMadRanger {
 			return frameY;
 		}
 
+
+
+		////////////////
+
+		public bool CanAttemptToShootGun() {
+			return !this.GunAnim.IsHolstering;  //IsReloading
+		}
 
 		////////////////
 

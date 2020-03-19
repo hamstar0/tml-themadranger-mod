@@ -1,10 +1,10 @@
-using HamstarHelpers.Helpers.Debug;
-using Microsoft.Xna.Framework;
 using System.Linq;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using HamstarHelpers.Helpers.Debug;
 
 
 namespace TheMadRanger.Items.Weapons {
@@ -52,7 +52,7 @@ namespace TheMadRanger.Items.Weapons {
 			this.item.autoReuse = false;
 			this.item.noMelee = true;
 			this.item.shoot = ProjectileID.Bullet;
-			this.item.shootSpeed = 14f;
+			this.item.shootSpeed = 32f;
 
 			//this.item.UseSound = this.mod.GetLegacySoundSlot( SoundType.Custom, "Sounds/Custom/RevolverFire" )
 			//	.WithVolume( 0.25f );

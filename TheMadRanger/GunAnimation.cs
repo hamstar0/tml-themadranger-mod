@@ -60,7 +60,7 @@ namespace TheMadRanger {
 
 
 		////////////////
-		
+
 		public GunAnimation() {
 			this.GunDrawLayer = new PlayerLayer( "TheMadRanger", "Custom Gun Animation", (plrDrawInfo) => {
 				Main.playerDrawData.Add( this.GetGunDrawData(plrDrawInfo) );
@@ -80,7 +80,7 @@ namespace TheMadRanger {
 			Action<PlayerDrawInfo> unshiftAction = ( plrDrawInfo ) => {
 				plrDrawInfo.drawPlayer.bodyFrame = unshiftedBodyFrame;
 			};
-			
+
 			this.ArmsShiftLayer = new PlayerLayer( "TheMadRanger", "Gun Holster Arms Shift Reframe", shiftAction );
 			this.ArmsUnshiftLayer = new PlayerLayer( "TheMadRanger", "Gun Holster Arms Unshift Reframe", unshiftAction );
 			this.HandShiftLayer = new PlayerLayer( "TheMadRanger", "Gun Holster Arm Shift Reframe", shiftAction );
@@ -120,6 +120,17 @@ namespace TheMadRanger {
 			}
 
 			SoundHelpers.PlaySound( "RevolverTwirl", plr.Center, 0.65f );
+		}
+
+
+		////
+
+		public void StopReloading( Player plr ) {
+			var myitem = (TheMadRangerItem)plr.HeldItem.modItem;
+			myitem.CloseCylinder( plr );
+
+			this.ReloadDuration = 0;
+			this.ReloadingRounds = false;
 		}
 	}
 }

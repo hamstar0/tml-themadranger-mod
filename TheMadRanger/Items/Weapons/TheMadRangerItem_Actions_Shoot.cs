@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
+using TheMadRanger.Helpers.Misc;
 
 
 namespace TheMadRanger.Items.Weapons {
@@ -14,12 +16,18 @@ namespace TheMadRanger.Items.Weapons {
 					ref int damage,
 					ref float knockBack ) {
 			var myplayer = player.GetModPlayer<TMRPlayer>();
+
 			if( !myplayer.CanAttemptToShootGun() ) {
 				return false;
 			}
 
+			if( myplayer.GunAnim.IsReloading ) {
+				myplayer.GunAnim.StopReloading( player );
+				this.ElapsedTimeSinceLastShotAttempt = 0;
+			}
+
 			bool wantsReload;
-			if( !this.AttemptShot(player, out wantsReload) ) {
+			if( !this.AttemptGunShotBegin(player, out wantsReload) ) {
 				if( wantsReload ) {
 					myplayer.GunAnim.BeginReload( player );
 				}
@@ -38,6 +46,33 @@ namespace TheMadRanger.Items.Weapons {
 			myplayer.GunAnim.BeginRecoil( MathHelper.ToDegrees(shakeAddedRads) * -player.direction );
 
 			return true;
+		}
+
+		////
+
+		private bool AttemptGunShotBegin( Player player, out bool wantsReload ) {
+			wantsReload = false;
+
+			if( this.ElapsedTimeSinceLastShotAttempt >= 60 ) {
+				if( !this.Cylinder.Any( c => c >= 1 ) ) {
+					wantsReload = true;
+					return false;
+				}
+			}
+
+			bool hasShot = false;
+
+			if( this.CylinderShootOnce() ) {
+				SoundHelpers.PlaySound( "RevolverFire", player.Center, 0.2f );
+				hasShot = true;
+			} else {
+				SoundHelpers.PlaySound( "RevolverDryFire", player.Center, 0.2f );
+				hasShot = false;
+			}
+
+			this.ElapsedTimeSinceLastShotAttempt = 0;
+
+			return hasShot;
 		}
 	}
 }

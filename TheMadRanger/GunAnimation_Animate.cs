@@ -1,7 +1,10 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using HamstarHelpers.Helpers.Debug;
+using HamstarHelpers.Helpers.DotNET.Reflection;
+using TheMadRanger.Gores;
 using TheMadRanger.Items.Weapons;
 
 
@@ -115,7 +118,9 @@ namespace TheMadRanger {
 
 			if( !this.ReloadingRounds ) {
 				if( !myitem.IsCylinderEmpty() ) {
-					myitem.UnloadCylinder( plr );   // TODO: Recycle bullets
+					(int Shells, int Rounds) unloadings = myitem.UnloadCylinder( plr );   // TODO: Recycle bullets
+					this.ProcessUnloadedGunRounds( plr, unloadings.Shells, unloadings.Rounds );
+
 					this.ReloadDuration = TMRConfig.Instance.ReloadRoundTickDuration;
 					this.ReloadingRounds = true;
 					return;
@@ -126,9 +131,39 @@ namespace TheMadRanger {
 				this.ReloadDuration = TMRConfig.Instance.ReloadRoundTickDuration;
 				return;
 			} else {
-				myitem.CloseCylinder( plr );
-				this.ReloadDuration = 0;
-				this.ReloadingRounds = false;
+				this.StopReloading( plr );
+			}
+		}
+
+
+		////////////////
+
+		private void ProcessUnloadedGunRounds( Player plr, int shells, int rounds ) {
+			if( shells > 0 ) {
+				this.ProcessUnloadedShells( plr, shells );
+			}
+
+			// TODO: Return rounds to Bandolier
+		}
+
+		private void ProcessUnloadedShells( Player plr, int shells ) {
+			int shellGoreSlot = TMRMod.Instance.GetGoreSlot( "Gores/ShellCasing" );
+
+			Vector2 itemScrPos;
+			ReflectionHelpers.RunMethod(
+				Main.instance,
+				"DrawPlayerItemPos",
+				new object[] { plr.gravDir, plr.HeldItem.type },
+				out itemScrPos
+			);
+
+			Texture2D itemTex = Main.itemTexture[plr.HeldItem.type];
+			var itemTexOffset = new Vector2( itemTex.Width / 2, itemScrPos.Y );
+
+			Vector2 itemWldPos = plr.itemLocation + itemTexOffset;
+
+			for( int i = 0; i < shells; i++ ) {
+				Gore.NewGore( itemWldPos, ShellCasing.GetVelocity(), shellGoreSlot, ShellCasing.GetScale() );
 			}
 		}
 	}
