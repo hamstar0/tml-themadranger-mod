@@ -3,7 +3,7 @@ v1.1
 -	Add holster twirl animation tweak
 -	Block hold style items while holstering
 -	Cache PlayerLayers
--	Draw gunshot smoke
+-	Add gunshot smoke
 v1
 -	@B&D: Diluted Ectoplasm in pots
 -	@MH: Debug MH "bad mods" route
@@ -12,7 +12,9 @@ v1
 -	Set Bandolier to have ammo limit + require reloads from the Guide
 -	Draw gunshot flash
 -	Implement 'quick draw' aim mode
+	-	Implement quick draw chaining (use projectile to remember it was fired during quick draw)
 
+	-	On equip, give brief spurt of aim mode
 -	Add indicator of 'is readying aim' for pre-aim mode
 -	Calibrate aim mode activation
 -	Update to new gun model

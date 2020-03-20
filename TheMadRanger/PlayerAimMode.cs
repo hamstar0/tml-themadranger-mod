@@ -19,9 +19,11 @@ namespace TheMadRanger {
 
 		////////////////
 
-		public bool IsModeActive => this.AimElapsed >= TMRConfig.Instance.AimModeActivationDurationWhileIdling;
+		public bool IsModeActive => this.AimElapsed >= TMRConfig.Instance.AimModeActivationTickDurationWhileIdling;
 
 		public bool IsModeBeingActivated => this.AimElapsed > 0 && this.AimElapsed >= this.PrevAimElapsed;
+
+		public bool IsQuickDraw => this.QuickDrawDuration > 0;
 
 
 		////////////////
@@ -29,16 +31,35 @@ namespace TheMadRanger {
 		private float PrevAimElapsed = 0f;
 		private float AimElapsed = 0f;
 
+		private int QuickDrawDuration = 0;
+
 		private Vector2 LastAimMousePosition = default( Vector2 );
 
 
 
 		////////////////
 
-		public void CheckEquippedAimState( Player plr ) {
+		public void CheckAimState( Player plr ) {
 			this.PrevAimElapsed = this.AimElapsed;
 
+			if( this.QuickDrawDuration > 1 ) {
+				this.QuickDrawDuration--;
+				this.AimElapsed = TMRConfig.Instance.AimModeActivationTickDurationWhileIdling + 2f;
+			} else if( this.QuickDrawDuration == 1 ) {
+				this.QuickDrawDuration = 0;
+				this.AimElapsed = 0;
+			}
+		}
+
+		public void CheckEquippedAimState( Player plr, Item prevHeldItem ) {
 			var myplayer = plr.GetModPlayer<TMRPlayer>();
+
+			// On fresh re-equip
+			if( prevHeldItem != plr.HeldItem ) {
+				if( !myplayer.GunAnim.IsAnimating ) {
+					this.ApplyQuickDraw();
+				}
+			}
 
 			// Animations cancel aim mode
 			if( myplayer.GunAnim.IsAnimating ) {
@@ -58,7 +79,7 @@ namespace TheMadRanger {
 			if( (this.LastAimMousePosition - mousePos).LengthSquared() > 1f ) {
 				this.AimElapsed = Math.Max( this.AimElapsed - 0.5f, 0f );
 			} else {
-				int maxDuration = TMRConfig.Instance.AimModeActivationDurationWhileIdling + 2;	// Added buffer for slight aim tweaks
+				int maxDuration = TMRConfig.Instance.AimModeActivationTickDurationWhileIdling + 2;	// Added buffer for slight aim tweaks
 				this.AimElapsed = Math.Min( this.AimElapsed + 1f, (float)maxDuration );
 			}
 
@@ -68,6 +89,13 @@ namespace TheMadRanger {
 		public void CheckUnequippedAimState() {
 			this.AimElapsed = 0f;
 			this.PrevAimElapsed = 0f;
+		}
+
+
+		////////////////
+		
+		public void ApplyQuickDraw() {
+			this.QuickDrawDuration = TMRConfig.Instance.QuickDrawTickDuration;
 		}
 
 

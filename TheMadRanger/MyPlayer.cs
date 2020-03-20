@@ -47,9 +47,11 @@ namespace TheMadRanger {
 		}
 
 		private void CheckCurrentHeldItemState() {
+			this.AimMode.CheckAimState( this.player );
+
 			if( TMRPlayer.IsHoldingGun(this.player) ) {
 				this.GunAnim.UpdateEquipped( this.player );
-				this.AimMode.CheckEquippedAimState( this.player );
+				this.AimMode.CheckEquippedAimState( this.player, this.player.inventory[this.LastSlot] );
 			} else {
 				this.GunAnim.UpdateUnequipped( this.player );
 				this.AimMode.CheckUnequippedAimState();

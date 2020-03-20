@@ -36,7 +36,7 @@ namespace TheMadRanger {
 
 		[Range( 1, 60 * 60 * 60 )]
 		[DefaultValue( 90 )]
-		public int AimModeActivationDurationWhileIdling { get; set; } = 90;
+		public int AimModeActivationTickDurationWhileIdling { get; set; } = 90;
 
 		[Range( 0, 60 * 60 )]
 		[DefaultValue( 60 )]
@@ -49,6 +49,10 @@ namespace TheMadRanger {
 		[Range( 0, 60 * 60 )]
 		[DefaultValue( 60 )]
 		public int HolsterTwirlTickDuration { get; set; } = 60;
+
+		[Range( 0, 60 * 60 )]
+		[DefaultValue( 15 )]
+		public int QuickDrawTickDuration { get; set; } = 15;
 
 
 		[Range( 1, 1000 )]

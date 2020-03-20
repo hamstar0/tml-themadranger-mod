@@ -74,22 +74,31 @@ namespace TheMadRanger {
 		
 		private bool RunAimCursorAnimation() {
 			var myplayer = Main.LocalPlayer.GetModPlayer<TMRPlayer>();
+
+			// While aim mode gone
 			if( !myplayer.AimMode.IsModeActive ) {
+				// Fade out and zoom out
 				if( this.AimZoomAnimationDuration >= 0f && this.AimZoomAnimationDuration < TMRMod.CrosshairDurationTicksMax ) {
 					this.AimZoomAnimationDuration += 0.25f;
 				} else {
-					this.AimZoomAnimationDuration = -1f;
+					this.AimZoomAnimationDuration = -1f;	// Cursor is now gone
 				}
 
 				return false;
 			}
 
+			// Skim off fade
 			this.AimZoomAnimationDuration = (float)Math.Floor( this.AimZoomAnimationDuration );
 
+			// Begin fade in and zoom in
 			if( this.AimZoomAnimationDuration == -1f ) {
-				this.AimZoomAnimationDuration = TMRMod.CrosshairDurationTicksMax;
+				if( myplayer.AimMode.IsQuickDraw ) {
+					this.AimZoomAnimationDuration = 0f;
+				} else {
+					this.AimZoomAnimationDuration = TMRMod.CrosshairDurationTicksMax;
+				}
 			} else if( this.AimZoomAnimationDuration > 0 ) {
-				this.AimZoomAnimationDuration -= 1f;
+				this.AimZoomAnimationDuration -= 1f;	// Actual fading in
 			}
 
 			return true;
