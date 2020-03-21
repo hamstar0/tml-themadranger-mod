@@ -23,6 +23,9 @@ namespace TheMadRanger {
 
 		////////////////
 
+		[DefaultValue( false )]
+		public bool DebugModeInfo { get; set; } = false;
+
 		//[DefaultValue( true )]
 		//public bool RecipeEnabled { get; set; } = true;
 

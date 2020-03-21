@@ -99,7 +99,10 @@ namespace TheMadRanger.Items.Weapons {
 
 		public override void UpdateInventory( Player player ) {
 			this.ElapsedTimeSinceLastShotAttempt++;
-DebugHelpers.Print( "cylinder", this.CylinderIdx+" - "+string.Join( ", ", this.Cylinder) );
+
+			if( TMRConfig.Instance.DebugModeInfo ) {
+				DebugHelpers.Print( "cylinder", this.CylinderIdx + ", " + string.Join( ", ", this.Cylinder ) );
+			}
 		}
 
 

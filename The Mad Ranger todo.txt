@@ -4,16 +4,22 @@ v1.1
 -	Block hold style items while holstering
 -	Cache PlayerLayers
 -	Add gunshot smoke
+-	Draw gunshot flash
 v1
+-	@B&D: Gravity flip as a progression mechanic
 -	@B&D: Diluted Ectoplasm in pots
 -	@MH: Debug MH "bad mods" route
 -	@Test in MP
 -	Sync aim position
--	Set Bandolier to have ammo limit + require reloads from the Guide
--	Draw gunshot flash
+-	Set Bandolier to have ammo limit
+	-	Require reloads from the Guide
+	-	Return ammo when unloading gun
+	-	Draw ammo per round reload
+	-	Restrict gun reloading to bandolier's ammo
+	-	Store ammo for bandolier
+
 -	Implement 'quick draw' aim mode
 	-	Implement quick draw chaining (use projectile to remember it was fired during quick draw)
-
 	-	On equip, give brief spurt of aim mode
 -	Add indicator of 'is readying aim' for pre-aim mode
 -	Calibrate aim mode activation
