@@ -17,6 +17,10 @@ v1
 	-	Draw ammo per round reload
 	-	Restrict gun reloading to bandolier's ammo
 	-	Store ammo for bandolier
+-	Set unsuccessful hits to deplete aim mode warmup time (but not aim mode)
+-	Set successful hits to replenish add to aim mode warmup time (including adding a buffer, when active)
+-	While walking, use stationary body frame for head?
+-	Fix shell dump sound
 
 -	Implement 'quick draw' aim mode
 	-	Implement quick draw chaining (use projectile to remember it was fired during quick draw)

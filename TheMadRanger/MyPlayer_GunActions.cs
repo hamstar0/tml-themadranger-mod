@@ -47,7 +47,8 @@ namespace TheMadRanger {
 		////////////////
 
 		public bool CanAttemptToShootGun() {
-			return !this.GunAnim.IsHolstering;  //IsReloading
+			return !this.GunAnim.IsHolstering
+				&& (!this.GunAnim.IsReloading || this.GunAnim.ReloadingRounds);  //IsReloading
 		}
 
 		////////////////
@@ -105,7 +106,7 @@ namespace TheMadRanger {
 
 			float addedRotDeg = this.GunAnim.GetAddedRotationDegrees( plr );
 			if( addedRotDeg != 0f ) {
-				plr.itemRotation = MathHelper.ToDegrees( plr.itemRotation ) - (float)( plr.direction * addedRotDeg );
+				plr.itemRotation = MathHelper.ToDegrees( plr.itemRotation ) - (float)(plr.direction * addedRotDeg);
 				plr.itemRotation = MathHelper.ToRadians( plr.itemRotation );
 			} else {
 				plr.itemRotation += this.AimMode.GetAimStateShakeAddedRadians( true );

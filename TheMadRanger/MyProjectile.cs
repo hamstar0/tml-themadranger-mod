@@ -40,20 +40,25 @@ namespace TheMadRanger {
 
 		public override void OnHitNPC( Projectile projectile, NPC target, int damage, float knockback, bool crit ) {
 			if( this.QuickFiredFromRevolver ) {
-				Player plr = Main.player[ projectile.owner ];
-				var myplayer = plr.GetModPlayer<TMRPlayer>();
-
-				myplayer.AimMode.ApplyQuickDraw();
+				this.OnHit( projectile );
 			}
 		}
 
 		public override void OnHitPvp( Projectile projectile, Player target, int damage, bool crit ) {
 			if( this.QuickFiredFromRevolver ) {
-				Player plr = Main.player[projectile.owner];
-				var myplayer = plr.GetModPlayer<TMRPlayer>();
-
-				myplayer.AimMode.ApplyQuickDraw();
+				this.OnHit( projectile );
 			}
+		}
+
+		////
+
+		private void OnHit( Projectile projectile ) {
+			if( projectile.owner < 0 ) { return; }
+			Player plr = Main.player[projectile.owner];
+			if( !plr.active ) { return; }
+
+			var myplayer = plr.GetModPlayer<TMRPlayer>();
+			myplayer.AimMode.ApplyQuickDraw( plr );
 		}
 	}
 }

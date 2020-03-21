@@ -46,26 +46,47 @@ namespace TheMadRanger {
 		public int ReloadInitTickDuration { get; set; } = 60;
 
 		[Range( 0, 60 * 60 )]
-		[DefaultValue( 45 )]
-		public int ReloadRoundTickDuration { get; set; } = 45;
+		[DefaultValue( 35 )]
+		public int ReloadRoundTickDuration { get; set; } = 35;
 
 		[Range( 0, 60 * 60 )]
 		[DefaultValue( 60 )]
 		public int HolsterTwirlTickDuration { get; set; } = 60;
 
 		[Range( 0, 60 * 60 )]
-		[DefaultValue( 15 )]
-		public int QuickDrawTickDuration { get; set; } = 15;
+		[DefaultValue( 30 )]
+		public int QuickDrawTickDuration { get; set; } = 30;
 
 
-		[Range( 1, 1000 )]
+		[Range( 1, 999999 )]
+		[DefaultValue( 50 )]
+		[ReloadRequired]
+		public int MaximumAimedGunDamage { get; set; } = 50;
+
+		[Range( 1, 999999 )]
 		[DefaultValue( 40 )]
 		[ReloadRequired]
-		public int MaximumGunDamage { get; set; } = 40;
+		public int MaximumUnaimedGunDamage { get; set; } = 40;
 
 		[Range( 0f, 360f )]
 		[DefaultValue( 30f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
 		public float UnaimedConeDegreesRange { get; set; } = 30f;
+
+
+		[Range( 0f, 30f )]
+		[DefaultValue( 1.5f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float AimModeDepleteRateWhilePlayerMoving { get; set; } = 1.5f;
+
+		[Range( 0f, 30f )]
+		[DefaultValue( 0.5f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float AimModeDepleteRateWhileMouseMoving { get; set; } = 0.5f;
+
+		[Range( 0f, 30f )]
+		[DefaultValue( 1f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float AimModeBuildupRateWhileIdle { get; set; } = 1f;
 	}
 }

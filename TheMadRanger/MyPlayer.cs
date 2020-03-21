@@ -10,7 +10,7 @@ using TheMadRanger.Items.Accessories;
 
 namespace TheMadRanger {
 	partial class TMRPlayer : ModPlayer {
-		private int LastSlot = -1;
+		private int InventorySlotOfPreviousHeldItem = -1;
 
 
 		////////////////
@@ -27,16 +27,19 @@ namespace TheMadRanger {
 		////////////////
 
 		public override void PreUpdate() {
-			if( this.LastSlot != this.player.selectedItem ) {
-				if( this.LastSlot != -1 ) {
-					this.CheckPreviousHeldItemState( this.player.inventory[this.LastSlot] );
+			if( this.InventorySlotOfPreviousHeldItem != this.player.selectedItem ) {
+				if( this.InventorySlotOfPreviousHeldItem != -1 ) {
+					this.CheckPreviousHeldItemState( this.player.inventory[this.InventorySlotOfPreviousHeldItem] );
 				}
-				this.LastSlot = this.player.selectedItem;
 			}
 
 			this.CheckCurrentHeldItemState();
 
 			this.GunAnim.Update( this.player );
+
+			if( this.InventorySlotOfPreviousHeldItem != this.player.selectedItem ) {
+				this.InventorySlotOfPreviousHeldItem = this.player.selectedItem;
+			}
 		}
 
 
@@ -51,7 +54,13 @@ namespace TheMadRanger {
 
 			if( TMRPlayer.IsHoldingGun(this.player) ) {
 				this.GunAnim.UpdateEquipped( this.player );
-				this.AimMode.CheckEquippedAimState( this.player, this.player.inventory[this.LastSlot] );
+
+				Item prevItem = null;
+				if( this.InventorySlotOfPreviousHeldItem != -1 ) {
+					prevItem = this.player.inventory[ this.InventorySlotOfPreviousHeldItem ];
+				}
+
+				this.AimMode.CheckEquippedAimState( this.player, prevItem );
 			} else {
 				this.GunAnim.UpdateUnequipped( this.player );
 				this.AimMode.CheckUnequippedAimState();

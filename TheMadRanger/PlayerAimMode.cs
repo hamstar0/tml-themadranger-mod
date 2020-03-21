@@ -25,6 +25,8 @@ namespace TheMadRanger {
 
 		public bool IsQuickDraw => this.QuickDrawDuration > 0;
 
+		public float AimPercent => (float)this.AimElapsed / (float)TMRConfig.Instance.AimModeActivationTickDurationWhileIdling;
+
 
 		////////////////
 
@@ -57,7 +59,7 @@ namespace TheMadRanger {
 			// On fresh re-equip
 			if( prevHeldItem != plr.HeldItem ) {
 				if( !myplayer.GunAnim.IsAnimating ) {
-					this.ApplyQuickDraw();
+					this.ApplyQuickDraw( plr );
 				}
 			}
 
@@ -69,7 +71,7 @@ namespace TheMadRanger {
 
 			// Player is moving
 			if( plr.velocity.LengthSquared() > 1f ) {
-				this.AimElapsed = Math.Max( this.AimElapsed - 2f, 0f );
+				this.AimElapsed = Math.Max( this.AimElapsed - TMRConfig.Instance.AimModeDepleteRateWhilePlayerMoving, 0f );
 				return;
 			}
 
@@ -77,10 +79,10 @@ namespace TheMadRanger {
 
 			// Mouse is moving
 			if( (this.LastAimMousePosition - mousePos).LengthSquared() > 1f ) {
-				this.AimElapsed = Math.Max( this.AimElapsed - 0.5f, 0f );
+				this.AimElapsed = Math.Max( this.AimElapsed - TMRConfig.Instance.AimModeDepleteRateWhileMouseMoving, 0f );
 			} else {
 				int maxDuration = TMRConfig.Instance.AimModeActivationTickDurationWhileIdling + 2;	// Added buffer for slight aim tweaks
-				this.AimElapsed = Math.Min( this.AimElapsed + 1f, (float)maxDuration );
+				this.AimElapsed = Math.Min( this.AimElapsed + TMRConfig.Instance.AimModeBuildupRateWhileIdle, (float)maxDuration );
 			}
 
 			this.LastAimMousePosition = mousePos;
@@ -94,8 +96,17 @@ namespace TheMadRanger {
 
 		////////////////
 		
-		public void ApplyQuickDraw() {
+		public void ApplyQuickDraw( Player plr ) {
 			this.QuickDrawDuration = TMRConfig.Instance.QuickDrawTickDuration;
+
+			/*Vector2 pos = GunAnimation.GetGunTipPosition(plr) - new Vector2(-2);
+
+			for( int i = 0; i < 2; i++ ) {
+				int dustIdx = Dust.NewDust( pos, 4, 4, 6, 0f, 0f, 0, Color.White, 1f );
+				Dust dust = Main.dust[dustIdx];
+				dust.noGravity = true;
+				dust.shader = GameShaders.Armor.GetSecondaryShader( 3, plr );
+			}*/
 		}
 
 
@@ -121,8 +132,14 @@ namespace TheMadRanger {
 			}
 
 			UnifiedRandom rand = TmlHelpers.SafelyGetRand();
+			int maxAimDmg = TMRConfig.Instance.MaximumAimedGunDamage;
+			int maxUnaimDmg = TMRConfig.Instance.MaximumUnaimedGunDamage;
+			float dmgPercent = (float)damage / maxAimDmg;
 
-			return (int)(rand.NextFloat() * (float)(damage - 1)) + 1;
+			float baseDmg = (float)maxUnaimDmg * dmgPercent;
+
+			int newDmg = (int)(rand.NextFloat() * (baseDmg - 1f)) + 1;
+			return newDmg;
 		}
 	}
 }

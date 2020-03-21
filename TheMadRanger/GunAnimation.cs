@@ -10,6 +10,21 @@ using TheMadRanger.Items.Weapons;
 
 namespace TheMadRanger {
 	partial class GunAnimation {
+		/*public static Vector2 GetGunTipPosition( Player plr ) {
+			var myplayer = plr.GetModPlayer<TMRPlayer>();
+			Texture2D tex = Main.itemTexture[ ModContent.ItemType<TheMadRangerItem>() ];
+			float rot = plr.itemRotation;//+ myplayer.GunAnim.GetAddedRotationRadians(plr);
+
+			var aim = new Vector2( (float)Math.Cos(rot), (float)Math.Sin(rot) )
+				* plr.direction;
+
+			return plr.MountedCenter + (aim * tex.Width * TheMadRangerItem.Scale);
+		} <- Seems to slide off tip at some angles? */
+
+
+
+		////////////////
+
 		private Rectangle BodyFrameShifted;
 
 
