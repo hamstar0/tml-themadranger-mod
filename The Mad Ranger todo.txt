@@ -11,6 +11,7 @@ v1
 -	@MH: Debug MH "bad mods" route
 -	@Test in MP
 -	Sync aim position
+-	Implement speedloader accessory (crafted from Illegal Gun Parts, 1 Actuator)
 -	Set Bandolier to have ammo limit
 	-	Require reloads from the Guide
 	-	Return ammo when unloading gun
@@ -19,8 +20,11 @@ v1
 	-	Store ammo for bandolier
 -	Set unsuccessful hits to deplete aim mode warmup time (but not aim mode)
 -	Set successful hits to replenish add to aim mode warmup time (including adding a buffer, when active)
+-	On successful quick draw hit, switch to full aim mode
+-	Add penetration to bullet when aimed
+-	Reduce movement affect on aim mode
+-	Define minimum unaimed damage
 -	While walking, use stationary body frame for head?
--	Fix shell dump sound
 
 -	Implement 'quick draw' aim mode
 	-	Implement quick draw chaining (use projectile to remember it was fired during quick draw)

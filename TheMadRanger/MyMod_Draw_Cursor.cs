@@ -1,83 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.UI;
-using HamstarHelpers.Services.AnimatedColor;
 
 
 namespace TheMadRanger {
 	public partial class TMRMod : Mod {
-		public const float CrosshairDurationTicksMax = 12f;
-
-
-
-		////////////////
-
-		private float PreAimZoomAnimationPercent = 0f;
-		private float AimZoomAnimationPercent = -1f;
-		private AnimatedColors ColorAnim = null;
-
-
-
-		////////////////
-
-		public override void ModifyInterfaceLayers( List<GameInterfaceLayer> layers ) {
-			float aimPercent;
-			bool isAimMode = this.RunAimCursorAnimation( out aimPercent );
-			bool isPreAimMode = isAimMode
-				? false
-				: this.RunPreAimCursorAnimation();
-
-			if( !isAimMode && !isPreAimMode && aimPercent <= 0f ) {
-				return;
-			}
-
-			int idx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Cursor" ) );
-			if( idx == -1 ) { return; }
-
-			if( this.ColorAnim == null ) {
-				this.ColorAnim = AnimatedColors.Create( 6, AnimatedColors.Alert.Colors.ToArray() );
-			}
-
-			GameInterfaceDrawMethod draw = () => {
-				if( isPreAimMode ) {
-					this.DrawPreAimCursor();
-				} else if( isAimMode ) {
-					this.DrawAimCursor();
-				} else if( aimPercent > 0f ) {
-					this.DrawUnaimCursor();
-				}
-
-				if( TMRConfig.Instance.DebugModeInfo ) {
-					Player plr = Main.LocalPlayer;
-
-					Vector2 fro = plr.MountedCenter;
-					fro -= Main.screenPosition;
-
-					Vector2 to = new Vector2( (float)Math.Cos(plr.itemRotation), (float)Math.Sin(plr.itemRotation) );
-					to *= plr.direction * 64;
-					to += plr.MountedCenter;
-					to -= Main.screenPosition;
-
-					//Utils.DrawLine( Main.spriteBatch, fro, to, Color.White );
-					Utils.DrawLaser( Main.spriteBatch, Main.magicPixel, fro, to, Vector2.One, new Utils.LaserLineFraming(DelegateMethods.RainbowLaserDraw) );
-				}
-
-				return true;
-			};
-			var interfaceLayer = new LegacyGameInterfaceLayer( "TheMadRanger: Crosshair", draw, InterfaceScaleType.UI );
-
-			//layers.RemoveAt( idx );
-			layers.Insert( idx, interfaceLayer );
-		}
-
-
-		////////////////
-
 		private bool RunPreAimCursorAnimation() {
 			var myplayer = Main.LocalPlayer.GetModPlayer<TMRPlayer>();
 			if( !myplayer.AimMode.IsModeBeingActivated || myplayer.AimMode.IsModeActive ) {
@@ -91,7 +20,7 @@ namespace TheMadRanger {
 			return true;
 		}
 		
-		private bool RunAimCursorAnimation( out float aimPercent ) {
+		private bool RunAimCursorAnimation( out bool hasGun, out float aimPercent ) {
 			var myplayer = Main.LocalPlayer.GetModPlayer<TMRPlayer>();
 
 			if( !myplayer.AimMode.IsModeActive ) {
@@ -116,6 +45,7 @@ namespace TheMadRanger {
 				}
 			}
 
+			hasGun = !myplayer.GunAnim.IsAnimating && TMRPlayer.IsHoldingGun( Main.LocalPlayer );
 			aimPercent = myplayer.AimMode.AimPercent;
 			return myplayer.AimMode.IsModeActive;
 		}
@@ -133,7 +63,7 @@ namespace TheMadRanger {
 				texture: tex,
 				position: new Vector2( Main.mouseX, Main.mouseY ),
 				sourceRectangle: null,
-				color: Color.White * 0.05f * this.PreAimZoomAnimationPercent,
+				color: Color.White * 0.1f * this.PreAimZoomAnimationPercent,
 				rotation: 0f,
 				origin: new Vector2( tex.Width / 2, tex.Height / 2 ),
 				scale: scale,
@@ -174,7 +104,7 @@ namespace TheMadRanger {
 				texture: tex,
 				position: new Vector2( Main.mouseX, Main.mouseY ),
 				sourceRectangle: null,
-				color: Color.Gray,
+				color: Color.Black * 0.5f,
 				rotation: 0f,
 				origin: new Vector2( tex.Width / 2, tex.Height / 2 ),
 				scale: 0.25f,

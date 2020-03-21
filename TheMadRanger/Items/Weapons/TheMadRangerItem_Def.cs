@@ -101,7 +101,7 @@ namespace TheMadRanger.Items.Weapons {
 			this.ElapsedTimeSinceLastShotAttempt++;
 
 			if( TMRConfig.Instance.DebugModeInfo ) {
-				DebugHelpers.Print( "cylinder", this.CylinderIdx + ", " + string.Join( ", ", this.Cylinder ) );
+				DebugHelpers.Print( "cylinder", this.CylinderIdx + " = " + string.Join( ", ", this.Cylinder ) );
 			}
 		}
 

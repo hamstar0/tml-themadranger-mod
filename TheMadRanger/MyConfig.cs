@@ -11,6 +11,7 @@ namespace TheMadRanger {
 
 
 
+	[Label( "The Mad Ranger" )]
 	public partial class TMRConfig : StackableModConfig {
 		public static TMRConfig Instance => ModConfigStack.GetMergedConfigs<TMRConfig>();
 

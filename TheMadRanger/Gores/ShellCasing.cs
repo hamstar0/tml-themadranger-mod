@@ -40,6 +40,7 @@ namespace TheMadRanger.Gores {
 
 		public override void OnSpawn( Gore gore ) {
 			gore.scale = ShellCasing.GetScale();
+			gore.drawOffset.X = 0f;
 			gore.drawOffset.Y = 8f;
 			gore.rotation = Main.rand.NextFloat() * (float)Math.PI * 2f;
 			gore.velocity = ShellCasing.GetVelocity();
@@ -75,6 +76,7 @@ namespace TheMadRanger.Gores {
 			lockFrames = false;
 
 			if( gore.drawOffset.X == 0f ) {
+//Main.NewText("bounce "+gore.GetHashCode());
 				gore.drawOffset.X = 0.001f;
 				SoundHelpers.PlaySound( "ShellBounce", gore.position );
 			}

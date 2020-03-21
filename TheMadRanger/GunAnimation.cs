@@ -124,8 +124,8 @@ namespace TheMadRanger {
 		public bool BeginReload( Player plr ) {
 			if( this.IsReloading ) { return false; }
 
-			var myitem = (TheMadRangerItem)plr.HeldItem.modItem;
-			if( myitem.IsCylinderFull() ) { return false; }
+			var myitem = plr.HeldItem.modItem as TheMadRangerItem;
+			if( myitem?.IsCylinderFull() ?? true ) { return false; }
 
 			myitem.OpenCylinder( plr );
 			this.ReloadDuration = TMRConfig.Instance.ReloadInitTickDuration;

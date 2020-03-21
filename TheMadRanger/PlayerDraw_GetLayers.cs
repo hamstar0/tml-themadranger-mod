@@ -28,7 +28,7 @@ namespace TheMadRanger {
 			Rectangle newFrame, oldFrame;
 			newFrame = oldFrame = plr.bodyFrame;
 			newFrame.Y = newBodyFrameY;
-
+			
 			itemLayer = ( plrDrawInfo ) => {
 				foreach( DrawData drawData in PlayerDraw.GetPlayerLayerForHeldItem(plrDrawInfo, plrLight) ) {
 					Main.playerDrawData.Add( drawData );

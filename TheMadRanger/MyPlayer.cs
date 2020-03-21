@@ -95,26 +95,5 @@ namespace TheMadRanger {
 				}
 			}
 		}
-
-
-		////////////////
-
-		public override void ModifyDrawLayers( List<PlayerLayer> layers ) {
-			if( TMRPlayer.IsHoldingGun(this.player) ) {
-				(bool isAimWithinArc, int aimDir) aim = this.ApplyGunAim();
-
-				if( !this.GunAnim.IsAnimating ) {
-					if( aim.aimDir == this.player.direction || this.GunAnim.RecoilDuration == 0 ) {
-						if( this.ModifyDrawLayersForGun( layers, true ) ) {
-							this.ModifyDrawLayerForTorsoWithGun( layers, true );
-						}
-
-						this.player.headPosition.Y += 1;
-					}
-				}
-			}
-
-			this.GunAnim.ModifyDrawLayers( this.player, layers );
-		}
 	}
 }
