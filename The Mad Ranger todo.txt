@@ -24,8 +24,8 @@ v1
 -	Add penetration to bullet when aimed
 -	Reduce movement affect on aim mode
 -	Define minimum unaimed damage
--	While walking, use stationary body frame for head?
 
+-	While walking, use stationary body frame for head
 -	Implement 'quick draw' aim mode
 	-	Implement quick draw chaining (use projectile to remember it was fired during quick draw)
 	-	On equip, give brief spurt of aim mode
