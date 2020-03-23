@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using Terraria.GameInput;
 using HamstarHelpers.Helpers.Debug;
 using TheMadRanger.Items.Weapons;
-using TheMadRanger.Items.Accessories;
+using TheMadRanger.Items;
 
 
 namespace TheMadRanger {
@@ -90,7 +90,7 @@ namespace TheMadRanger {
 
 				if( TMRConfig.Instance.PlayerSpawnsWithBandolier ) {
 					var bandolier = new Item();
-					bandolier.SetDefaults( ModContent.ItemType<BandolierItem>() );
+					bandolier.SetDefaults( ModContent.ItemType<SpeedloaderItem>() );
 
 					items.Add( bandolier );
 				}

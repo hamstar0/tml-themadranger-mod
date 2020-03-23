@@ -13,15 +13,15 @@ namespace TheMadRanger.Items.Accessories {
 		////////////////
 		
 		public override void SetStaticDefaults() {
-			this.DisplayName.SetDefault( "Antique Bandolier" );
-			this.Tooltip.SetDefault( "An ample supply of .44 ammo." );
+			this.DisplayName.SetDefault( "Bandolier" );
+			this.Tooltip.SetDefault( "An ample supply of .357 ammo." );
 		}
 
 		public override void SetDefaults() {
 			this.item.width = BandolierItem.Width;
 			this.item.height = BandolierItem.Height;
 			this.item.maxStack = 1;
-			this.item.defense = 4;
+			this.item.defense = 3;
 			this.item.value = Item.buyPrice( 0, 5, 0, 0 );
 			this.item.rare = 5;
 			this.item.accessory = true;

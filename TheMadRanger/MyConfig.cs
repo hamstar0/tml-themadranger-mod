@@ -37,6 +37,9 @@ namespace TheMadRanger {
 		[DefaultValue( true )]
 		public bool PlayerSpawnsWithBandolier { get; set; } = true;
 
+		[DefaultValue( true )]
+		public bool BandolierNeededToReload { get; set; } = true;
+
 
 		[Range( 0, 60 * 60 )]
 		[DefaultValue( 60 )]

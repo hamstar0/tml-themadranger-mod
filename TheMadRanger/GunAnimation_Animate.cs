@@ -123,11 +123,11 @@ namespace TheMadRanger {
 
 					this.ReloadDuration = TMRConfig.Instance.ReloadRoundTickDuration;
 					this.ReloadingRounds = true;
-					return;
 				}
+				return;
 			}
 
-			if( myitem.InsertRound( plr ) ) {
+			if( myitem.IsGunAbleReloadable(plr) && myitem.InsertRound(plr) ) {
 				this.ReloadDuration = TMRConfig.Instance.ReloadRoundTickDuration;
 				return;
 			} else {

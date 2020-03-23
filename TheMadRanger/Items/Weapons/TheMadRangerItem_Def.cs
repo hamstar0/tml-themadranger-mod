@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using HamstarHelpers.Helpers.Debug;
+using HamstarHelpers.Helpers.Players;
 
 
 namespace TheMadRanger.Items.Weapons {
@@ -124,6 +125,28 @@ namespace TheMadRanger.Items.Weapons {
 			return canShoot;
 		}
 
+
+		////////////////
+
+		public bool IsGunAbleReloadable( Player player ) {
+			if( !TMRConfig.Instance.BandolierNeededToReload ) {
+				return true;
+			}
+
+			int bandolierType = ModContent.ItemType<SpeedloaderItem>();
+			int max = PlayerItemHelpers.GetCurrentVanillaMaxAccessories( player );
+
+			for( int i = PlayerItemHelpers.VanillaAccessorySlotFirst; i < max; i++ ) {
+				Item item = player.armor[i];
+				if( item == null || item.IsAir || item.type != bandolierType ) {
+					continue;
+				}
+
+				return true;
+			}
+
+			return false;
+		}
 
 		////
 
