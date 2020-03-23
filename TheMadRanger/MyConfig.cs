@@ -38,10 +38,6 @@ namespace TheMadRanger {
 		public bool PlayerSpawnsWithBandolier { get; set; } = true;
 
 
-		[Range( 1, 60 * 60 * 60 )]
-		[DefaultValue( 90 )]
-		public int AimModeActivationTickDurationWhileIdling { get; set; } = 90;
-
 		[Range( 0, 60 * 60 )]
 		[DefaultValue( 60 )]
 		public int ReloadInitTickDuration { get; set; } = 60;
@@ -60,9 +56,14 @@ namespace TheMadRanger {
 
 
 		[Range( 1, 999999 )]
-		[DefaultValue( 50 )]
+		[DefaultValue( 60 )]
 		[ReloadRequired]
-		public int MaximumAimedGunDamage { get; set; } = 50;
+		public int MaximumAimedGunDamage { get; set; } = 60;
+
+		[Range( 1, 999999 )]
+		[DefaultValue( 10 )]
+		[ReloadRequired]
+		public int MinimumUnaimedGunDamage { get; set; } = 10;
 
 		[Range( 1, 999999 )]
 		[DefaultValue( 40 )]
@@ -75,19 +76,39 @@ namespace TheMadRanger {
 		public float UnaimedConeDegreesRange { get; set; } = 30f;
 
 
-		[Range( 0f, 30f )]
-		[DefaultValue( 1.5f )]
-		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
-		public float AimModeDepleteRateWhilePlayerMoving { get; set; } = 1.5f;
+		[Range( 1, 60 * 60 * 60 )]
+		[DefaultValue( 90 )]
+		public int AimModeActivationThreshold { get; set; } = 90;
 
-		[Range( 0f, 30f )]
-		[DefaultValue( 0.5f )]
-		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
-		public float AimModeDepleteRateWhileMouseMoving { get; set; } = 0.5f;
 
-		[Range( 0f, 30f )]
+		[Range( 0f, 60f )]
+		[DefaultValue( 1f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float AimModeDepleteRateWhilePlayerMoving { get; set; } = 1f;
+
+		[Range( 0f, 60f )]
+		[DefaultValue( 0.1f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float AimModeDepleteRateWhileMouseMoving { get; set; } = 0.1f;
+
+		[Range( 0f, 60f )]
 		[DefaultValue( 1f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
 		public float AimModeBuildupRateWhileIdle { get; set; } = 1f;
+
+		[Range( 0f, 9999f )]
+		[DefaultValue( 10f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float AimModeBufferAddedThreshold { get; set; } = 10f;
+
+		[Range( 0f, 9999f )]
+		[DefaultValue( 5f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float AimModeOnHitBuildupAmount { get; set; } = 5f;
+
+		[Range( 0f, 9999f )]
+		[DefaultValue( 5f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float AimModeOnMissLossAmount { get; set; } = 5f;
 	}
 }

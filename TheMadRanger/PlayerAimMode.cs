@@ -19,13 +19,13 @@ namespace TheMadRanger {
 
 		////////////////
 
-		public bool IsModeActive => this.AimElapsed >= TMRConfig.Instance.AimModeActivationTickDurationWhileIdling;
+		public bool IsModeActive => this.AimElapsed >= TMRConfig.Instance.AimModeActivationThreshold;
 
 		public bool IsModeBeingActivated => this.AimElapsed > 0 && this.AimElapsed >= this.PrevAimElapsed;
 
 		public bool IsQuickDraw => this.QuickDrawDuration > 0;
 
-		public float AimPercent => (float)this.AimElapsed / (float)TMRConfig.Instance.AimModeActivationTickDurationWhileIdling;
+		public float AimPercent => (float)this.AimElapsed / (float)TMRConfig.Instance.AimModeActivationThreshold;
 
 
 		////////////////
@@ -46,7 +46,7 @@ namespace TheMadRanger {
 
 			if( this.QuickDrawDuration > 1 ) {
 				this.QuickDrawDuration--;
-				this.AimElapsed = TMRConfig.Instance.AimModeActivationTickDurationWhileIdling + 2f;
+				this.AimElapsed = TMRConfig.Instance.AimModeActivationThreshold + 2f;
 			} else if( this.QuickDrawDuration == 1 ) {
 				this.QuickDrawDuration = 0;
 				this.AimElapsed = 0;
@@ -59,7 +59,7 @@ namespace TheMadRanger {
 			// On fresh re-equip
 			if( prevHeldItem != plr.HeldItem ) {
 				if( !myplayer.GunAnim.IsAnimating ) {
-					this.ApplyQuickDraw( plr );
+					this.ApplyQuickDrawMode( plr );
 				}
 			}
 
@@ -80,9 +80,13 @@ namespace TheMadRanger {
 			// Mouse is moving
 			if( (this.LastAimMousePosition - mousePos).LengthSquared() > 1f ) {
 				this.AimElapsed = Math.Max( this.AimElapsed - TMRConfig.Instance.AimModeDepleteRateWhileMouseMoving, 0f );
-			} else {
-				int maxDuration = TMRConfig.Instance.AimModeActivationTickDurationWhileIdling + 2;	// Added buffer for slight aim tweaks
-				this.AimElapsed = Math.Min( this.AimElapsed + TMRConfig.Instance.AimModeBuildupRateWhileIdle, (float)maxDuration );
+			}
+			// Otherwise, apply normal idling buildup
+			else {
+				int maxDuration = TMRConfig.Instance.AimModeActivationThreshold + 2;	// Added buffer for slight aim tweaks
+				if( this.AimElapsed < maxDuration ) {
+					this.AimElapsed += TMRConfig.Instance.AimModeBuildupRateWhileIdle;
+				}
 			}
 
 			this.LastAimMousePosition = mousePos;
@@ -95,8 +99,8 @@ namespace TheMadRanger {
 
 
 		////////////////
-		
-		public void ApplyQuickDraw( Player plr ) {
+
+		public void ApplyQuickDrawMode( Player plr ) {
 			this.QuickDrawDuration = TMRConfig.Instance.QuickDrawTickDuration;
 
 			/*Vector2 pos = GunAnimation.GetGunTipPosition(plr) - new Vector2(-2);
@@ -107,6 +111,41 @@ namespace TheMadRanger {
 				dust.noGravity = true;
 				dust.shader = GameShaders.Armor.GetSecondaryShader( 3, plr );
 			}*/
+		}
+
+		public void ApplySuccessfulHit( Player plr ) {
+			int max = (int)TMRConfig.Instance.AimModeActivationThreshold + (int)TMRConfig.Instance.AimModeBufferAddedThreshold;
+
+			// Switch to full aim mode
+			if( this.IsQuickDraw ) {
+				this.QuickDrawDuration = 0;
+				this.AimElapsed = TMRConfig.Instance.AimModeActivationThreshold + 2;
+			}
+			// Otherwise, increase buildup to aim mode
+			else {
+				this.AimElapsed += TMRConfig.Instance.AimModeOnHitBuildupAmount;
+				if( this.AimElapsed > max ) {
+					this.AimElapsed = max;
+				}
+			}
+		}
+
+		public void ApplyUnsuccessfulHit( Player plr ) {
+			if( !this.IsModeActive ) {
+				this.AimElapsed -= TMRConfig.Instance.AimModeOnMissLossAmount;
+				if( this.AimElapsed < 0f ) {
+					this.AimElapsed = 0f;
+				}
+			}
+		}
+
+
+		////////////////
+
+		public void InitializeBulletProjectile( Projectile projectile ) {
+			if( this.AimPercent >= 1f ) {
+				projectile.maxPenetrate = 2;
+			}
 		}
 
 
@@ -132,13 +171,16 @@ namespace TheMadRanger {
 			}
 
 			UnifiedRandom rand = TmlHelpers.SafelyGetRand();
-			int maxAimDmg = TMRConfig.Instance.MaximumAimedGunDamage;
-			int maxUnaimDmg = TMRConfig.Instance.MaximumUnaimedGunDamage;
+			float maxAimDmg = TMRConfig.Instance.MaximumAimedGunDamage;
+			float minUnaimDmg = TMRConfig.Instance.MinimumUnaimedGunDamage;
+			float maxUnaimDmg = TMRConfig.Instance.MaximumUnaimedGunDamage;
 			float dmgPercent = (float)damage / maxAimDmg;
 
-			float baseDmg = (float)maxUnaimDmg * dmgPercent;
-
-			int newDmg = (int)(rand.NextFloat() * (baseDmg - 1f)) + 1;
+			float baseDmg = maxUnaimDmg * dmgPercent;
+			float dmgMinPercent = minUnaimDmg / maxUnaimDmg;
+			float dmgRand = dmgMinPercent + (rand.NextFloat() * (1f - dmgMinPercent) );
+			
+			int newDmg = (int)(dmgRand * (baseDmg - 1f)) + 1;
 			return newDmg;
 		}
 	}

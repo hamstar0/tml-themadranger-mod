@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -6,7 +7,8 @@ using Terraria.ModLoader;
 
 namespace TheMadRanger {
 	class MyProjectile : GlobalProjectile {
-		public bool QuickFiredFromRevolver { get; internal set; } = false;
+		public bool IsFiredFromRevolver { get; internal set; } = false;
+		public bool IsQuickFiredFromRevolver { get; internal set; } = false;
 
 
 		////////////////
@@ -18,19 +20,23 @@ namespace TheMadRanger {
 		////////////////
 
 		public override bool PreAI( Projectile projectile ) {
-			if( projectile.type != ProjectileID.Bullet || projectile.npcProj && this.QuickFiredFromRevolver ) {
+			if( projectile.type != ProjectileID.Bullet || projectile.npcProj || this.IsFiredFromRevolver ) {
 				return true;
 			}
 
-			Player plr = Main.player[projectile.owner];
+			Player plr = Main.player[ projectile.owner ];
 			if( plr?.active != true ) {
 				return true;
 			}
 
+			this.IsFiredFromRevolver = true;
+
 			var myplayer = plr.GetModPlayer<TMRPlayer>();
 			if( myplayer.AimMode.IsQuickDraw ) {
-				this.QuickFiredFromRevolver = true;
+				this.IsQuickFiredFromRevolver = true;
 			}
+
+			myplayer.AimMode.InitializeBulletProjectile( projectile );
 
 			return base.PreAI( projectile );
 		}
@@ -39,15 +45,27 @@ namespace TheMadRanger {
 		////////////////
 
 		public override void OnHitNPC( Projectile projectile, NPC target, int damage, float knockback, bool crit ) {
-			if( this.QuickFiredFromRevolver ) {
+			if( this.IsFiredFromRevolver ) {
 				this.OnHit( projectile );
 			}
 		}
 
 		public override void OnHitPvp( Projectile projectile, Player target, int damage, bool crit ) {
-			if( this.QuickFiredFromRevolver ) {
+			if( this.IsFiredFromRevolver ) {
 				this.OnHit( projectile );
 			}
+		}
+
+		////
+
+		public override bool OnTileCollide( Projectile projectile, Vector2 oldVelocity ) {
+			if( projectile.owner < 0 ) { return true; }
+			Player plr = Main.player[projectile.owner];
+			if( !plr.active ) { return false; }
+
+			var myplayer = plr.GetModPlayer<TMRPlayer>();
+			myplayer.AimMode.ApplyUnsuccessfulHit( plr );
+			return true;
 		}
 
 		////
@@ -58,7 +76,7 @@ namespace TheMadRanger {
 			if( !plr.active ) { return; }
 
 			var myplayer = plr.GetModPlayer<TMRPlayer>();
-			myplayer.AimMode.ApplyQuickDraw( plr );
+			myplayer.AimMode.ApplySuccessfulHit( plr );
 		}
 	}
 }

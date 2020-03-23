@@ -87,6 +87,7 @@ namespace TheMadRanger {
 
 					items.Add( revolver );
 				}
+
 				if( TMRConfig.Instance.PlayerSpawnsWithBandolier ) {
 					var bandolier = new Item();
 					bandolier.SetDefaults( ModContent.ItemType<BandolierItem>() );
