@@ -35,8 +35,15 @@ namespace TheMadRanger {
 
 		//
 
-		//[DefaultValue( true )]
-		//public bool RecipeEnabled { get; set; } = true;
+
+		[DefaultValue( false )]
+		public bool RecipeAvailableForBandolier { get; set; } = false;
+
+		[DefaultValue( true )]
+		public bool RecipeAvailableForSpeedloader { get; set; } = true;
+
+		[DefaultValue( false )]
+		public bool RecipeAvailableForTheMadRanger { get; set; } = false;
 
 
 		[DefaultValue( true )]

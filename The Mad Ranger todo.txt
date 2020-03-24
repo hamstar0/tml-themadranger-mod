@@ -22,10 +22,9 @@ v1
 -	Sync aim position
 -	Animate holstering when switching to a hold style item
 -	Block hold style items while holstering
--	Implement speedloader item
-	-	Set item to appear in world chests (requires Chest Implants)
-	-	Add crafting recipe (Illegal Gun Parts, 6 Actuators)
 
+-	Implement speedloader item
+	-	Add crafting recipe (Illegal Gun Parts, 6 Actuators)
 	-	Set speedloader to reload when right-clicked on (takes 1s each)
 	-	Display speedloader load state
 	-	Set revolver to reload from a loaded speedloader

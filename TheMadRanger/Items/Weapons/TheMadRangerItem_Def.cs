@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using HamstarHelpers.Helpers.Debug;
 using HamstarHelpers.Helpers.Players;
+using TheMadRanger.Recipes;
 using TheMadRanger.Items.Accessories;
 
 
@@ -115,6 +116,14 @@ namespace TheMadRanger.Items.Weapons {
 
 			this.item.rare = 4;
 			this.item.value = Item.buyPrice( 0, 5, 0, 0 );
+		}
+
+
+		////////////////
+
+		public override void AddRecipes() {
+			var recipe = new TheMadRangerRecipe( this );
+			recipe.AddRecipe();
 		}
 
 

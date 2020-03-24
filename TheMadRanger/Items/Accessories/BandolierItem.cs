@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
+using TheMadRanger.Recipes;
 
 
 namespace TheMadRanger.Items.Accessories {
@@ -13,7 +14,7 @@ namespace TheMadRanger.Items.Accessories {
 		////////////////
 		
 		public override void SetStaticDefaults() {
-			this.DisplayName.SetDefault( "Bandolier" );
+			this.DisplayName.SetDefault( "Ammo Bandolier" );
 			this.Tooltip.SetDefault( "An ample supply of .357 ammo." );
 		}
 
@@ -25,6 +26,14 @@ namespace TheMadRanger.Items.Accessories {
 			this.item.value = Item.buyPrice( 0, 5, 0, 0 );
 			this.item.rare = 5;
 			this.item.accessory = true;
+		}
+
+
+		////////////////
+
+		public override void AddRecipes() {
+			var recipe = new BandolierRecipe( this );
+			recipe.AddRecipe();
 		}
 	}
 }

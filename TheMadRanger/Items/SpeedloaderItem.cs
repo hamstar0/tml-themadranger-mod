@@ -3,8 +3,9 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using HamstarHelpers.Services.Timers;
-using TheMadRanger.Helpers.Misc;
+using TheMadRanger.Recipes;
 using TheMadRanger.Items.Weapons;
+using TheMadRanger.Helpers.Misc;
 
 
 namespace TheMadRanger.Items {
@@ -37,8 +38,11 @@ namespace TheMadRanger.Items {
 		////////////////
 
 		public override void SetStaticDefaults() {
-			this.DisplayName.SetDefault( "Speedloader" );
-			this.Tooltip.SetDefault( "Quickly loads a revolver cylinder." );
+			this.DisplayName.SetDefault( ".357 Speedloader" );
+			this.Tooltip.SetDefault(
+				"Quickly loads a .357 revolver cylinder."
+				+"\nRight-click to preload speedloader"
+			);
 		}
 
 		public override void SetDefaults() {
@@ -48,6 +52,14 @@ namespace TheMadRanger.Items {
 			this.item.value = Item.buyPrice( 0, 1, 0, 0 );
 			this.item.rare = 4;
 			this.item.scale = 0.75f;
+		}
+
+
+		////////////////
+
+		public override void AddRecipes() {
+			var recipe = new SpeedloaderRecipe( this );
+			recipe.AddRecipe();
 		}
 
 
