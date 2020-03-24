@@ -9,7 +9,7 @@ using TheMadRanger.Items.Weapons;
 
 
 namespace TheMadRanger {
-	partial class GunAnimation {
+	partial class GunHandling {
 		public float GetAddedRotationDegrees( Player plr ) {
 			float degrees;
 

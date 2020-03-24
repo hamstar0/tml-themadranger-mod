@@ -15,7 +15,7 @@ namespace TheMadRanger {
 
 		////////////////
 
-		public GunAnimation GunAnim { get; } = new GunAnimation();
+		public GunHandling GunAnim { get; } = new GunHandling();
 		public PlayerAimMode AimMode { get; } = new PlayerAimMode();
 
 		////////////////

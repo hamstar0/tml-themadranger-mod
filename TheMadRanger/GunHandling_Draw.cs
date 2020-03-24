@@ -10,7 +10,7 @@ using TheMadRanger.Items.Weapons;
 
 
 namespace TheMadRanger {
-	partial class GunAnimation {
+	partial class GunHandling {
 		public void ModifyDrawLayers( Player plr, List<PlayerLayer> layers ) {
 			if( this.IsAnimating ) {
 				this.ModifyDrawLayersForAnimating( plr, layers );

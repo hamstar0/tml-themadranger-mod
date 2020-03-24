@@ -9,7 +9,7 @@ using TheMadRanger.Items.Weapons;
 
 
 namespace TheMadRanger {
-	partial class GunAnimation {
+	partial class GunHandling {
 		/*public static Vector2 GetGunTipPosition( Player plr ) {
 			var myplayer = plr.GetModPlayer<TMRPlayer>();
 			Texture2D tex = Main.itemTexture[ ModContent.ItemType<TheMadRangerItem>() ];
@@ -76,7 +76,7 @@ namespace TheMadRanger {
 
 		////////////////
 
-		public GunAnimation() {
+		public GunHandling() {
 			this.GunDrawLayer = new PlayerLayer( "TheMadRanger", "Custom Gun Animation", (plrDrawInfo) => {
 				Main.playerDrawData.Add( this.GetGunDrawData(plrDrawInfo) );
 
