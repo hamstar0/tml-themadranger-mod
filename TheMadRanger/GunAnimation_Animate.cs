@@ -102,41 +102,49 @@ namespace TheMadRanger {
 		////////////////
 
 		private void UpdateReloadingSequence( Player plr ) {
+			// Not reloading
 			if( this.ReloadDuration == 0 ) {
 				return;
 			}
 
+			// Reloading timer
 			if( this.ReloadDuration > 1 ) {
 				this.ReloadDuration--;
 				return;
 			}
 
-			var myitem = (TheMadRangerItem)plr.HeldItem.modItem;
+			// No item to reload
+			var myitem = plr.HeldItem.modItem as TheMadRangerItem;
 			if( myitem == null ) {
 				return;
 			}
 
+			// Not yet loading rounds
 			if( !this.ReloadingRounds ) {
+				// Start loading rounds, if cylinder empty
 				if( !myitem.IsCylinderEmpty() ) {
-					(int Shells, int Rounds) unloadings = myitem.UnloadCylinder( plr );   // TODO: Recycle bullets
+					(int Shells, int Rounds) unloadings = myitem.UnloadCylinder( plr );
 					this.ProcessUnloadedGunRounds( plr, unloadings.Shells, unloadings.Rounds );
-
-					this.ReloadDuration = TMRConfig.Instance.ReloadRoundTickDuration;
-					this.ReloadingRounds = true;
 				}
+				this.ReloadDuration = TMRConfig.Instance.ReloadRoundTickDuration;
+				this.ReloadingRounds = true;
 				return;
 			}
 
-			if( !myitem.IsGunAbleReloadable(plr) ) {
+			// No ammo source; stop reloading
+			if( !myitem.IsAmmoSourceAvailable(plr) ) {
 				this.StopReloading( plr );
+				return;
 			}
 
+			// Reload rounds until not possible
 			if( myitem.InsertSpeedloader(plr) || myitem.InsertRound(plr) ) {
 				this.ReloadDuration = TMRConfig.Instance.ReloadRoundTickDuration;
 				return;
-			} else {
-				this.StopReloading( plr );
 			}
+
+			this.StopReloading( plr );
+			return;
 		}
 
 

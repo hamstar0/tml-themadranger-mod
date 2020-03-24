@@ -41,7 +41,7 @@ namespace TheMadRanger.Items.Weapons {
 			int initPos = this.CylinderIdx;
 
 			do {
-				if( this.CylinderInsertOnce() == 0 ) {
+				if( this.CylinderInsertOnce() ) {
 					hasInserted = true;
 					SoundHelpers.PlaySound( "RevolverReloadRound", player.Center, 0.5f );
 					break;
@@ -69,18 +69,18 @@ namespace TheMadRanger.Items.Weapons {
 					continue;
 				}
 
-				return this.InsertSpeedloader( player, item );
+				return this.InsertSpeedloaderIntoEmptyGun( player, item );
 			}
 
 			return false;
 		}
 
-		private bool InsertSpeedloader( Player player, Item speedloaderItem ) {
+		private bool InsertSpeedloaderIntoEmptyGun( Player player, Item speedloaderItem ) {
 			int inserted = 0;
 			var myitem = speedloaderItem.modItem as SpeedloaderItem;
 
 			for( int j = 0; j < myitem.LoadedRounds; j++ ) {
-				if( this.CylinderInsertOnce() == 0 ) {
+				if( this.CylinderInsertOnce() ) {
 					inserted += 1;
 				}
 			}
@@ -109,7 +109,7 @@ namespace TheMadRanger.Items.Weapons {
 
 		////
 
-		private int CylinderInsertOnce() {
+		private bool CylinderInsertOnce() {
 			int roundSlot = this.Cylinder[this.CylinderIdx];
 
 			if( roundSlot == 0 ) {
@@ -118,7 +118,7 @@ namespace TheMadRanger.Items.Weapons {
 
 			this.RotateCylinder( -1 );
 
-			return roundSlot;
+			return roundSlot == 0;
 		}
 
 

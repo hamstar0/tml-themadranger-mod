@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using HamstarHelpers.Helpers.Debug;
 using HamstarHelpers.Helpers.Players;
+using TheMadRanger.Items.Accessories;
 
 
 namespace TheMadRanger.Items.Weapons {
@@ -35,7 +36,7 @@ namespace TheMadRanger.Items.Weapons {
 
 		public override void SetStaticDefaults() {
 			this.DisplayName.SetDefault( "The Mad Ranger" );
-			this.Tooltip.SetDefault( "An antique gun from a far away land."
+			this.Tooltip.SetDefault( "An antique .357 revolver from a far away land."
 				+ "\nUnusually powerful; needs a steady hand"
 				+ "\nOnly uses a particular, manufactured ammo"
 			);
@@ -128,21 +129,37 @@ namespace TheMadRanger.Items.Weapons {
 
 		////////////////
 
-		public bool IsGunAbleReloadable( Player player ) {
-			if( !TMRConfig.Instance.BandolierNeededToReload ) {
+		public bool IsAmmoSourceAvailable( Player player ) {
+			if( TMRConfig.Instance.InfiniteAmmoCheat ) {
 				return true;
 			}
 
-			int bandolierType = ModContent.ItemType<SpeedloaderItem>();
-			int max = PlayerItemHelpers.GetCurrentVanillaMaxAccessories( player );
+			int speedloaderType = ModContent.ItemType<SpeedloaderItem>();
 
-			for( int i = PlayerItemHelpers.VanillaAccessorySlotFirst; i < max; i++ ) {
-				Item item = player.armor[i];
-				if( item == null || item.IsAir || item.type != bandolierType ) {
+			for( int i = 0; i < player.inventory.Length; i++ ) {
+				Item item = player.inventory[i];
+				if( item == null || item.IsAir || item.type != speedloaderType ) {
 					continue;
 				}
 
-				return true;
+				var myitem = item.modItem as SpeedloaderItem;
+				if( (myitem?.LoadedRounds ?? 0) > 0 ) {
+					return true;
+				}
+			}
+
+			if( TMRConfig.Instance.BandolierNeededToReload ) {
+				int bandolierType = ModContent.ItemType<BandolierItem>();
+				int max = PlayerItemHelpers.GetCurrentVanillaMaxAccessories( player );
+
+				for( int i = PlayerItemHelpers.VanillaAccessorySlotFirst; i < max; i++ ) {
+					Item item = player.armor[i];
+					if( item == null || item.IsAir || item.type != bandolierType ) {
+						continue;
+					}
+
+					return true;
+				}
 			}
 
 			return false;

@@ -24,8 +24,8 @@ v1
 -	Implement speedloader item
 	-	Set item to appear in world chests (requires Chest Implants)
 	-	Set speedloader to reload when right-clicked on (takes 3s each)
-	-	Display speedloader load state
 
+	-	Display speedloader load state
 	-	Set revolver to reload from a loaded speedloader
 	-	Implement loaded vs unloaded state
 	-	Define item

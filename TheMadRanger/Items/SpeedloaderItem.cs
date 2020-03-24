@@ -6,8 +6,8 @@ using TheMadRanger.Helpers.Misc;
 
 namespace TheMadRanger.Items {
 	class SpeedloaderItem : ModItem {
-		public static int Width = 12;
-		public static int Height = 12;
+		public static int Width = 10;
+		public static int Height = 10;
 
 
 
@@ -19,6 +19,15 @@ namespace TheMadRanger.Items {
 		////////////////
 
 		public override bool CloneNewInstances => false;
+
+		public override string Texture {
+			get {
+				if( this.LoadedRounds > 0 ) {
+					return "Items/SpeedloaderItem_Loaded";
+				}
+				return base.Texture;
+			}
+		}
 
 
 
@@ -54,6 +63,17 @@ namespace TheMadRanger.Items {
 			};
 
 			return tag;
+		}
+
+
+		////////////////
+
+		public override bool CanRightClick() {
+			return false;
+		}
+
+		public override bool ConsumeItem( Player player ) {
+			return base.ConsumeItem( player );
 		}
 
 

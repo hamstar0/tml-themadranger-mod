@@ -83,8 +83,8 @@ namespace TheMadRanger {
 			}
 			// Otherwise, apply normal idling buildup
 			else {
-				int maxDuration = TMRConfig.Instance.AimModeActivationThreshold + 2;	// Added buffer for slight aim tweaks
-				if( this.AimElapsed < maxDuration ) {
+				int activationThreshold = TMRConfig.Instance.AimModeActivationThreshold + 2;	// Added buffer for slight aim tweaks
+				if( this.AimElapsed < activationThreshold ) {
 					this.AimElapsed += TMRConfig.Instance.AimModeBuildupRateWhileIdle;
 				}
 			}
