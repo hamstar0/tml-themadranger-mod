@@ -127,7 +127,11 @@ namespace TheMadRanger {
 				return;
 			}
 
-			if( myitem.IsGunAbleReloadable(plr) && myitem.InsertRound(plr) ) {
+			if( !myitem.IsGunAbleReloadable(plr) ) {
+				this.StopReloading( plr );
+			}
+
+			if( myitem.InsertSpeedloader(plr) || myitem.InsertRound(plr) ) {
 				this.ReloadDuration = TMRConfig.Instance.ReloadRoundTickDuration;
 				return;
 			} else {

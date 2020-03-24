@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using TheMadRanger.Helpers.Misc;
 
 
 namespace TheMadRanger.Items {
@@ -12,7 +13,7 @@ namespace TheMadRanger.Items {
 
 		////////////////
 
-		private int LoadedRounds = 0;
+		public int LoadedRounds { get; private set; } = 0;
 
 
 		////////////////
@@ -53,6 +54,15 @@ namespace TheMadRanger.Items {
 			};
 
 			return tag;
+		}
+
+
+		////////////////
+
+		public void TransferRounds( Player player ) {
+			this.LoadedRounds = 0;
+
+			SoundHelpers.PlaySound( "RevolverReloadRound", player.Center, 0.5f );
 		}
 	}
 }
