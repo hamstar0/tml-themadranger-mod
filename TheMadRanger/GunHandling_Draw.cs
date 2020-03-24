@@ -11,39 +11,26 @@ using TheMadRanger.Items.Weapons;
 
 namespace TheMadRanger {
 	partial class GunHandling {
-		public void ModifyDrawLayers( Player plr, List<PlayerLayer> layers ) {
-			if( this.IsAnimating ) {
-				this.ModifyDrawLayersForAnimating( plr, layers );
-			}
+		private void InitDrawLayers() {
+			this.GunDrawLayer = new PlayerLayer( "TheMadRanger", "Custom Gun Animation", ( plrDrawInfo ) => {
+				Main.playerDrawData.Add( this.GetGunDrawData( plrDrawInfo ) );
+
+				DrawData? drawData = this.GetReloadDrawData( plrDrawInfo );
+				if( drawData.HasValue ) {
+					Main.playerDrawData.Add( drawData.Value );
+				}
+			} );
 		}
 
-		private void ModifyDrawLayersForAnimating( Player plr, List<PlayerLayer> layers ) {
-			int heldItemIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HeldItem );
-			int armsLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.Arms );
-			int handLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HandOnAcc );
-			int bodyLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.Body );
-			int skinLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.Skin );
 
-			this.BodyFrameShifted = plr.bodyFrame;
-			this.BodyFrameShifted.Y = plr.bodyFrame.Height * 3;
+		////////////////
 
-			if( heldItemIdx != -1 ) {
-				layers.Insert( heldItemIdx + 1, this.GunDrawLayer );
-			}
-			if( bodyLayerIdx != -1 && skinLayerIdx != -1 ) {
-				layers.Insert( armsLayerIdx + 1, this.ArmsShiftLayer );
-				layers.Insert( armsLayerIdx, this.ArmsUnshiftLayer );
-				layers.Insert( handLayerIdx + 1, this.HandShiftLayer );
-				layers.Insert( handLayerIdx, this.HandUnshiftLayer );
-				layers.Insert( bodyLayerIdx + 1, this.BodyUnshiftLayer );
-				layers.Insert( bodyLayerIdx, this.BodyShiftLayer );
-				layers.Insert( skinLayerIdx + 1, this.SkinUnshiftLayer );
-				layers.Insert( skinLayerIdx, this.SkinShiftLayer );
-
-				armsLayerIdx++;
-				handLayerIdx++;
-				bodyLayerIdx++;
-				skinLayerIdx++;
+		public void ModifyDrawLayers( Player plr, List<PlayerLayer> layers ) {
+			if( this.IsAnimating ) {
+				int heldItemIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HeldItem );
+				if( heldItemIdx != -1 ) {
+					layers.Insert( heldItemIdx + 1, this.GunDrawLayer );
+				}
 			}
 		}
 

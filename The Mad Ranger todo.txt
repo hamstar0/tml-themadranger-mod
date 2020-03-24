@@ -18,6 +18,7 @@ v1
 -	@B&D: Gravity flip as a progression mechanic
 -	@B&D: Diluted Ectoplasm in pots
 -	@MH: Debug MH "bad mods" route
+-	@Fix: Nihilism default configs
 -	@Test in MP
 -	Sync aim position
 -	Animate holstering when switching to a hold style item

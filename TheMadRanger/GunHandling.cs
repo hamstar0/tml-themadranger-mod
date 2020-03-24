@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 using HamstarHelpers.Helpers.Debug;
 using TheMadRanger.Helpers.Misc;
 using TheMadRanger.Items.Weapons;
@@ -62,48 +61,14 @@ namespace TheMadRanger {
 
 		////
 
-		public PlayerLayer GunDrawLayer { get; }
-		public PlayerLayer ArmsShiftLayer { get; }
-		public PlayerLayer ArmsUnshiftLayer { get; }
-		public PlayerLayer HandShiftLayer { get; }
-		public PlayerLayer HandUnshiftLayer { get; }
-		public PlayerLayer BodyShiftLayer { get; }
-		public PlayerLayer BodyUnshiftLayer { get; }
-		public PlayerLayer SkinShiftLayer { get; }
-		public PlayerLayer SkinUnshiftLayer { get; }
+		public PlayerLayer GunDrawLayer { get; private set; }
 
 
 
 		////////////////
 
 		public GunHandling() {
-			this.GunDrawLayer = new PlayerLayer( "TheMadRanger", "Custom Gun Animation", (plrDrawInfo) => {
-				Main.playerDrawData.Add( this.GetGunDrawData(plrDrawInfo) );
-
-				DrawData? drawData = this.GetReloadDrawData( plrDrawInfo );
-				if( drawData.HasValue ) {
-					Main.playerDrawData.Add( drawData.Value );
-				}
-			} );
-
-			var unshiftedBodyFrame = default(Rectangle);
-
-			Action<PlayerDrawInfo> shiftAction = ( plrDrawInfo ) => {
-				unshiftedBodyFrame = plrDrawInfo.drawPlayer.bodyFrame;
-				plrDrawInfo.drawPlayer.bodyFrame = this.BodyFrameShifted;
-			};
-			Action<PlayerDrawInfo> unshiftAction = ( plrDrawInfo ) => {
-				plrDrawInfo.drawPlayer.bodyFrame = unshiftedBodyFrame;
-			};
-
-			this.ArmsShiftLayer = new PlayerLayer( "TheMadRanger", "Gun Holster Arms Shift Reframe", shiftAction );
-			this.ArmsUnshiftLayer = new PlayerLayer( "TheMadRanger", "Gun Holster Arms Unshift Reframe", unshiftAction );
-			this.HandShiftLayer = new PlayerLayer( "TheMadRanger", "Gun Holster Arm Shift Reframe", shiftAction );
-			this.HandUnshiftLayer = new PlayerLayer( "TheMadRanger", "Gun Holster Arm Unshift Reframe", unshiftAction );
-			this.BodyShiftLayer = new PlayerLayer( "TheMadRanger", "Gun Holster Torso Shift Reframe", shiftAction );
-			this.BodyUnshiftLayer = new PlayerLayer( "TheMadRanger", "Gun Holster Torso Unshift Reframe", unshiftAction );
-			this.SkinShiftLayer = new PlayerLayer( "TheMadRanger", "Gun Holster Torso Skin Shift Reframe", shiftAction );
-			this.SkinUnshiftLayer = new PlayerLayer( "TheMadRanger", "Gun Holster Torso Skin Unshift Reframe", unshiftAction );
+			this.InitDrawLayers();
 		}
 
 

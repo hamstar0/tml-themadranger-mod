@@ -7,15 +7,22 @@ namespace TheMadRanger {
 	partial class TMRPlayer : ModPlayer {
 		public override void DrawEffects( PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright ) {
 			if( TMRPlayer.IsHoldingGun( this.player ) ) {
-				drawInfo.drawPlayer.bodyFrame.Y = TMRPlayer.AimGunForBodyFrameY( this.player );
-				drawInfo.drawPlayer.hairFrame.Y = drawInfo.drawPlayer.bodyFrame.Y;
+				if( !this.GunHandling.IsAnimating ) {
+					drawInfo.drawPlayer.bodyFrame.Y = TMRPlayer.AimGunForBodyFrameY( this.player );
+					//drawInfo.drawPlayer.hairFrame.Y = drawInfo.drawPlayer.bodyFrame.Y;
+				} else {
+					drawInfo.drawPlayer.bodyFrame.Y = this.player.bodyFrame.Height * 3;
+				}
 			}
 		}
 
 		public override void ModifyDrawInfo( ref PlayerDrawInfo drawInfo ) {
 			if( TMRPlayer.IsHoldingGun( this.player ) ) {
-				drawInfo.drawPlayer.bodyFrame.Y = TMRPlayer.AimGunForBodyFrameY( this.player );
-				drawInfo.drawPlayer.hairFrame.Y = drawInfo.drawPlayer.bodyFrame.Y;
+				if( !this.GunHandling.IsAnimating ) {
+					drawInfo.drawPlayer.bodyFrame.Y = TMRPlayer.AimGunForBodyFrameY( this.player );
+				} else {
+					drawInfo.drawPlayer.bodyFrame.Y = this.player.bodyFrame.Height * 3;
+				}
 			}
 		}
 
@@ -51,24 +58,27 @@ namespace TheMadRanger {
 				newBodyFrameY = this.player.bodyFrame.Height * 3;
 			}
 
+			//
+
 			if( !PlayerDraw.GetPlayerLayersForItemHolding( this.player, newBodyFrameY, out armLayer, out itemLayer, out handLayer ) ) {
 				return false;
 			}
 
-			int itemLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HeldItem );
-			int armLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.Arms );
-			int handLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HandOnAcc );
+			//
 
+			int itemLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HeldItem );
 			if( itemLayerIdx != -1 ) {
-				plrLayer = new PlayerLayer( "TheMadRanger", "Held Item", /*PlayerLayer.HeldItem,*/ itemLayer );
+				plrLayer = new PlayerLayer( "TheMadRanger", "Held Item", itemLayer );
 				layers.Insert( itemLayerIdx + 1, plrLayer );
 			}
+			int armLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.Arms );
 			if( armLayerIdx != -1 ) {
-				plrLayer = new PlayerLayer( "TheMadRanger", "Item Holding Arm", /*PlayerLayer.Arms,*/ armLayer );
+				plrLayer = new PlayerLayer( "TheMadRanger", "Item Holding Arm", armLayer );
 				layers.Insert( armLayerIdx+1, plrLayer );
 			}
+			int handLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HandOnAcc );
 			if( handLayerIdx != -1 ) {
-				plrLayer = new PlayerLayer( "TheMadRanger", "Item Holding Hand", /*PlayerLayer.HandOnAcc,*/ handLayer );
+				plrLayer = new PlayerLayer( "TheMadRanger", "Item Holding Hand", handLayer );
 				layers.Insert( handLayerIdx+1, plrLayer );
 			}
 

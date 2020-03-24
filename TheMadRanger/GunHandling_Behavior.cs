@@ -47,11 +47,11 @@ namespace TheMadRanger {
 
 		////////////////
 
-		public void UpdateHolsterAnimation( Player player ) {
+		public void UpdateHolsterAnimation( Player plr ) {
 			if( this.HolsterDuration > 0 ) {
 				this.HolsterDuration--;
 
-				if( player.direction > 0 ) {
+				if( plr.direction > 0 ) {
 					this.HolsterTwirlAddedRotationDegrees -= 32f;
 					if( this.HolsterTwirlAddedRotationDegrees < 0f ) {
 						this.HolsterTwirlAddedRotationDegrees += 360f;
