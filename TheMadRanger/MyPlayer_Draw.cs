@@ -26,15 +26,15 @@ namespace TheMadRanger {
 			if( TMRPlayer.IsHoldingGun( this.player ) ) {
 				(bool isAimWithinArc, int aimDir) aim = this.ApplyGunAim();
 
-				if( !this.GunAnim.IsAnimating ) {
-					if( aim.aimDir == this.player.direction || this.GunAnim.RecoilDuration == 0 ) {
+				if( !this.GunHandling.IsAnimating ) {
+					if( aim.aimDir == this.player.direction || this.GunHandling.RecoilDuration == 0 ) {
 						this.ModifyDrawLayersForGun( layers, true );
 						this.player.headPosition.Y += 1;
 					}
 				}
 			}
 
-			this.GunAnim.ModifyDrawLayers( this.player, layers );
+			this.GunHandling.ModifyDrawLayers( this.player, layers );
 		}
 
 

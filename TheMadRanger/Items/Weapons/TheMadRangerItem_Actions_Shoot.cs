@@ -21,18 +21,18 @@ namespace TheMadRanger.Items.Weapons {
 				return false;
 			}
 
-			if( myplayer.GunAnim.IsReloading ) {
-				if( !myplayer.GunAnim.ReloadingRounds ) {
+			if( myplayer.GunHandling.IsReloading ) {
+				if( !myplayer.GunHandling.ReloadingRounds ) {
 					return false;
 				}
-				myplayer.GunAnim.StopReloading( player );
+				myplayer.GunHandling.StopReloading( player );
 				this.ElapsedTimeSinceLastShotAttempt = 0;
 			}
 
 			bool wantsReload;
 			if( !this.AttemptGunShotBegin(player, out wantsReload) ) {
 				if( wantsReload ) {
-					myplayer.GunAnim.BeginReload( player );
+					myplayer.GunHandling.BeginReload( player );
 				}
 				return false;
 			}
@@ -46,7 +46,7 @@ namespace TheMadRanger.Items.Weapons {
 
 			damage = myplayer.AimMode.GetAimStateShakeDamage( damage );
 
-			myplayer.GunAnim.BeginRecoil( MathHelper.ToDegrees(shakeAddedRads) * -player.direction );
+			myplayer.GunHandling.BeginRecoil( MathHelper.ToDegrees(shakeAddedRads) * -player.direction );
 
 			return true;
 		}

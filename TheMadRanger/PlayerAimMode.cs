@@ -58,13 +58,13 @@ namespace TheMadRanger {
 
 			// On fresh re-equip
 			if( prevHeldItem != plr.HeldItem ) {
-				if( !myplayer.GunAnim.IsAnimating ) {
+				if( !myplayer.GunHandling.IsAnimating ) {
 					this.ApplyQuickDrawMode( plr );
 				}
 			}
 
 			// Animations cancel aim mode
-			if( myplayer.GunAnim.IsAnimating ) {
+			if( myplayer.GunHandling.IsAnimating ) {
 				this.AimElapsed = 0f;
 				return;
 			}

@@ -15,7 +15,7 @@ namespace TheMadRanger {
 
 		////////////////
 
-		public GunHandling GunAnim { get; } = new GunHandling();
+		public GunHandling GunHandling { get; } = new GunHandling();
 		public PlayerAimMode AimMode { get; } = new PlayerAimMode();
 
 		////////////////
@@ -35,7 +35,7 @@ namespace TheMadRanger {
 
 			this.CheckCurrentHeldItemState();
 
-			this.GunAnim.Update( this.player );
+			this.GunHandling.Update( this.player );
 
 			if( this.InventorySlotOfPreviousHeldItem != this.player.selectedItem ) {
 				this.InventorySlotOfPreviousHeldItem = this.player.selectedItem;
@@ -45,7 +45,7 @@ namespace TheMadRanger {
 
 		private void CheckPreviousHeldItemState( Item prevHeldItem ) {
 			if( prevHeldItem != null && !prevHeldItem.IsAir && prevHeldItem.type == ModContent.ItemType<TheMadRangerItem>() ) {
-				this.GunAnim.BeginHolster( this.player );
+				this.GunHandling.BeginHolster( this.player );
 			}
 		}
 
@@ -53,7 +53,7 @@ namespace TheMadRanger {
 			this.AimMode.CheckAimState( this.player );
 
 			if( TMRPlayer.IsHoldingGun(this.player) ) {
-				this.GunAnim.UpdateEquipped( this.player );
+				this.GunHandling.UpdateEquipped( this.player );
 
 				Item prevItem = null;
 				if( this.InventorySlotOfPreviousHeldItem != -1 ) {
@@ -62,7 +62,7 @@ namespace TheMadRanger {
 
 				this.AimMode.CheckEquippedAimState( this.player, prevItem );
 			} else {
-				this.GunAnim.UpdateUnequipped( this.player );
+				this.GunHandling.UpdateUnequipped( this.player );
 				this.AimMode.CheckUnequippedAimState();
 			}
 		}
@@ -72,7 +72,7 @@ namespace TheMadRanger {
 
 		public override void ProcessTriggers( TriggersSet triggersSet ) {
 			if( TMRMod.Instance.ReloadKey.JustPressed ) {
-				this.GunAnim.BeginReload( this.player );
+				this.GunHandling.BeginReload( this.player );
 			}
 		}
 

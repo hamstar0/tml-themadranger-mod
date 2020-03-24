@@ -132,7 +132,7 @@ namespace TheMadRanger {
 			}
 
 			// No ammo source; stop reloading
-			if( !myitem.IsAmmoSourceAvailable(plr) ) {
+			if( !TheMadRangerItem.IsAmmoSourceAvailable(plr, false) ) {
 				this.StopReloading( plr );
 				return;
 			}

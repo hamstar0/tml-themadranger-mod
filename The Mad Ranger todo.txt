@@ -20,11 +20,13 @@ v1
 -	@MH: Debug MH "bad mods" route
 -	@Test in MP
 -	Sync aim position
+-	Animate holstering when switching to a hold style item
 -	Block hold style items while holstering
 -	Implement speedloader item
 	-	Set item to appear in world chests (requires Chest Implants)
-	-	Set speedloader to reload when right-clicked on (takes 3s each)
+	-	Add crafting recipe (Illegal Gun Parts, 6 Actuators)
 
+	-	Set speedloader to reload when right-clicked on (takes 1s each)
 	-	Display speedloader load state
 	-	Set revolver to reload from a loaded speedloader
 	-	Implement loaded vs unloaded state

@@ -45,7 +45,7 @@ namespace TheMadRanger {
 				}
 			}
 
-			hasGun = !myplayer.GunAnim.IsAnimating && TMRPlayer.IsHoldingGun( Main.LocalPlayer );
+			hasGun = !myplayer.GunHandling.IsAnimating && TMRPlayer.IsHoldingGun( Main.LocalPlayer );
 			aimPercent = myplayer.AimMode.AimPercent;
 			return myplayer.AimMode.IsModeActive;
 		}

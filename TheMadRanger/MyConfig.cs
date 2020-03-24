@@ -121,5 +121,10 @@ namespace TheMadRanger {
 		[DefaultValue( 5f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
 		public float AimModeOnMissLossAmount { get; set; } = 5f;
+
+
+		[Range( 0, 60 * 60 )]
+		[DefaultValue( 60 )]
+		public int SpeedloaderLoadTickDuration { get; set; } = 60;
 	}
 }

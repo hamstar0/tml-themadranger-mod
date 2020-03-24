@@ -11,15 +11,58 @@ using TheMadRanger.Items.Accessories;
 
 namespace TheMadRanger.Items.Weapons {
 	public partial class TheMadRangerItem : ModItem {
-		public static int Width { get; } = 28;
-		public static int Height { get; } = 14;
-		public static float Scale { get; } = 0.65f;
+		public static int Width => 28;
+		public static int Height => 14;
+		public static float Scale => 0.65f;
+		public static int CylinderCapacity => 6;
 
 
 
 		////////////////
 
-		private int[] Cylinder = new int[6] { 1, 1, 1, 1, 1, 1 };
+		public static bool IsAmmoSourceAvailable( Player player, bool skipSpeedloaders ) {
+			if( TMRConfig.Instance.InfiniteAmmoCheat ) {
+				return true;
+			}
+
+			if( !skipSpeedloaders ) {
+				int speedloaderType = ModContent.ItemType<SpeedloaderItem>();
+
+				for( int i = 0; i < player.inventory.Length; i++ ) {
+					Item item = player.inventory[i];
+					if( item == null || item.IsAir || item.type != speedloaderType ) {
+						continue;
+					}
+
+					var myitem = item.modItem as SpeedloaderItem;
+					if( ( myitem?.LoadedRounds ?? 0 ) > 0 ) {
+						return true;
+					}
+				}
+			}
+
+			if( TMRConfig.Instance.BandolierNeededToReload ) {
+				int bandolierType = ModContent.ItemType<BandolierItem>();
+				int max = PlayerItemHelpers.GetCurrentVanillaMaxAccessories( player );
+
+				for( int i = PlayerItemHelpers.VanillaAccessorySlotFirst; i < max; i++ ) {
+					Item item = player.armor[i];
+					if( item == null || item.IsAir || item.type != bandolierType ) {
+						continue;
+					}
+
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+
+
+		////////////////
+
+		private int[] Cylinder;
 
 		private int CylinderIdx = 0;
 
@@ -33,6 +76,13 @@ namespace TheMadRanger.Items.Weapons {
 
 
 		////////////////
+
+		public TheMadRangerItem() {
+			this.Cylinder = new int[TheMadRangerItem.CylinderCapacity];
+			for( int i=0; i<TheMadRangerItem.CylinderCapacity; i++ ) {
+				this.Cylinder[i] = 1;
+			}
+		}
 
 		public override void SetStaticDefaults() {
 			this.DisplayName.SetDefault( "The Mad Ranger" );
@@ -128,44 +178,6 @@ namespace TheMadRanger.Items.Weapons {
 
 
 		////////////////
-
-		public bool IsAmmoSourceAvailable( Player player ) {
-			if( TMRConfig.Instance.InfiniteAmmoCheat ) {
-				return true;
-			}
-
-			int speedloaderType = ModContent.ItemType<SpeedloaderItem>();
-
-			for( int i = 0; i < player.inventory.Length; i++ ) {
-				Item item = player.inventory[i];
-				if( item == null || item.IsAir || item.type != speedloaderType ) {
-					continue;
-				}
-
-				var myitem = item.modItem as SpeedloaderItem;
-				if( (myitem?.LoadedRounds ?? 0) > 0 ) {
-					return true;
-				}
-			}
-
-			if( TMRConfig.Instance.BandolierNeededToReload ) {
-				int bandolierType = ModContent.ItemType<BandolierItem>();
-				int max = PlayerItemHelpers.GetCurrentVanillaMaxAccessories( player );
-
-				for( int i = PlayerItemHelpers.VanillaAccessorySlotFirst; i < max; i++ ) {
-					Item item = player.armor[i];
-					if( item == null || item.IsAir || item.type != bandolierType ) {
-						continue;
-					}
-
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		////
 
 		public bool IsCylinderFull() {
 			return this.Cylinder.All( c => c == 1 );

@@ -1,7 +1,10 @@
-﻿using Terraria;
+﻿using System;
+using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using HamstarHelpers.Services.Timers;
 using TheMadRanger.Helpers.Misc;
+using TheMadRanger.Items.Weapons;
 
 
 namespace TheMadRanger.Items {
@@ -74,11 +77,11 @@ namespace TheMadRanger.Items {
 		}
 
 		public override bool ConsumeItem( Player player ) {
-			if( this.LoadedRounds == 0 ) {
+			if( this.LoadedRounds > 0 ) {
 				return false;
 			}
 
-			if( )
+			this.AttemptReload( player );
 
 			return false;
 		}
@@ -86,7 +89,50 @@ namespace TheMadRanger.Items {
 
 		////////////////
 
-		public void TransferRounds( Player player ) {
+		public bool AttemptReload( Player player ) {
+			int plrWho = player.whoAmI;
+
+			bool Reload() {
+				Player plr = Main.player[plrWho];
+				if( !TheMadRangerItem.IsAmmoSourceAvailable( plr, true ) ) {
+					return false;
+				}
+
+				this.LoadedRounds = TheMadRangerItem.CylinderCapacity;
+				return true;
+			}
+
+			//
+
+			if( !TheMadRangerItem.IsAmmoSourceAvailable(player, true) ) {
+				return false;
+			}
+
+			var myplayer = player.GetModPlayer<TMRPlayer>();
+
+			if( myplayer.GunHandling.IsAnimating ) {
+				return false;
+			}
+
+			string timerName = "TheMadRangerSpeedloaderLoad_" + plrWho;
+
+			if( Timers.GetTimerTickDuration(timerName) > 0 ) {
+				return false;
+			}
+
+			SoundHelpers.PlaySound( "RevolverReloadBegin", player.Center, 0.5f );
+
+			Timers.SetTimer( timerName, TMRConfig.Instance.SpeedloaderLoadTickDuration, false, () => {
+				Reload();
+				return false;
+			} );
+
+			return true;
+		}
+
+		////
+
+		public void TransferRoundsOut( Player player ) {
 			this.LoadedRounds = 0;
 
 			SoundHelpers.PlaySound( "RevolverReloadRound", player.Center, 0.5f );

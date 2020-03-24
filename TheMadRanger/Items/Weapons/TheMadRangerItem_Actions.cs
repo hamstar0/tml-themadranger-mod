@@ -86,7 +86,7 @@ namespace TheMadRanger.Items.Weapons {
 			}
 
 			if( inserted > 0 ) {
-				myitem.TransferRounds( player );
+				myitem.TransferRoundsOut( player );
 			}
 
 			return inserted > 0;
