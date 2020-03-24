@@ -63,7 +63,7 @@ namespace TheMadRanger.Items.Weapons {
 			this.item.damage = TMRConfig.Instance.MaximumAimedGunDamage;
 			this.item.knockBack = 4;
 
-			this.item.rare = 2;
+			this.item.rare = 4;
 			this.item.value = Item.buyPrice( 0, 5, 0, 0 );
 		}
 

@@ -42,8 +42,9 @@ namespace TheMadRanger.Items {
 			this.item.width = SpeedloaderItem.Width;
 			this.item.height = SpeedloaderItem.Height;
 			this.item.maxStack = 1;
-			this.item.value = Item.buyPrice( 0, 2, 5, 0 );
-			this.item.rare = 5;
+			this.item.value = Item.buyPrice( 0, 1, 0, 0 );
+			this.item.rare = 4;
+			this.item.scale = 0.75f;
 		}
 
 
@@ -69,11 +70,17 @@ namespace TheMadRanger.Items {
 		////////////////
 
 		public override bool CanRightClick() {
-			return false;
+			return true;
 		}
 
 		public override bool ConsumeItem( Player player ) {
-			return base.ConsumeItem( player );
+			if( this.LoadedRounds == 0 ) {
+				return false;
+			}
+
+			if( )
+
+			return false;
 		}
 
 
