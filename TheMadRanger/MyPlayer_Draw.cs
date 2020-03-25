@@ -11,10 +11,10 @@ namespace TheMadRanger {
 			if( TMRPlayer.IsHoldingGun( this.player ) ) {
 				if( !this.GunHandling.IsAnimating ) {
 					drawInfo.drawPlayer.bodyFrame.Y = TMRPlayer.AimGunForBodyFrameY( this.player );
-					//drawInfo.drawPlayer.hairFrame.Y = drawInfo.drawPlayer.bodyFrame.Y;
-				} else {
-					drawInfo.drawPlayer.bodyFrame.Y = this.player.bodyFrame.Height * 3;
 				}
+			}
+			if( this.GunHandling.IsAnimating ) {
+				drawInfo.drawPlayer.bodyFrame.Y = this.player.bodyFrame.Height * 3;
 			}
 		}
 
@@ -22,9 +22,10 @@ namespace TheMadRanger {
 			if( TMRPlayer.IsHoldingGun( this.player ) ) {
 				if( !this.GunHandling.IsAnimating ) {
 					drawInfo.drawPlayer.bodyFrame.Y = TMRPlayer.AimGunForBodyFrameY( this.player );
-				} else {
-					drawInfo.drawPlayer.bodyFrame.Y = this.player.bodyFrame.Height * 3;
 				}
+			}
+			if( this.GunHandling.IsAnimating ) {
+				drawInfo.drawPlayer.bodyFrame.Y = this.player.bodyFrame.Height * 3;
 			}
 		}
 

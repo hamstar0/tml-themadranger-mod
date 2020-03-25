@@ -18,7 +18,9 @@ namespace TheMadRanger {
 		}
 
 		protected override object OnExit() {
-			Client.StopBroadcastingMyCursorPosition();
+			if( Main.netMode == 1 && this.PlayerWho == Main.myPlayer ) {
+				Client.StopBroadcastingMyCursorPosition();
+			}
 			return base.OnExit();
 		}
 	}
