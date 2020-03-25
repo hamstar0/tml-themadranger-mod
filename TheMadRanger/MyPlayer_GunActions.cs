@@ -53,16 +53,16 @@ namespace TheMadRanger {
 
 		////////////////
 
-		private (bool IsAimWithinArc, int AimDir) ApplyGunAim() {
+		private (bool IsAimWithinArc, int AimDir) ApplyGunAim( int screenX, int screenY ) {
 			Player plr = this.player;
 			Texture2D itemTex = Main.itemTexture[plr.HeldItem.type];
 
 			Vector2 plrCenter = plr.RotatedRelativePoint( plr.MountedCenter, true );
 
-			float aimX = (float)Main.mouseX + Main.screenPosition.X - plrCenter.X;
-			float aimY = (float)Main.mouseY + Main.screenPosition.Y - plrCenter.Y;
+			float aimX = (float)screenX + Main.screenPosition.X - plrCenter.X;
+			float aimY = (float)screenY + Main.screenPosition.Y - plrCenter.Y;
 			if( plr.gravDir == -1f ) {
-				aimY = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - plrCenter.Y;
+				aimY = Main.screenPosition.Y + (float)Main.screenHeight - (float)screenY - plrCenter.Y;
 			}
 
 			plr.itemRotation = (float)Math.Atan2(

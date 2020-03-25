@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Terraria;
 using Terraria.ModLoader;
 
 
@@ -31,7 +32,13 @@ namespace TheMadRanger {
 
 		public override void ModifyDrawLayers( List<PlayerLayer> layers ) {
 			if( TMRPlayer.IsHoldingGun( this.player ) ) {
-				(bool isAimWithinArc, int aimDir) aim = this.ApplyGunAim();
+				(bool isAimWithinArc, int aimDir) aim;
+
+				if( Main.netMode != 2 && this.player.whoAmI == Main.myPlayer ) {
+					aim = this.ApplyGunAim( Main.mouseX, Main.mouseY );
+				} else {
+					aim = (true, this.player.direction);
+				}
 
 				if( !this.GunHandling.IsAnimating ) {
 					if( aim.aimDir == this.player.direction || this.GunHandling.RecoilDuration == 0 ) {

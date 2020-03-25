@@ -20,8 +20,10 @@ v1
 -	@MH: Debug MH "bad mods" route
 -	@Fix: Nihilism default configs
 -	@Test in MP
--	Sync aim position
 
+-	Fix MP
+	-	Display animations
+	-	Fix mouse aim from other players
 -	Add reticule opacity config setting
 -	Disable aim reticule when inventory or any UI is open
 -	Fix speedloader graphic
