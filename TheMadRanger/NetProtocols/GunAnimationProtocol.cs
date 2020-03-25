@@ -4,6 +4,7 @@ using HamstarHelpers.Classes.Errors;
 using HamstarHelpers.Classes.Protocols.Packet.Interfaces;
 using HamstarHelpers.Helpers.TModLoader;
 
+
 namespace TheMadRanger.NetProtocols {
 	public enum GunAnimationType {
 		Recoil,
@@ -13,11 +14,12 @@ namespace TheMadRanger.NetProtocols {
 
 
 
+
 	class GunAnimationProtocol : PacketProtocolBroadcast {
 		public static void SendAnim( GunAnimationType animType ) {
-			if( Main.netMode != 1 ) { throw new ModHelpersException("Not a client."); }
+			if( Main.netMode != 1 ) { throw new ModHelpersException( "Not a client." ); }
 
-			var protocol = new GunAnimationProtocol( animType, Main.myPlayer );
+			var protocol = new GunAnimationProtocol( Main.myPlayer, animType );
 
 			protocol.SendToServer( true );
 		}
@@ -26,8 +28,8 @@ namespace TheMadRanger.NetProtocols {
 
 		////////////////
 
-		public int AnimType;
 		public int PlayerWho;
+		public int AnimType;
 
 
 
@@ -35,9 +37,9 @@ namespace TheMadRanger.NetProtocols {
 
 		private GunAnimationProtocol() { }
 
-		private GunAnimationProtocol( GunAnimationType animType, int playerWho ) {
-			this.AnimType = (int)animType;
+		private GunAnimationProtocol( int playerWho, GunAnimationType animType ) {
 			this.PlayerWho = playerWho;
+			this.AnimType = (int)animType;
 		}
 
 		////////////////
@@ -69,12 +71,12 @@ namespace TheMadRanger.NetProtocols {
 			//case GunAnimationType.Recoil:
 			//	otherplr.GunHandling.BeginRecoil( 0f );
 			//	break;
-			case GunAnimationType.Holster:	// Might interrupt other item actions such that server should know
+			case GunAnimationType.Holster:  // Might interrupt other item actions such that server should know
 				otherplr.GunHandling.BeginHolster( plr );
 				break;
-			//case GunAnimationType.Reload:
-			//	otherplr.GunHandling.BeginReload( plr );
-			//	break;
+				//case GunAnimationType.Reload:
+				//	otherplr.GunHandling.BeginReload( plr );
+				//	break;
 			}
 		}
 	}

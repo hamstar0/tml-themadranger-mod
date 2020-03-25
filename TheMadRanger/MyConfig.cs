@@ -138,7 +138,7 @@ namespace TheMadRanger {
 
 
 		[Range( 0, 60 * 60 )]
-		[DefaultValue( 60 )]
-		public int SpeedloaderLoadTickDuration { get; set; } = 60;
+		[DefaultValue( 150 )]
+		public int SpeedloaderLoadTickDuration { get; set; } = 150;
 	}
 }

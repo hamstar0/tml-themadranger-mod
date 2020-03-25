@@ -20,8 +20,10 @@ v1
 -	@MH: Debug MH "bad mods" route
 -	@Fix: Nihilism default configs
 -	@Test in MP
+-	Increase reload time per speedloader
 
 -	Fix MP
+	-	Ensure guns follow players
 	-	Display animations
 	-	Fix mouse aim from other players
 -	Add reticule opacity config setting

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HamstarHelpers.Services.Network;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
@@ -34,10 +35,18 @@ namespace TheMadRanger {
 			if( TMRPlayer.IsHoldingGun( this.player ) ) {
 				(bool isAimWithinArc, int aimDir) aim;
 
-				if( Main.netMode != 2 && this.player.whoAmI == Main.myPlayer ) {
+				if( this.player.whoAmI == Main.myPlayer ) {
 					aim = this.ApplyGunAim( Main.mouseX, Main.mouseY );
 				} else {
-					aim = (true, this.player.direction);
+					(int x, int y) cursor;
+					if( Client.LastKnownCursorPositions.ContainsKey(this.player.whoAmI) ) {
+						cursor = Client.LastKnownCursorPositions[ this.player.whoAmI ];
+					} else {
+						cursor = ((int)this.player.MountedCenter.X, (int)this.player.MountedCenter.Y);
+						cursor.x += this.player.direction * 256;
+					}
+
+					aim = this.ApplyGunAim( cursor.x, cursor.y );
 				}
 
 				if( !this.GunHandling.IsAnimating ) {
