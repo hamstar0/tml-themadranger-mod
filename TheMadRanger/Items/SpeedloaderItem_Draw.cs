@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using ReLogic.Graphics;
+using HamstarHelpers.Services.AnimatedColor;
 
 
 namespace TheMadRanger.Items {
@@ -23,6 +25,25 @@ namespace TheMadRanger.Items {
 			spriteBatch.Draw( tex, position, frame, drawColor, 0f, origin, scale, SpriteEffects.None, 0f );
 			if( this.item.color != Color.Transparent ) {
 				spriteBatch.Draw( tex, position, frame, itemColor, 0f, origin, scale, SpriteEffects.None, 0f );
+			}
+
+			if( SpeedloaderItem.IsReloading(Main.myPlayer) ) {
+				Vector2 overlayPos = position;
+				overlayPos.X += tex.Width / 2;
+				overlayPos.Y += tex.Height / 2;
+				Vector2 overlayDim = Main.fontMouseText.MeasureString( "X" );
+
+				spriteBatch.DrawString(
+					spriteFont: Main.fontMouseText,
+					text: "X",
+					position: overlayPos,
+					color: AnimatedColors.Alert.CurrentColor,
+					rotation: 0f,
+					origin: overlayDim * 0.5f,
+					scale: 2f,
+					effects: SpriteEffects.None,
+					layerDepth: 0f
+				);
 			}
 
 			return false;

@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
 using TheMadRanger.Helpers.Misc;
+using TheMadRanger.NetProtocols;
 
 
 namespace TheMadRanger.Items.Weapons {
@@ -33,6 +34,10 @@ namespace TheMadRanger.Items.Weapons {
 			if( !this.AttemptGunShotBegin(player, out wantsReload) ) {
 				if( wantsReload ) {
 					myplayer.GunHandling.BeginReload( player );
+
+					if( Main.netMode == 1 && player.whoAmI == Main.myPlayer ) {
+						GunAnimationProtocol.Broadcast( GunAnimationType.Reload );
+					}
 				}
 				return false;
 			}

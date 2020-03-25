@@ -6,6 +6,7 @@ using Terraria.GameInput;
 using HamstarHelpers.Helpers.Debug;
 using TheMadRanger.Items.Weapons;
 using TheMadRanger.Items.Accessories;
+using TheMadRanger.NetProtocols;
 
 
 namespace TheMadRanger {
@@ -48,6 +49,10 @@ namespace TheMadRanger {
 		private void CheckPreviousHeldItemState( Item prevHeldItem ) {
 			if( prevHeldItem != null && !prevHeldItem.IsAir && prevHeldItem.type == ModContent.ItemType<TheMadRangerItem>() ) {
 				this.GunHandling.BeginHolster( this.player );
+
+				if( Main.netMode == 1 && this.player.whoAmI == Main.myPlayer ) {
+					GunAnimationProtocol.Broadcast( GunAnimationType.Holster );
+				}
 			}
 		}
 
@@ -81,6 +86,10 @@ namespace TheMadRanger {
 		public override void ProcessTriggers( TriggersSet triggersSet ) {
 			if( TMRMod.Instance.ReloadKey.JustPressed ) {
 				this.GunHandling.BeginReload( this.player );
+
+				if( Main.netMode == 1 && this.player.whoAmI == Main.myPlayer ) {
+					GunAnimationProtocol.Broadcast( GunAnimationType.Reload );
+				}
 			}
 		}
 

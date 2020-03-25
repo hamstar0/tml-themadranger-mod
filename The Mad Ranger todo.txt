@@ -19,8 +19,9 @@ v1
 -	@B&D: Diluted Ectoplasm in pots
 -	@MH: Debug MH "bad mods" route
 -	@Fix: Nihilism default configs
--	@Test in MP
 
+-	@Test in MP
+-	Fix animation sync
 -	Increase reload time per speedloader
 -	Fix MP
 	-	Ensure guns follow players

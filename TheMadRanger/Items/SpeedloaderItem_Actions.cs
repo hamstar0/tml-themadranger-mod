@@ -8,6 +8,22 @@ using TheMadRanger.Helpers.Misc;
 
 namespace TheMadRanger.Items {
 	partial class SpeedloaderItem : ModItem {
+		private static string GetReloadingTimerName( int plrWho ) {
+			return "TheMadRangerSpeedloaderLoad_" + plrWho;
+		}
+
+
+		////
+
+		public static bool IsReloading( int plrWho ) {
+			string timerName = SpeedloaderItem.GetReloadingTimerName( plrWho );
+			return Timers.GetTimerTickDuration( timerName ) > 0;
+		}
+
+
+
+		////////////////
+
 		public bool AttemptReload( Player player ) {
 			int plrWho = player.whoAmI;
 
@@ -28,13 +44,11 @@ namespace TheMadRanger.Items {
 			}
 
 			var myplayer = player.GetModPlayer<TMRPlayer>();
-
 			if( myplayer.GunHandling.IsAnimating ) {
 				return false;
 			}
 
-			string timerName = "TheMadRangerSpeedloaderLoad_" + plrWho;
-
+			string timerName = SpeedloaderItem.GetReloadingTimerName( plrWho );
 			if( Timers.GetTimerTickDuration(timerName) > 0 ) {
 				return false;
 			}

@@ -16,7 +16,7 @@ namespace TheMadRanger.NetProtocols {
 
 
 	class GunAnimationProtocol : PacketProtocolBroadcast {
-		public static void SendAnim( GunAnimationType animType ) {
+		public static void Broadcast( GunAnimationType animType ) {
 			if( Main.netMode != 1 ) { throw new ModHelpersException( "Not a client." ); }
 
 			var protocol = new GunAnimationProtocol( Main.myPlayer, animType );
