@@ -35,6 +35,13 @@ namespace TheMadRanger {
 
 		//
 
+		[Range( 0f, 1f )]
+		[DefaultValue( 1f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float ReticuleIntensityPercent { get; } = 1f;
+
+		//
+
 
 		[DefaultValue( false )]
 		public bool RecipeAvailableForBandolier { get; set; } = false;

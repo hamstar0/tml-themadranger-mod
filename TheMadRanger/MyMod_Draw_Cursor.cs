@@ -83,6 +83,7 @@ namespace TheMadRanger {
 				this.ColorAnim.CurrentColor,
 				this.AimZoomAnimationPercent
 			);
+			color *= TMRConfig.Instance.ReticuleIntensityPercent;
 
 			Main.spriteBatch.Draw(
 				texture: tex,
@@ -104,7 +105,7 @@ namespace TheMadRanger {
 				texture: tex,
 				position: new Vector2( Main.mouseX, Main.mouseY ),
 				sourceRectangle: null,
-				color: Color.Black * 0.5f,
+				color: Color.Black * 0.5f * TMRConfig.Instance.ReticuleIntensityPercent,
 				rotation: 0f,
 				origin: new Vector2( tex.Width / 2, tex.Height / 2 ),
 				scale: 0.25f,

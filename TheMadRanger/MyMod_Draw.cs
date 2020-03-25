@@ -41,12 +41,14 @@ namespace TheMadRanger {
 			}
 
 			GameInterfaceDrawMethod draw = () => {
-				if( isPreAimMode ) {
-					this.DrawPreAimCursor();
-				} else if( isAimMode ) {
-					this.DrawAimCursor();
-				} else if( hasGun ) {
-					this.DrawUnaimCursor();
+				if( !Main.playerInventory && Main.InGameUI.CurrentState == null ) {
+					if( isPreAimMode ) {
+						this.DrawPreAimCursor();
+					} else if( isAimMode ) {
+						this.DrawAimCursor();
+					} else if( hasGun ) {
+						this.DrawUnaimCursor();
+					}
 				}
 
 				if( TMRConfig.Instance.DebugModeInfo ) {
