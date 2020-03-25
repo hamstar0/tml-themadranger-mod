@@ -43,6 +43,8 @@ namespace TheMadRanger {
 		}
 
 
+		////
+
 		private void CheckPreviousHeldItemState( Item prevHeldItem ) {
 			if( prevHeldItem != null && !prevHeldItem.IsAir && prevHeldItem.type == ModContent.ItemType<TheMadRangerItem>() ) {
 				this.GunHandling.BeginHolster( this.player );
@@ -67,6 +69,12 @@ namespace TheMadRanger {
 			}
 		}
 
+
+		////////////////
+
+		public override bool PreItemCheck() {
+			return !this.GunHandling.IsAnimating;
+		}
 
 		////////////////
 

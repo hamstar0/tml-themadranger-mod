@@ -29,6 +29,7 @@ namespace TheMadRanger {
 			if( this.IsAnimating ) {
 				int heldItemIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HeldItem );
 				if( heldItemIdx != -1 ) {
+					layers[ heldItemIdx ].visible = false;
 					layers.Insert( heldItemIdx + 1, this.GunDrawLayer );
 				}
 			}

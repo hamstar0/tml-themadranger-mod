@@ -24,11 +24,6 @@ namespace TheMadRanger {
 
 		////////////////
 
-		private Rectangle BodyFrameShifted;
-
-
-		////////////////
-
 		public int RecoilDuration { get; private set; } = 0;
 
 		////

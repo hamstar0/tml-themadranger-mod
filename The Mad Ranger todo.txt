@@ -21,9 +21,12 @@ v1
 -	@Fix: Nihilism default configs
 -	@Test in MP
 -	Sync aim position
--	Animate holstering when switching to a hold style item
--	Block hold style items while holstering
+-	Add reticule opacity config setting
+-	Disable aim reticule when inventory or any UI is open
+-	Fix speedloader graphic
 
+-	Add debug mode for aim factors
+-	Block hold style items while holstering
 -	Implement speedloader item
 	-	Add crafting recipe (Illegal Gun Parts, 6 Actuators)
 	-	Set speedloader to reload when right-clicked on (takes 1s each)

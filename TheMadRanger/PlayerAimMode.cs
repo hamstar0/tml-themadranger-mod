@@ -71,6 +71,13 @@ namespace TheMadRanger {
 
 			// Player is moving
 			if( plr.velocity.LengthSquared() > 1f ) {
+				if( TMRConfig.Instance.DebugModeInfo ) {
+					float aimPercent = this.AimElapsed / TMRConfig.Instance.AimModeActivationThreshold;
+					DebugHelpers.Print( "aim_down_move", "aim%: "
+						+ ( aimPercent * 100f ).ToString( "N0" )
+						+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
+						+ "-" + TMRConfig.Instance.AimModeDepleteRateWhilePlayerMoving );
+				}
 				this.AimElapsed = Math.Max( this.AimElapsed - TMRConfig.Instance.AimModeDepleteRateWhilePlayerMoving, 0f );
 				return;
 			}
@@ -79,12 +86,26 @@ namespace TheMadRanger {
 
 			// Mouse is moving
 			if( (this.LastAimMousePosition - mousePos).LengthSquared() > 1f ) {
+				if( TMRConfig.Instance.DebugModeInfo ) {
+					float aimPercent = this.AimElapsed / TMRConfig.Instance.AimModeActivationThreshold;
+					DebugHelpers.Print( "aim_down_mouse", "aim%: "
+						+ ( aimPercent * 100f ).ToString( "N0" )
+						+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
+						+ "-" + TMRConfig.Instance.AimModeDepleteRateWhileMouseMoving );
+				}
 				this.AimElapsed = Math.Max( this.AimElapsed - TMRConfig.Instance.AimModeDepleteRateWhileMouseMoving, 0f );
 			}
 			// Otherwise, apply normal idling buildup
 			else {
 				int activationThreshold = TMRConfig.Instance.AimModeActivationThreshold + 2;	// Added buffer for slight aim tweaks
 				if( this.AimElapsed < activationThreshold ) {
+					if( TMRConfig.Instance.DebugModeInfo ) {
+						float aimPercent = this.AimElapsed / TMRConfig.Instance.AimModeActivationThreshold;
+						DebugHelpers.Print( "aim_up_idle", "aim%: "
+							+ ( aimPercent * 100f ).ToString( "N0" )
+							+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
+							+ TMRConfig.Instance.AimModeBuildupRateWhileIdle );
+					}
 					this.AimElapsed += TMRConfig.Instance.AimModeBuildupRateWhileIdle;
 				}
 			}
@@ -127,6 +148,14 @@ namespace TheMadRanger {
 				if( this.AimElapsed > max ) {
 					this.AimElapsed = max;
 				}
+
+				if( TMRConfig.Instance.DebugModeInfo ) {
+					float aimPercent = this.AimElapsed / TMRConfig.Instance.AimModeActivationThreshold;
+					DebugHelpers.Print( "aim_up_hit", "aim%: "
+						+ ( aimPercent * 100f ).ToString( "N0" )
+						+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
+						+ max );
+				}
 			}
 		}
 
@@ -135,6 +164,14 @@ namespace TheMadRanger {
 				this.AimElapsed -= TMRConfig.Instance.AimModeOnMissLossAmount;
 				if( this.AimElapsed < 0f ) {
 					this.AimElapsed = 0f;
+				}
+
+				if( TMRConfig.Instance.DebugModeInfo ) {
+					float aimPercent = this.AimElapsed / TMRConfig.Instance.AimModeActivationThreshold;
+					DebugHelpers.Print( "aim_down_miss", "aim%: "
+						+ ( aimPercent * 100f ).ToString( "N0" )
+						+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
+						+ "-" + TMRConfig.Instance.AimModeOnMissLossAmount );
 				}
 			}
 		}

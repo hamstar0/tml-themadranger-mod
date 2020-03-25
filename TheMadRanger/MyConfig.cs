@@ -105,9 +105,9 @@ namespace TheMadRanger {
 		public float AimModeDepleteRateWhilePlayerMoving { get; set; } = 1f;
 
 		[Range( 0f, 60f )]
-		[DefaultValue( 0.1f )]
+		[DefaultValue( 0.2f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
-		public float AimModeDepleteRateWhileMouseMoving { get; set; } = 0.1f;
+		public float AimModeDepleteRateWhileMouseMoving { get; set; } = 0.2f;
 
 		[Range( 0f, 60f )]
 		[DefaultValue( 1f )]
