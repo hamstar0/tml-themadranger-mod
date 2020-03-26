@@ -85,10 +85,10 @@ namespace TheMadRanger {
 
 		public override void ProcessTriggers( TriggersSet triggersSet ) {
 			if( TMRMod.Instance.ReloadKey.JustPressed ) {
-				this.GunHandling.BeginReload( this.player );
-
-				if( Main.netMode == 1 && this.player.whoAmI == Main.myPlayer ) {
-					GunAnimationProtocol.Broadcast( GunAnimationType.Reload );
+				if( this.GunHandling.BeginReload(this.player) ) {
+					if( Main.netMode == 1 && this.player.whoAmI == Main.myPlayer ) {
+						GunAnimationProtocol.Broadcast( GunAnimationType.Reload );
+					}
 				}
 			}
 		}

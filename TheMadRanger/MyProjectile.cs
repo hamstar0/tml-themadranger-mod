@@ -7,8 +7,8 @@ using Terraria.ModLoader;
 
 namespace TheMadRanger {
 	class MyProjectile : GlobalProjectile {
-		public bool IsFiredFromRevolver { get; internal set; } = false;
-		public bool IsQuickFiredFromRevolver { get; internal set; } = false;
+		public bool IsFiredFromRevolver { get; private set; } = false;
+		public bool IsQuickFiredFromRevolver { get; private set; } = false;
 
 
 		////////////////
@@ -59,18 +59,24 @@ namespace TheMadRanger {
 		////
 
 		public override bool OnTileCollide( Projectile projectile, Vector2 oldVelocity ) {
+			if( this.IsFiredFromRevolver ) { return true; }
 			if( projectile.owner < 0 ) { return true; }
 			Player plr = Main.player[projectile.owner];
 			if( !plr.active ) { return false; }
 
 			var myplayer = plr.GetModPlayer<TMRPlayer>();
 			myplayer.AimMode.ApplyUnsuccessfulHit( plr );
+
+			this.IsFiredFromRevolver = false;
+			this.IsQuickFiredFromRevolver = false;
+
 			return true;
 		}
 
 		////
 
 		private void OnHit( Projectile projectile ) {
+			if( this.IsFiredFromRevolver ) { return; }
 			if( projectile.owner < 0 ) { return; }
 			Player plr = Main.player[projectile.owner];
 			if( !plr.active ) { return; }

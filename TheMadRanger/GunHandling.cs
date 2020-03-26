@@ -1,10 +1,10 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
 using TheMadRanger.Helpers.Misc;
 using TheMadRanger.Items.Weapons;
+using TheMadRanger.Items;
 
 
 namespace TheMadRanger {
@@ -82,10 +82,18 @@ namespace TheMadRanger {
 		}
 
 		public bool BeginReload( Player plr ) {
-			if( this.IsReloading ) { return false; }
+			if( this.IsReloading ) {
+				return false;
+			}
+
+			if( SpeedloaderItem.IsReloading(plr.whoAmI) ) {
+				return false;
+			}
 
 			var myitem = plr.HeldItem.modItem as TheMadRangerItem;
-			if( myitem?.IsCylinderFull() ?? true ) { return false; }
+			if( myitem?.IsCylinderFull() ?? true ) {
+				return false;
+			}
 
 			myitem.OpenCylinder( plr );
 			this.ReloadDuration = TMRConfig.Instance.ReloadInitTickDuration;

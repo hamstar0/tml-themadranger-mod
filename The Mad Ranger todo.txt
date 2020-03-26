@@ -1,25 +1,29 @@
 Future
--	Set Bandolier to have ammo limit
-	-	Require reloads from the Guide
-	-	Return ammo when unloading gun
-	-	Draw ammo per round reload
-	-	Restrict gun reloading to bandolier's ammo
-	-	Store ammo for bandolier
+-	Draw cylinder on HUD?
+-	Add holster twirl animation tweak
+-	Add gunshot smoke
+-	Draw gunshot flash
+-	Fix automatic reload (via. dry fire) changing player facing direction
 
 
 
 v1.1
--	Draw cylinder on HUD?
--	Add holster twirl animation tweak
--	Cache PlayerLayers
--	Add gunshot smoke
--	Draw gunshot flash
-v1
--	@B&D: Gravity flip as a progression mechanic
--	@B&D: Diluted Ectoplasm in pots
--	@MH: Debug MH "bad mods" route
--	@Fix: Nihilism default configs
+-	Add cylinder ammo display
+-	Set Bandolier to have ammo limit
+	-	Require reloads from the Guide(?)
+	-	Return ammo when unloading gun
+	-	Limit reloads based on bandolier ammo
+	-	Store ammo for bandolier
+-	Add inbox message for binding the reload button
+-	Fix reloading while dead
+-	Prevent holster animation if no shots fired
+-	Prevent gun actions while paused
+-	Set option to have Speedloaders spawn in world chests
 
+-	Set speedloader reload as a blocking "animation"
+-	Update mod descriptiong (including github's)
+-	Fix perpetual "projectile miss" aim mode drain
+v1
 -	@Test in MP
 -	Fix animation sync
 -	Increase reload time per speedloader

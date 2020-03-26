@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
+using TheMadRanger.Items;
 using TheMadRanger.Items.Weapons;
 
 
@@ -48,7 +49,8 @@ namespace TheMadRanger {
 
 		public bool CanAttemptToShootGun() {
 			return !this.GunHandling.IsHolstering
-				&& (!this.GunHandling.IsReloading || this.GunHandling.ReloadingRounds);  //IsReloading
+				&& (!this.GunHandling.IsReloading || this.GunHandling.ReloadingRounds)
+				&& !SpeedloaderItem.IsReloading( this.player.whoAmI );
 		}
 
 		////////////////

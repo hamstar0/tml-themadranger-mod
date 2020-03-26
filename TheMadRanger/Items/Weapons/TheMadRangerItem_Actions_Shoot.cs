@@ -33,10 +33,10 @@ namespace TheMadRanger.Items.Weapons {
 			bool wantsReload;
 			if( !this.AttemptGunShotBegin(player, out wantsReload) ) {
 				if( wantsReload ) {
-					myplayer.GunHandling.BeginReload( player );
-
-					if( Main.netMode == 1 && player.whoAmI == Main.myPlayer ) {
-						GunAnimationProtocol.Broadcast( GunAnimationType.Reload );
+					if( myplayer.GunHandling.BeginReload( player ) ) {
+						if( Main.netMode == 1 && player.whoAmI == Main.myPlayer ) {
+							GunAnimationProtocol.Broadcast( GunAnimationType.Reload );
+						}
 					}
 				}
 				return false;
