@@ -159,7 +159,9 @@ namespace TheMadRanger.Items.Weapons {
 		////////////////
 
 		public override void UpdateInventory( Player player ) {
-			this.ElapsedTimeSinceLastShotAttempt++;
+			if( !Main.gamePaused && !player.dead ) {
+				this.ElapsedTimeSinceLastShotAttempt++;
+			}
 
 			if( TMRConfig.Instance.DebugModeInfo ) {
 				DebugHelpers.Print( "cylinder", this.CylinderIdx + " = " + string.Join( ", ", this.Cylinder ) );

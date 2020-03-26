@@ -69,13 +69,6 @@ namespace TheMadRanger {
 
 		////////////////
 
-		public void Update( Player player ) {
-			this.UpdateHolsterAnimation( player );
-		}
-
-
-		////////////////
-
 		public void BeginRecoil( float addedRotationDegrees ) {
 			this.MiscAddedRotationDegrees = addedRotationDegrees;
 			this.RecoilDuration = 17;

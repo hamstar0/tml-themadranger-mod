@@ -28,19 +28,26 @@ namespace TheMadRanger {
 		////////////////
 
 		public override void PreUpdate() {
-			if( this.InventorySlotOfPreviousHeldItem != this.player.selectedItem ) {
-				if( this.InventorySlotOfPreviousHeldItem != -1 ) {
-					this.CheckPreviousHeldItemState( this.player.inventory[this.InventorySlotOfPreviousHeldItem] );
+			if( !Main.gamePaused && !this.player.dead ) {
+				if( this.InventorySlotOfPreviousHeldItem != this.player.selectedItem ) {
+					if( this.InventorySlotOfPreviousHeldItem != -1 ) {
+						this.CheckPreviousHeldItemState( this.player.inventory[this.InventorySlotOfPreviousHeldItem] );
+					}
+				}
+
+				this.CheckCurrentHeldItemState();
+
+				this.GunHandling.UpdateHolsterAnimation( this.player );
+
+				if( this.InventorySlotOfPreviousHeldItem != this.player.selectedItem ) {
+					this.InventorySlotOfPreviousHeldItem = this.player.selectedItem;
 				}
 			}
+		}
 
-			this.CheckCurrentHeldItemState();
-
-			this.GunHandling.Update( this.player );
-
-			if( this.InventorySlotOfPreviousHeldItem != this.player.selectedItem ) {
-				this.InventorySlotOfPreviousHeldItem = this.player.selectedItem;
-			}
+		public override void UpdateDead() {
+			this.GunHandling.UpdateUnequipped( this.player );
+			this.AimMode.CheckUnequippedAimState();
 		}
 
 
@@ -85,9 +92,11 @@ namespace TheMadRanger {
 
 		public override void ProcessTriggers( TriggersSet triggersSet ) {
 			if( TMRMod.Instance.ReloadKey.JustPressed ) {
-				if( this.GunHandling.BeginReload(this.player) ) {
-					if( Main.netMode == 1 && this.player.whoAmI == Main.myPlayer ) {
-						GunAnimationProtocol.Broadcast( GunAnimationType.Reload );
+				if( !Main.gamePaused && !this.player.dead ) {
+					if( this.GunHandling.BeginReload( this.player ) ) {
+						if( Main.netMode == 1 && this.player.whoAmI == Main.myPlayer ) {
+							GunAnimationProtocol.Broadcast( GunAnimationType.Reload );
+						}
 					}
 				}
 			}

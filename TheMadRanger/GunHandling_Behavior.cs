@@ -49,7 +49,9 @@ namespace TheMadRanger {
 
 		public void UpdateHolsterAnimation( Player plr ) {
 			if( this.HolsterDuration > 0 ) {
-				this.HolsterDuration--;
+				if( !Main.gamePaused && !plr.dead ) {
+					this.HolsterDuration--;
+				}
 
 				if( plr.direction > 0 ) {
 					this.HolsterTwirlAddedRotationDegrees -= 32f;
@@ -66,6 +68,8 @@ namespace TheMadRanger {
 				this.HolsterTwirlAddedRotationDegrees = 0f;
 			}
 		}
+
+		////
 
 		public void UpdateEquipped( Player plr ) {
 			if( this.RecoilDuration > 0 ) {
