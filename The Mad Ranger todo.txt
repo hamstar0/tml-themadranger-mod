@@ -7,18 +7,22 @@ Future
 
 
 
-v1.1
+v1.2
 -	Set option to have Speedloaders spawn in world chests
--	Add cylinder ammo display
 -	Set Bandolier to have ammo limit
 	-	Require reloads from the Guide(?)
 	-	Return ammo when unloading gun
 	-	Limit reloads based on bandolier ammo
 	-	Store ammo for bandolier
--	Add inbox message for binding the reload button
+-	Add cylinder ammo display
 
+v1.1
+-	Add inbox message for binding the reload button
+-	Prevent holster animation if quick swapping
+	-	@Plan
+		-	Set flag upon equipping to prevent holster twirl
+		-	Clear timer if shot fired
 -	Fix reloading while dead
--	Prevent holster animation if no shots fired
 -	Prevent gun actions while paused
 -	Set speedloader reload as a blocking "animation"
 -	Update mod descriptiong (including github's)

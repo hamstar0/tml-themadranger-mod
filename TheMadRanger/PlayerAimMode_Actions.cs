@@ -47,19 +47,21 @@ namespace TheMadRanger {
 		}
 
 		public void ApplyUnsuccessfulHit( Player plr ) {
-			if( !this.IsModeActive ) {
-				this.AimElapsed -= TMRConfig.Instance.AimModeOnMissLossAmount;
-				if( this.AimElapsed < 0f ) {
-					this.AimElapsed = 0f;
-				}
+			if( this.IsModeActive ) {
+				return;
+			}
 
-				if( TMRConfig.Instance.DebugModeInfo ) {
-					float aimPercent = this.AimElapsed / TMRConfig.Instance.AimModeActivationThreshold;
-					DebugHelpers.Print( "aim_down_miss", "aim%: "
-						+ ( aimPercent * 100f ).ToString( "N0" )
-						+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
-						+ "-" + TMRConfig.Instance.AimModeOnMissLossAmount );
-				}
+			this.AimElapsed -= TMRConfig.Instance.AimModeOnMissLossAmount;
+			if( this.AimElapsed < 0f ) {
+				this.AimElapsed = 0f;
+			}
+
+			if( TMRConfig.Instance.DebugModeInfo ) {
+				float aimPercent = this.AimElapsed / TMRConfig.Instance.AimModeActivationThreshold;
+				DebugHelpers.Print( "aim_down_miss", "aim%: "
+					+ ( aimPercent * 100f ).ToString( "N0" )
+					+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
+					+ "-" + TMRConfig.Instance.AimModeOnMissLossAmount );
 			}
 		}
 

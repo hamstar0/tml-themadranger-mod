@@ -18,6 +18,8 @@ namespace TheMadRanger.Items.Weapons {
 					ref float knockBack ) {
 			var myplayer = player.GetModPlayer<TMRPlayer>();
 
+			myplayer.HasAttemptedShotSinceEquip = true;
+
 			if( !myplayer.CanAttemptToShootGun() ) {
 				return false;
 			}

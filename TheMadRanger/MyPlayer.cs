@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.GameInput;
@@ -17,7 +18,12 @@ namespace TheMadRanger {
 		////////////////
 
 		public GunHandling GunHandling { get; } = new GunHandling();
+
 		public PlayerAimMode AimMode { get; } = new PlayerAimMode();
+
+		////
+
+		public bool HasAttemptedShotSinceEquip { get; internal set; } = false;
 
 		////////////////
 
@@ -55,7 +61,10 @@ namespace TheMadRanger {
 
 		private void CheckPreviousHeldItemState( Item prevHeldItem ) {
 			if( prevHeldItem != null && !prevHeldItem.IsAir && prevHeldItem.type == ModContent.ItemType<TheMadRangerItem>() ) {
-				this.GunHandling.BeginHolster( this.player );
+				if( this.HasAttemptedShotSinceEquip ) {
+					this.HasAttemptedShotSinceEquip = false;
+					this.GunHandling.BeginHolster( this.player );
+				}
 
 				if( Main.netMode == 1 && this.player.whoAmI == Main.myPlayer ) {
 					GunAnimationProtocol.Broadcast( GunAnimationType.Holster );
@@ -81,12 +90,12 @@ namespace TheMadRanger {
 			}
 		}
 
-
 		////////////////
 
 		public override bool PreItemCheck() {
 			return !this.GunHandling.IsAnimating;
 		}
+
 
 		////////////////
 
