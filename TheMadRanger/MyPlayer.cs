@@ -73,7 +73,7 @@ namespace TheMadRanger {
 		}
 
 		private void CheckCurrentHeldItemState() {
-			this.AimMode.CheckAimState( this.player );
+			this.AimMode.UpdateAimState( this.player );
 
 			if( TMRPlayer.IsHoldingGun(this.player) ) {
 				this.GunHandling.UpdateEquipped( this.player );
@@ -83,7 +83,7 @@ namespace TheMadRanger {
 					prevItem = this.player.inventory[ this.InventorySlotOfPreviousHeldItem ];
 				}
 
-				this.AimMode.CheckEquippedAimState( this.player, prevItem );
+				this.AimMode.UpdateEquippedAimState( this.player, prevItem );
 			} else {
 				this.GunHandling.UpdateUnequipped( this.player );
 				this.AimMode.CheckUnequippedAimState();
