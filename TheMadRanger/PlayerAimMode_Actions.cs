@@ -5,7 +5,13 @@ using HamstarHelpers.Helpers.Debug;
 
 namespace TheMadRanger {
 	partial class PlayerAimMode {
-		public void ApplyQuickDrawMode( Player plr ) {
+		public bool AttemptQuickDrawMode( Player plr ) {
+			var myplayer = plr.GetModPlayer<TMRPlayer>();
+			if( !myplayer.GunHandling.IsQuickDrawReady ) {
+				return false;
+			}
+			myplayer.GunHandling.IsQuickDrawReady = true;
+
 			this.QuickDrawDuration = TMRConfig.Instance.QuickDrawTickDuration;
 
 			/*Vector2 pos = GunAnimation.GetGunTipPosition(plr) - new Vector2(-2);
@@ -16,6 +22,8 @@ namespace TheMadRanger {
 				dust.noGravity = true;
 				dust.shader = GameShaders.Armor.GetSecondaryShader( 3, plr );
 			}*/
+
+			return true;
 		}
 
 
@@ -25,7 +33,7 @@ namespace TheMadRanger {
 			int max = (int)TMRConfig.Instance.AimModeActivationThreshold + (int)TMRConfig.Instance.AimModeBufferAddedThreshold;
 
 			// Switch to full aim mode
-			if( this.IsQuickDraw ) {
+			if( this.IsQuickDrawActive ) {
 				this.QuickDrawDuration = 0;
 				this.AimElapsed = TMRConfig.Instance.AimModeActivationThreshold + 2;
 			}

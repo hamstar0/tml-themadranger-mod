@@ -32,7 +32,7 @@ namespace TheMadRanger {
 			this.IsFiredFromRevolver = true;
 
 			var myplayer = plr.GetModPlayer<TMRPlayer>();
-			if( myplayer.AimMode.IsQuickDraw ) {
+			if( myplayer.AimMode.IsQuickDrawActive ) {
 				this.IsQuickFiredFromRevolver = true;
 			}
 

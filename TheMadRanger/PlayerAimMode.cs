@@ -21,9 +21,11 @@ namespace TheMadRanger {
 
 		public bool IsModeActive => this.AimElapsed >= TMRConfig.Instance.AimModeActivationThreshold;
 
-		public bool IsModeBeingActivated => this.AimElapsed > 0 && this.AimElapsed >= this.PrevAimElapsed;
+		public bool IsModeActivating => this.AimElapsed > 0 && this.AimElapsed >= this.PrevAimElapsed;
 
-		public bool IsQuickDraw => this.QuickDrawDuration > 0;
+		public bool IsQuickDrawActive => this.QuickDrawDuration > 0;
+
+		////
 
 		public float AimPercent => (float)this.AimElapsed / (float)TMRConfig.Instance.AimModeActivationThreshold;
 
@@ -59,7 +61,7 @@ namespace TheMadRanger {
 			// On fresh re-equip
 			if( prevHeldItem != plr.HeldItem ) {
 				if( !myplayer.GunHandling.IsAnimating ) {
-					this.ApplyQuickDrawMode( plr );
+					this.AttemptQuickDrawMode( plr );
 				}
 			}
 

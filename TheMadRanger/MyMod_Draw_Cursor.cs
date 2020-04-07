@@ -9,7 +9,7 @@ namespace TheMadRanger {
 	public partial class TMRMod : Mod {
 		private bool RunPreAimCursorAnimation() {
 			var myplayer = Main.LocalPlayer.GetModPlayer<TMRPlayer>();
-			if( !myplayer.AimMode.IsModeBeingActivated || myplayer.AimMode.IsModeActive ) {
+			if( !myplayer.AimMode.IsModeActivating || myplayer.AimMode.IsModeActive ) {
 				return false;
 			}
 
@@ -33,7 +33,7 @@ namespace TheMadRanger {
 			} else {
 				// Begin fade in and zoom in
 				if( this.AimZoomAnimationPercent == -1f ) {
-					if( myplayer.AimMode.IsQuickDraw ) {
+					if( myplayer.AimMode.IsQuickDrawActive ) {
 						this.AimZoomAnimationPercent = 1f;
 					} else {
 						this.AimZoomAnimationPercent = 0f;

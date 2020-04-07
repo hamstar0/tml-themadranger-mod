@@ -46,6 +46,10 @@ namespace TheMadRanger {
 
 		public bool IsAnimating => this.IsHolstering || this.IsReloading;
 
+		////
+
+		public bool IsQuickDrawReady { get; internal set; } = true;
+
 
 		////
 
@@ -91,11 +95,16 @@ namespace TheMadRanger {
 			myitem.OpenCylinder( plr );
 			this.ReloadDuration = TMRConfig.Instance.ReloadInitTickDuration;
 
+			this.IsQuickDrawReady = true;
+
 			return true;
 		}
 
 		public void BeginHolster( Player plr ) {
 			this.HolsterDuration = TMRConfig.Instance.HolsterTwirlTickDuration;
+
+			this.IsQuickDrawReady = true;
+
 			if( this.HolsterDuration == 0 ) {
 				return;
 			}
