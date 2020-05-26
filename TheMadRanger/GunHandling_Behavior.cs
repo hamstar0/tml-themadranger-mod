@@ -136,7 +136,8 @@ namespace TheMadRanger {
 			}
 
 			// No ammo source; stop reloading
-			if( !TheMadRangerItem.IsAmmoSourceAvailable(plr, false) ) {
+			if( !TheMadRangerItem.IsAmmoSourceAvailable(plr, false, out string result) ) {
+				Main.NewText( result, Color.Yellow );
 				this.StopReloading( plr );
 				return;
 			}
@@ -146,7 +147,7 @@ namespace TheMadRanger {
 				this.ReloadDuration = TMRConfig.Instance.ReloadRoundTickDuration;
 				return;
 			}
-
+			
 			this.StopReloading( plr );
 			return;
 		}

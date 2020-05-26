@@ -7,7 +7,7 @@ Future
 
 
 
-v1.2
+v1.3
 -	Set option to have Speedloaders spawn in world chests
 -	Set Bandolier to have ammo limit
 	-	Require reloads from the Guide(?)
@@ -15,7 +15,14 @@ v1.2
 	-	Limit reloads based on bandolier ammo
 	-	Store ammo for bandolier
 -	Add cylinder ammo display
+v1.2
+-	fix mad ranger quick draw flag
+-	set mad ranger to extend quick draw mode on firing, regardless of hit
+-	lock aim mode with r-click (allows slow movement without aim mode drop)
+-	improve mouse movement aim effect
+-	increase mouse movement threshold
 
+-	Fix reload (give messages indicating needs)
 v1.1
 -	Add inbox message for binding the reload button
 -	Prevent holster animation if quick swapping

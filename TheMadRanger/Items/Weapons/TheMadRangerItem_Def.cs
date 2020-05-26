@@ -21,8 +21,9 @@ namespace TheMadRanger.Items.Weapons {
 
 		////////////////
 
-		public static bool IsAmmoSourceAvailable( Player player, bool skipSpeedloaders ) {
+		public static bool IsAmmoSourceAvailable( Player player, bool skipSpeedloaders, out string result ) {
 			if( TMRConfig.Instance.InfiniteAmmoCheat ) {
+				result = "Cheater.";
 				return true;
 			}
 
@@ -37,9 +38,13 @@ namespace TheMadRanger.Items.Weapons {
 
 					var myitem = item.modItem as SpeedloaderItem;
 					if( ( myitem?.LoadedRounds ?? 0 ) > 0 ) {
+						result = " Speedloader available.";
 						return true;
 					}
 				}
+				result = "Loaded speedloader needed.";
+			} else {
+				result = "Cannot reload.";
 			}
 
 			if( TMRConfig.Instance.BandolierNeededToReload ) {
@@ -52,8 +57,10 @@ namespace TheMadRanger.Items.Weapons {
 						continue;
 					}
 
+					result = "Bandolier available.";
 					return true;
 				}
+				result = "Bandolier needed.";
 			}
 
 			return false;

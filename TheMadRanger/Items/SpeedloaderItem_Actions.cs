@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using HamstarHelpers.Services.Timers;
@@ -26,10 +27,12 @@ namespace TheMadRanger.Items {
 
 		public bool AttemptReload( Player player ) {
 			int plrWho = player.whoAmI;
+			string result;
 
 			bool Reload() {
 				Player plr = Main.player[plrWho];
-				if( !TheMadRangerItem.IsAmmoSourceAvailable( plr, true ) ) {
+				if( !TheMadRangerItem.IsAmmoSourceAvailable(plr, true, out result) ) {
+					Main.NewText( result, Color.Yellow );
 					return false;
 				}
 
@@ -39,7 +42,8 @@ namespace TheMadRanger.Items {
 
 			//
 
-			if( !TheMadRangerItem.IsAmmoSourceAvailable(player, true) ) {
+			if( !TheMadRangerItem.IsAmmoSourceAvailable(player, true, out result) ) {
+				Main.NewText( result, Color.Yellow );
 				return false;
 			}
 
