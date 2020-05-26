@@ -25,6 +25,8 @@ namespace TheMadRanger {
 
 		public bool IsQuickDrawActive => this.QuickDrawDuration > 0;
 
+		public bool IsLocked => this.IsModeActive && !this.IsQuickDrawActive && Main.mouseRight;
+
 		////
 
 		public float AimPercent => (float)this.AimElapsed / (float)TMRConfig.Instance.AimModeActivationTickDuration;

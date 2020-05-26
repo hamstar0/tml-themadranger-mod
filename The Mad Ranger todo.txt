@@ -15,12 +15,10 @@ v1.3
 	-	Limit reloads based on bandolier ammo
 	-	Store ammo for bandolier
 -	Add cylinder ammo display
+-	fix mad ranger quick draw flag?
+-	set mad ranger to extend quick draw mode on firing, regardless of hit?
 v1.2
--	fix mad ranger quick draw flag
--	set mad ranger to extend quick draw mode on firing, regardless of hit
 -	Lock aim mode with r-click (allows slow movement without aim mode drop)
-
--	Increase mouse movement threshold
 -	Fix reload (give messages indicating needs)
 v1.1
 -	Add inbox message for binding the reload button

@@ -7,6 +7,10 @@ using HamstarHelpers.Helpers.Debug;
 namespace TheMadRanger {
 	partial class PlayerAimMode {
 		private void UpdateEquippedAimStateValue( Player plr ) {
+			if( this.IsLocked ) {
+				return;
+			}
+
 			bool isPlrMoving = this.UpdateEquippedAimStateValueForPlayerMovement( plr );
 			bool isMouseMoving = this.UpdateEquippedAimStateValueForMouseMovement();
 

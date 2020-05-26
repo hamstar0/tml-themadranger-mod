@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.GameInput;
@@ -58,6 +57,17 @@ namespace TheMadRanger {
 
 
 		////
+
+		public override void PreUpdateMovement() {
+			if( this.AimMode.IsLocked ) {
+				this.player.maxRunSpeed *= TMRConfig.Instance.AimModeLockMoveSpeedScale;
+				this.player.accRunSpeed = player.maxRunSpeed;
+				this.player.moveSpeed *= TMRConfig.Instance.AimModeLockMoveSpeedScale;
+			}
+		}
+
+
+		////////////////
 
 		private void CheckPreviousHeldItemState( Item prevHeldItem ) {
 			if( prevHeldItem != null && !prevHeldItem.IsAir && prevHeldItem.type == ModContent.ItemType<TheMadRangerItem>() ) {

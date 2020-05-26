@@ -167,6 +167,15 @@ namespace TheMadRanger {
 
 		//
 
+		[Label( "Scale to adjust max movement speed while aim mode 'locked'" )]
+		[Range( 0f, 5f )]
+		[DefaultValue( 0.5f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float AimModeLockMoveSpeedScale { get; set; } = 0.5f;
+
+
+		//
+
 		[Label( "Tick duration of speedloader reloads" )]
 		[Range( 0, 60 * 60 )]
 		[DefaultValue( 180 )]
