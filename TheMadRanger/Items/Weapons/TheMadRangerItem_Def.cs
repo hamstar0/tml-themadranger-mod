@@ -107,8 +107,8 @@ namespace TheMadRanger.Items.Weapons {
 
 			this.item.ranged = true;
 			this.item.useStyle = 5;
-			this.item.useTime = 6;
-			this.item.useAnimation = 6;
+			this.item.useTime = 7;
+			this.item.useAnimation = 7;
 			this.item.autoReuse = false;
 			this.item.noMelee = true;
 			this.item.shoot = ProjectileID.Bullet;

@@ -7,56 +7,57 @@ using HamstarHelpers.Helpers.Debug;
 namespace TheMadRanger {
 	partial class PlayerAimMode {
 		private void UpdateEquippedAimStateValue( Player plr ) {
-			if( !this.UpdateEquippedAimStateValueForPlayerMovement( plr ) ) {
-				return;
-			}
+			bool isPlrMoving = this.UpdateEquippedAimStateValueForPlayerMovement( plr );
+			bool isMouseMoving = this.UpdateEquippedAimStateValueForMouseMovement();
 
-			if( !this.UpdateEquippedAimStateValueForMouseMovement() ) {
-				return;
+			if( !isPlrMoving && !isMouseMoving ) {
+				this.UpdateEquippedAimStateValueForPlayerIdle();
 			}
-
-			this.UpdateEquippedAimStateValueForPlayerIdle();
 		}
 
 
 		////////////////
 
+		/// <summary></summary>
+		/// <returns>`true` on player movement.</returns>
 		private bool UpdateEquippedAimStateValueForPlayerMovement( Player plr ) {
 			if( plr.velocity.LengthSquared() <= 1f ) {
-				return true;
+				return false;
 			}
 
 			// Player is moving
 			if( TMRConfig.Instance.DebugModeInfo ) {
-				float aimPercent = this.AimElapsed / TMRConfig.Instance.AimModeActivationThreshold;
-				DebugHelpers.Print( "aim_down_move", "aim%: "
-					+ ( aimPercent * 100f ).ToString( "N0" )
+				DebugHelpers.Print( "aim_move", "aim%: "
+					+ ( this.AimPercent * 100f ).ToString( "N0" )
 					+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
-					+ "-" + TMRConfig.Instance.AimModeDepleteRateWhilePlayerMoving );
+					+ TMRConfig.Instance.AimModeOnPlayerMoveBuildupAmount );
 			}
 
-			this.AimElapsed = Math.Max( this.AimElapsed - TMRConfig.Instance.AimModeDepleteRateWhilePlayerMoving, 0f );
-			return false;
+			this.AimElapsed = Math.Max( this.AimElapsed + TMRConfig.Instance.AimModeOnPlayerMoveBuildupAmount, 0f );
+			return true;
 		}
 
 
+		/// <summary></summary>
+		/// <returns>`true` on mouse movement.</returns>
 		private bool UpdateEquippedAimStateValueForMouseMovement() {
 			var mousePos = new Vector2( Main.mouseX, Main.mouseY );
+			float mouseThreshSqr = TMRConfig.Instance.AimModeMouseMoveThreshold;
+			mouseThreshSqr *= mouseThreshSqr;
 
 			// Mouse is not moving?
-			if( (this.LastAimMousePosition - mousePos).LengthSquared() <= 1f ) {
+			if( (this.LastAimMousePosition - mousePos).LengthSquared() <= mouseThreshSqr ) {
 				return false;
 			}
 
 			if( TMRConfig.Instance.DebugModeInfo ) {
-				float aimPercent = this.AimElapsed / TMRConfig.Instance.AimModeActivationThreshold;
-				DebugHelpers.Print( "aim_dec_mouse", "aim%: "
-					+ ( aimPercent * 100f ).ToString( "N0" )
+				DebugHelpers.Print( "aim_mouse", "aim%: "
+					+ ( this.AimPercent * 100f ).ToString( "N0" )
 					+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
-					+ "-" + TMRConfig.Instance.AimModeDepleteRateWhileMouseMoving );
+					+ TMRConfig.Instance.AimModeOnMouseMoveBuildupAmount );
 			}
 
-			this.AimElapsed = Math.Max( this.AimElapsed - TMRConfig.Instance.AimModeDepleteRateWhileMouseMoving, 0f );
+			this.AimElapsed = Math.Max( this.AimElapsed + TMRConfig.Instance.AimModeOnMouseMoveBuildupAmount, 0f );
 
 			this.LastAimMousePosition = mousePos;
 
@@ -65,18 +66,17 @@ namespace TheMadRanger {
 
 
 		private void UpdateEquippedAimStateValueForPlayerIdle() {
-			int activationThreshold = TMRConfig.Instance.AimModeActivationThreshold + 2;    // Added buffer for slight aim tweaks
+			int activationThreshold = TMRConfig.Instance.AimModeActivationTickDuration + 2;    // Added buffer for slight aim tweaks
 
 			if( this.AimElapsed < activationThreshold ) {
 				if( TMRConfig.Instance.DebugModeInfo ) {
-					float aimPercent = this.AimElapsed / TMRConfig.Instance.AimModeActivationThreshold;
-					DebugHelpers.Print( "aim_inc_idle", "aim%: "
-						+ ( aimPercent * 100f ).ToString( "N0" )
+					DebugHelpers.Print( "aim_idle", "aim%: "
+						+ ( this.AimPercent * 100f ).ToString( "N0" )
 						+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
-						+ TMRConfig.Instance.AimModeBuildupRateWhileIdle );
+						+ TMRConfig.Instance.AimModeOnIdleBuildupAmount );
 				}
 
-				this.AimElapsed += TMRConfig.Instance.AimModeBuildupRateWhileIdle;
+				this.AimElapsed += TMRConfig.Instance.AimModeOnIdleBuildupAmount;
 			}
 		}
 	}

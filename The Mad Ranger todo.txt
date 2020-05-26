@@ -18,10 +18,9 @@ v1.3
 v1.2
 -	fix mad ranger quick draw flag
 -	set mad ranger to extend quick draw mode on firing, regardless of hit
--	lock aim mode with r-click (allows slow movement without aim mode drop)
--	improve mouse movement aim effect
--	increase mouse movement threshold
+-	Lock aim mode with r-click (allows slow movement without aim mode drop)
 
+-	Increase mouse movement threshold
 -	Fix reload (give messages indicating needs)
 v1.1
 -	Add inbox message for binding the reload button

@@ -19,7 +19,7 @@ namespace TheMadRanger {
 
 		////////////////
 
-		public bool IsModeActive => this.AimElapsed >= TMRConfig.Instance.AimModeActivationThreshold;
+		public bool IsModeActive => this.AimElapsed >= TMRConfig.Instance.AimModeActivationTickDuration;
 
 		public bool IsModeActivating => this.AimElapsed > 0 && this.AimElapsed >= this.PrevAimElapsed;
 
@@ -27,7 +27,7 @@ namespace TheMadRanger {
 
 		////
 
-		public float AimPercent => (float)this.AimElapsed / (float)TMRConfig.Instance.AimModeActivationThreshold;
+		public float AimPercent => (float)this.AimElapsed / (float)TMRConfig.Instance.AimModeActivationTickDuration;
 
 
 		////////////////
@@ -48,7 +48,7 @@ namespace TheMadRanger {
 
 			if( this.QuickDrawDuration > 1 ) {
 				this.QuickDrawDuration--;
-				this.AimElapsed = TMRConfig.Instance.AimModeActivationThreshold + 2f;
+				this.AimElapsed = TMRConfig.Instance.AimModeActivationTickDuration + 2f;
 			} else if( this.QuickDrawDuration == 1 ) {
 				this.QuickDrawDuration = 0;
 				this.AimElapsed = 0;
