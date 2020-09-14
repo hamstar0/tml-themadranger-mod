@@ -59,7 +59,8 @@ namespace TheMadRanger.Items {
 
 			SoundHelpers.PlaySound( "RevolverReloadBegin", player.Center, 0.5f );
 
-			Timers.SetTimer( timerName, TMRConfig.Instance.SpeedloaderLoadTickDuration, false, () => {
+			int duration = TMRConfig.Instance.Get<int>( nameof(TMRConfig.SpeedloaderLoadTickDuration) );
+			Timers.SetTimer( timerName, duration, false, () => {
 				Reload();
 				return false;
 			} );

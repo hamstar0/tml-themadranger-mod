@@ -123,6 +123,8 @@ namespace TheMadRanger {
 				return;
 			}
 
+			var config = TMRConfig.Instance;
+
 			// Not yet loading rounds
 			if( !this.ReloadingRounds ) {
 				// Start loading rounds, if cylinder empty
@@ -130,7 +132,7 @@ namespace TheMadRanger {
 					(int Shells, int Rounds) unloadings = myitem.UnloadCylinder( plr );
 					this.ProcessUnloadedGunRounds( plr, unloadings.Shells, unloadings.Rounds );
 				}
-				this.ReloadDuration = TMRConfig.Instance.ReloadRoundTickDuration;
+				this.ReloadDuration = config.Get<int>( nameof(TMRConfig.ReloadRoundTickDuration) );
 				this.ReloadingRounds = true;
 				return;
 			}
@@ -144,7 +146,7 @@ namespace TheMadRanger {
 
 			// Reload rounds until not possible
 			if( myitem.InsertSpeedloader(plr) || myitem.InsertRound(plr) ) {
-				this.ReloadDuration = TMRConfig.Instance.ReloadRoundTickDuration;
+				this.ReloadDuration = config.Get<int>( nameof(TMRConfig.ReloadRoundTickDuration) );
 				return;
 			}
 			

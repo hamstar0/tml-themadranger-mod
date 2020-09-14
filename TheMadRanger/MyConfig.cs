@@ -1,8 +1,8 @@
-﻿using HamstarHelpers.Classes.UI.ModConfig;
-using HamstarHelpers.Services.Configs;
-using System;
+﻿using System;
 using System.ComponentModel;
+using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
+using HamstarHelpers.Classes.UI.ModConfig;
 
 
 namespace TheMadRanger {
@@ -12,8 +12,8 @@ namespace TheMadRanger {
 
 
 	[Label( "The Mad Ranger" )]
-	public partial class TMRConfig : StackableModConfig {
-		public static TMRConfig Instance => ModConfigStack.GetMergedConfigs<TMRConfig>();
+	public partial class TMRConfig : ModConfig {
+		public static TMRConfig Instance => ModContent.GetInstance<TMRConfig>();
 
 
 

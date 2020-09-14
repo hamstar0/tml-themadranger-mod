@@ -29,15 +29,17 @@ namespace TheMadRanger {
 				return false;
 			}
 
+			float aimMoveBuildup = TMRConfig.Instance.Get<float>( nameof(TMRConfig.AimModeOnPlayerMoveBuildupAmount) );
+
 			// Player is moving
 			if( TMRConfig.Instance.DebugModeInfo ) {
 				DebugHelpers.Print( "aim_move", "aim%: "
 					+ ( this.AimPercent * 100f ).ToString( "N0" )
 					+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
-					+ TMRConfig.Instance.AimModeOnPlayerMoveBuildupAmount );
+					+ aimMoveBuildup );
 			}
 
-			this.AimElapsed = Math.Max( this.AimElapsed + TMRConfig.Instance.AimModeOnPlayerMoveBuildupAmount, 0f );
+			this.AimElapsed = Math.Max( this.AimElapsed + aimMoveBuildup, 0f );
 			return true;
 		}
 
@@ -45,8 +47,9 @@ namespace TheMadRanger {
 		/// <summary></summary>
 		/// <returns>`true` on mouse movement.</returns>
 		private bool UpdateEquippedAimStateValueForMouseMovement() {
+			var config = TMRConfig.Instance;
 			var mousePos = new Vector2( Main.mouseX, Main.mouseY );
-			float mouseThreshSqr = TMRConfig.Instance.AimModeMouseMoveThreshold;
+			float mouseThreshSqr = config.Get<float>( nameof(TMRConfig.AimModeMouseMoveThreshold) );
 			mouseThreshSqr *= mouseThreshSqr;
 
 			// Mouse is not moving?
@@ -54,14 +57,16 @@ namespace TheMadRanger {
 				return false;
 			}
 
-			if( TMRConfig.Instance.DebugModeInfo ) {
+			float aimBuildupAmt = config.Get<float>( nameof(TMRConfig.AimModeOnMouseMoveBuildupAmount) );
+
+			if( config.DebugModeInfo ) {
 				DebugHelpers.Print( "aim_mouse", "aim%: "
 					+ ( this.AimPercent * 100f ).ToString( "N0" )
 					+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
-					+ TMRConfig.Instance.AimModeOnMouseMoveBuildupAmount );
+					+ aimBuildupAmt );
 			}
 
-			this.AimElapsed = Math.Max( this.AimElapsed + TMRConfig.Instance.AimModeOnMouseMoveBuildupAmount, 0f );
+			this.AimElapsed = Math.Max( this.AimElapsed + aimBuildupAmt, 0f );
 
 			this.LastAimMousePosition = mousePos;
 
@@ -70,17 +75,19 @@ namespace TheMadRanger {
 
 
 		private void UpdateEquippedAimStateValueForPlayerIdle() {
-			int activationThreshold = TMRConfig.Instance.AimModeActivationTickDuration + 2;    // Added buffer for slight aim tweaks
+			var config = TMRConfig.Instance;
+			int activationThreshold = config.Get<int>( nameof(TMRConfig.AimModeActivationTickDuration) ) + 2;   // Added buffer for slight aim tweaks
+			float aimIdleBuildup = config.Get<float>( nameof( TMRConfig.AimModeOnIdleBuildupAmount ) );
 
 			if( this.AimElapsed < activationThreshold ) {
-				if( TMRConfig.Instance.DebugModeInfo ) {
+				if( config.DebugModeInfo ) {
 					DebugHelpers.Print( "aim_idle", "aim%: "
 						+ ( this.AimPercent * 100f ).ToString( "N0" )
 						+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
-						+ TMRConfig.Instance.AimModeOnIdleBuildupAmount );
+						+ aimIdleBuildup );
 				}
 
-				this.AimElapsed += TMRConfig.Instance.AimModeOnIdleBuildupAmount;
+				this.AimElapsed += aimIdleBuildup;
 			}
 		}
 	}

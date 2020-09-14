@@ -11,7 +11,7 @@ namespace TheMadRanger {
 				return false;
 			}
 
-			this.QuickDrawDuration = TMRConfig.Instance.QuickDrawTickDuration;
+			this.QuickDrawDuration = TMRConfig.Instance.Get<int>( nameof(TMRConfig.QuickDrawTickDuration) );
 
 			/*Vector2 pos = GunAnimation.GetGunTipPosition(plr) - new Vector2(-2);
 
@@ -29,17 +29,18 @@ namespace TheMadRanger {
 		////
 
 		public void ApplySuccessfulHit( Player plr ) {
-			int max = (int)TMRConfig.Instance.AimModeActivationTickDuration
-				+ TMRConfig.Instance.AimModeActivationTickDurationAddedBuffer;
+			var config = TMRConfig.Instance;
+			int max = (int)config.Get<int>( nameof(TMRConfig.AimModeActivationTickDuration) )
+				+ config.Get<int>( nameof(TMRConfig.AimModeActivationTickDurationAddedBuffer) );
 
 			// Switch to full aim mode
 			if( this.IsQuickDrawActive ) {
 				this.QuickDrawDuration = 0;
-				this.AimElapsed = TMRConfig.Instance.AimModeActivationTickDuration + 2;
+				this.AimElapsed = config.Get<int>( nameof(TMRConfig.AimModeActivationTickDuration) ) + 2;
 			}
 			// Otherwise, increase buildup to aim mode
 			else {
-				this.AimElapsed += TMRConfig.Instance.AimModeOnHitBuildupAmount;
+				this.AimElapsed += config.Get<float>( nameof(TMRConfig.AimModeOnHitBuildupAmount) );
 				if( this.AimElapsed > max ) {
 					this.AimElapsed = max;
 				}
@@ -58,16 +59,19 @@ namespace TheMadRanger {
 				return;
 			}
 
-			this.AimElapsed += TMRConfig.Instance.AimModeOnMissBuildupAmount;
+			var config = TMRConfig.Instance;
+			float aimMissBuildup = config.Get<float>( nameof(TMRConfig.AimModeOnMissBuildupAmount) );
+
+			this.AimElapsed += aimMissBuildup;
 			if( this.AimElapsed < 0f ) {
 				this.AimElapsed = 0f;
 			}
 
-			if( TMRConfig.Instance.DebugModeInfo ) {
+			if( config.DebugModeInfo ) {
 				DebugHelpers.Print( "aim_miss", "aim%: "
 					+ ( this.AimPercent * 100f ).ToString( "N0" )
 					+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
-					+ TMRConfig.Instance.AimModeOnMissBuildupAmount );
+					+ aimMissBuildup );
 			}
 		}
 

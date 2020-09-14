@@ -93,7 +93,7 @@ namespace TheMadRanger {
 			}
 
 			myitem.OpenCylinder( plr );
-			this.ReloadDuration = TMRConfig.Instance.ReloadInitTickDuration;
+			this.ReloadDuration = TMRConfig.Instance.Get<int>( nameof(TMRConfig.ReloadInitTickDuration) );
 
 			this.IsQuickDrawReady = true;
 
@@ -101,7 +101,7 @@ namespace TheMadRanger {
 		}
 
 		public void BeginHolster( Player plr ) {
-			this.HolsterDuration = TMRConfig.Instance.HolsterTwirlTickDuration;
+			this.HolsterDuration = TMRConfig.Instance.Get<int>( nameof(TMRConfig.HolsterTwirlTickDuration) );
 
 			this.IsQuickDrawReady = true;
 

@@ -60,9 +60,12 @@ namespace TheMadRanger {
 
 		public override void PreUpdateMovement() {
 			if( this.AimMode.IsLocked ) {
-				this.player.maxRunSpeed *= TMRConfig.Instance.AimModeLockMoveSpeedScale;
+				var config = TMRConfig.Instance;
+				float aimLockMoveSpeed = config.Get<float>( nameof(TMRConfig.AimModeLockMoveSpeedScale) );
+
+				this.player.maxRunSpeed *= aimLockMoveSpeed;
 				this.player.accRunSpeed = player.maxRunSpeed;
-				this.player.moveSpeed *= TMRConfig.Instance.AimModeLockMoveSpeedScale;
+				this.player.moveSpeed *= aimLockMoveSpeed;
 			}
 		}
 
@@ -125,15 +128,17 @@ namespace TheMadRanger {
 		////////////////
 
 		public override void SetupStartInventory( IList<Item> items, bool mediumcoreDeath ) {
+			var config = TMRConfig.Instance;
+
 			if( !mediumcoreDeath ) {
-				if( TMRConfig.Instance.PlayerSpawnsWithGun ) {
+				if( config.Get<bool>( nameof(TMRConfig.PlayerSpawnsWithGun) ) ) {
 					var revolver = new Item();
 					revolver.SetDefaults( ModContent.ItemType<TheMadRangerItem>() );
 
 					items.Add( revolver );
 				}
 
-				if( TMRConfig.Instance.PlayerSpawnsWithBandolier ) {
+				if( config.Get<bool>( nameof(TMRConfig.PlayerSpawnsWithBandolier) ) ) {
 					var bandolier = new Item();
 					bandolier.SetDefaults( ModContent.ItemType<BandolierItem>() );
 

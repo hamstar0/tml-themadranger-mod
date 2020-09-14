@@ -22,7 +22,9 @@ namespace TheMadRanger.Items.Weapons {
 		////////////////
 
 		public static bool IsAmmoSourceAvailable( Player player, bool skipSpeedloaders, out string result ) {
-			if( TMRConfig.Instance.InfiniteAmmoCheat ) {
+			var config = TMRConfig.Instance;
+
+			if( config.Get<bool>( nameof(TMRConfig.InfiniteAmmoCheat) ) ) {
 				result = "Cheater.";
 				return true;
 			}
@@ -47,7 +49,7 @@ namespace TheMadRanger.Items.Weapons {
 				result = "Cannot reload.";
 			}
 
-			if( TMRConfig.Instance.BandolierNeededToReload ) {
+			if( config.Get<bool>( nameof(TMRConfig.BandolierNeededToReload) ) ) {
 				int bandolierType = ModContent.ItemType<BandolierItem>();
 				int max = PlayerItemHelpers.GetCurrentVanillaMaxAccessories( player );
 
@@ -119,7 +121,7 @@ namespace TheMadRanger.Items.Weapons {
 			//	.WithVolume( 0.25f );
 			////.WithPitchVariance( 0.5f );
 
-			this.item.damage = TMRConfig.Instance.MaximumAimedGunDamage;
+			this.item.damage = TMRConfig.Instance.Get<int>( nameof(TMRConfig.MaximumAimedGunDamage) );
 			this.item.knockBack = 4;
 
 			this.item.rare = 4;

@@ -9,8 +9,9 @@ using HamstarHelpers.Helpers.TModLoader;
 namespace TheMadRanger {
 	partial class PlayerAimMode {
 		public static float ComputeAimShakeMaxConeRadians() {
+			var config = TMRConfig.Instance;
 			UnifiedRandom rand = TmlHelpers.SafelyGetRand();
-			float radRange = MathHelper.ToRadians( TMRConfig.Instance.UnaimedConeDegreesRange );
+			float radRange = MathHelper.ToRadians( config.Get<float>( nameof(TMRConfig.UnaimedConeDegreesRange) ) );
 
 			return (rand.NextFloat() * radRange) - (radRange * 0.5f);
 		}
@@ -19,7 +20,12 @@ namespace TheMadRanger {
 
 		////////////////
 
-		public bool IsModeActive => this.AimElapsed >= TMRConfig.Instance.AimModeActivationTickDuration;
+		public bool IsModeActive {
+			get {
+				int aimDuration = TMRConfig.Instance.Get<int>( nameof(TMRConfig.AimModeActivationTickDuration) );
+				return this.AimElapsed >= aimDuration;
+			}
+		}
 
 		public bool IsModeActivating => this.AimElapsed > 0 && this.AimElapsed >= this.PrevAimElapsed;
 
@@ -29,7 +35,12 @@ namespace TheMadRanger {
 
 		////
 
-		public float AimPercent => (float)this.AimElapsed / (float)TMRConfig.Instance.AimModeActivationTickDuration;
+		public float AimPercent {
+			get {
+				int aimDuration = TMRConfig.Instance.Get<int>( nameof(TMRConfig.AimModeActivationTickDuration) );
+				return (float)this.AimElapsed / (float)aimDuration;
+			}
+		}
 
 
 		////////////////
@@ -49,8 +60,10 @@ namespace TheMadRanger {
 			this.PrevAimElapsed = this.AimElapsed;
 
 			if( this.QuickDrawDuration > 1 ) {
+				int aimDuration = TMRConfig.Instance.Get<int>( nameof(TMRConfig.AimModeActivationTickDuration) );
+
 				this.QuickDrawDuration--;
-				this.AimElapsed = TMRConfig.Instance.AimModeActivationTickDuration + 2f;
+				this.AimElapsed = aimDuration + 2f;
 			} else if( this.QuickDrawDuration == 1 ) {
 				this.QuickDrawDuration = 0;
 				this.AimElapsed = 0;
@@ -103,10 +116,11 @@ namespace TheMadRanger {
 				return damage;
 			}
 
+			var config = TMRConfig.Instance;
 			UnifiedRandom rand = TmlHelpers.SafelyGetRand();
-			float maxAimDmg = TMRConfig.Instance.MaximumAimedGunDamage;
-			float minUnaimDmg = TMRConfig.Instance.MinimumUnaimedGunDamage;
-			float maxUnaimDmg = TMRConfig.Instance.MaximumUnaimedGunDamage;
+			float maxAimDmg = config.Get<int>( nameof(TMRConfig.MaximumAimedGunDamage) );
+			float minUnaimDmg = config.Get<int>( nameof(TMRConfig.MinimumUnaimedGunDamage) );
+			float maxUnaimDmg = config.Get<int>( nameof(TMRConfig.MaximumUnaimedGunDamage) );
 			float dmgPercent = (float)damage / maxAimDmg;
 
 			float baseDmg = maxUnaimDmg * dmgPercent;

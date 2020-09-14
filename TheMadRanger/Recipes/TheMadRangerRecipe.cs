@@ -16,7 +16,7 @@ namespace TheMadRanger.Recipes {
 
 
 		public override bool RecipeAvailable() {
-			return TMRConfig.Instance.RecipeAvailableForTheMadRanger;
+			return TMRConfig.Instance.Get<bool>( nameof(TMRConfig.RecipeAvailableForTheMadRanger) ;
 		}
 	}
 }

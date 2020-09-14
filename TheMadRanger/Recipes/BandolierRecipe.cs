@@ -15,7 +15,7 @@ namespace TheMadRanger.Recipes {
 
 		
 		public override bool RecipeAvailable() {
-			return TMRConfig.Instance.RecipeAvailableForBandolier;
+			return TMRConfig.Instance.Get<bool>( nameof(TMRConfig.RecipeAvailableForBandolier) );
 		}
 	}
 }

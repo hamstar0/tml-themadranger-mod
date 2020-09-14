@@ -73,6 +73,7 @@ namespace TheMadRanger {
 		}
 
 		private void DrawAimCursor() {
+			var config = TMRConfig.Instance;
 			Texture2D tex = this.GetTexture( "crosshair" );
 
 			float percentEmpty = 1f - this.AimZoomAnimationPercent;
@@ -83,7 +84,7 @@ namespace TheMadRanger {
 				this.ColorAnim.CurrentColor,
 				this.AimZoomAnimationPercent
 			);
-			color *= TMRConfig.Instance.ReticuleIntensityPercent;
+			color *= config.Get<float>( nameof(TMRConfig.ReticuleIntensityPercent) );
 
 			Main.spriteBatch.Draw(
 				texture: tex,
@@ -99,13 +100,14 @@ namespace TheMadRanger {
 		}
 
 		private void DrawUnaimCursor() {
+			var config = TMRConfig.Instance;
 			Texture2D tex = this.GetTexture( "crosshair" );
 
 			Main.spriteBatch.Draw(
 				texture: tex,
 				position: new Vector2( Main.mouseX, Main.mouseY ),
 				sourceRectangle: null,
-				color: Color.Black * 0.5f * TMRConfig.Instance.ReticuleIntensityPercent,
+				color: Color.Black * 0.5f * config.Get<float>( nameof(TMRConfig.ReticuleIntensityPercent) ),
 				rotation: 0f,
 				origin: new Vector2( tex.Width / 2, tex.Height / 2 ),
 				scale: 0.25f,

@@ -17,6 +17,7 @@ v1.3
 -	Add cylinder ammo display
 -	fix mad ranger quick draw flag?
 -	set mad ranger to extend quick draw mode on firing, regardless of hit?
+
 v1.2
 -	Lock aim mode with r-click (allows slow movement without aim mode drop)
 -	Fix reload (give messages indicating needs)
