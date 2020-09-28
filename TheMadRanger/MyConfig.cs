@@ -73,8 +73,8 @@ namespace TheMadRanger {
 
 		[Label( "Tick duration of reload for each round" )]
 		[Range( 0, 60 * 60 )]
-		[DefaultValue( 35 )]
-		public int ReloadRoundTickDuration { get; set; } = 35;
+		[DefaultValue( 28 )]	//35?
+		public int ReloadRoundTickDuration { get; set; } = 28;
 
 		[Label( "Tick duration of holster twirl animation" )]
 		[Range( 0, 60 * 60 )]
@@ -98,15 +98,15 @@ namespace TheMadRanger {
 
 		[Label( "Minimum damage of gun while un-aimed" )]
 		[Range( 1, 999999 )]
-		[DefaultValue( 10 )]
+		[DefaultValue( 40 )]	//10?
 		[ReloadRequired]
-		public int MinimumUnaimedGunDamage { get; set; } = 10;
+		public int MinimumUnaimedGunDamage { get; set; } = 40;
 
 		[Label( "Maximum damage of gun while un-aimed" )]
 		[Range( 1, 999999 )]
-		[DefaultValue( 40 )]
+		[DefaultValue( 60 )]	//40?
 		[ReloadRequired]
-		public int MaximumUnaimedGunDamage { get; set; } = 40;
+		public int MaximumUnaimedGunDamage { get; set; } = 60;
 
 		[Label( "Degrees range of un-aimed shoots" )]
 		[Range( 0f, 360f )]
@@ -129,31 +129,31 @@ namespace TheMadRanger {
 
 
 		[Label( "Rate of \"aim mode\" increase while player moves" )]
-		[Range( 0f, 60f )]
+		[Range( -60f, 60f )]
 		[DefaultValue( -1f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
 		public float AimModeOnPlayerMoveBuildupAmount { get; set; } = -1f;
 
 		[Label( "Rate of \"aim mode\" increase while mouse moves" )]
-		[Range( 0f, 60f )]
-		[DefaultValue( -0.2f )]
+		[Range( -60f, 60f )]
+		[DefaultValue( 0f )] //-0.2f?
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
-		public float AimModeOnMouseMoveBuildupAmount { get; set; } = -0.2f;
+		public float AimModeOnMouseMoveBuildupAmount { get; set; } = 0f;
 
 		[Label( "Rate of \"aim mode\" increase while player idle" )]
-		[Range( 0f, 60f )]
+		[Range( -60f, 60f )]
 		[DefaultValue( 1f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
 		public float AimModeOnIdleBuildupAmount { get; set; } = 1f;
 
 		[Label( "Rate of \"aim mode\" increase from landing shots" )]
-		[Range( 0f, 9999f )]
+		[Range( -999f, 999f )]
 		[DefaultValue( 5f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
 		public float AimModeOnHitBuildupAmount { get; set; } = 5f;
 
 		[Label( "Rate of \"aim mode\" increase from missing shots" )]
-		[Range( 0f, 9999f )]
+		[Range( -999f, 999f )]
 		[DefaultValue( -5f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
 		public float AimModeOnMissBuildupAmount { get; set; } = -5f;
@@ -161,9 +161,9 @@ namespace TheMadRanger {
 
 		[Label( "Mouse move distance-per-tick to count as 'moving'" )]
 		[Range( 0f, 1000f )]
-		[DefaultValue( 1f )]
+		[DefaultValue( 1000f )]	//1f
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
-		public float AimModeMouseMoveThreshold { get; set; } = 1f;
+		public float AimModeMouseMoveThreshold { get; set; } = 1000f;
 
 		//
 

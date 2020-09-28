@@ -11,7 +11,7 @@ using HamstarHelpers.Helpers.Debug;
 
 namespace TheMadRanger {
 	public partial class TMRMod : Mod {
-		public const float CrosshairDurationTicksMax = 12f;
+		public const float CrosshairDurationTicksMax = 7f;
 
 
 
@@ -31,7 +31,7 @@ namespace TheMadRanger {
 			bool isAimMode = this.RunAimCursorAnimation( out hasGun, out aimPercent );
 			bool isPreAimMode = isAimMode
 				? false
-				: this.RunPreAimCursorAnimation();
+				: this.RunPreAimCursorAnimation( aimPercent );
 
 			int idx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Cursor" ) );
 			if( idx == -1 ) { return; }
@@ -43,7 +43,7 @@ namespace TheMadRanger {
 			GameInterfaceDrawMethod draw = () => {
 				if( !Main.playerInventory && Main.InGameUI.CurrentState == null ) {
 					if( isPreAimMode ) {
-						this.DrawPreAimCursor();
+						this.DrawPreAimCursor( aimPercent );
 					} else if( isAimMode ) {
 						this.DrawAimCursor();
 					} else if( hasGun ) {

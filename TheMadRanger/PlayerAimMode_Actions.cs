@@ -30,13 +30,14 @@ namespace TheMadRanger {
 
 		public void ApplySuccessfulHit( Player plr ) {
 			var config = TMRConfig.Instance;
-			int max = (int)config.Get<int>( nameof(TMRConfig.AimModeActivationTickDuration) )
-				+ config.Get<int>( nameof(TMRConfig.AimModeActivationTickDurationAddedBuffer) );
+			int aimDuration = config.Get<int>( nameof(TMRConfig.AimModeActivationTickDuration) );
+			int aimDurationAdd = config.Get<int>( nameof(TMRConfig.AimModeActivationTickDurationAddedBuffer) );
+			int max = aimDuration + aimDurationAdd;
 
 			// Switch to full aim mode
 			if( this.IsQuickDrawActive ) {
 				this.QuickDrawDuration = 0;
-				this.AimElapsed = config.Get<int>( nameof(TMRConfig.AimModeActivationTickDuration) ) + 2;
+				this.AimElapsed = max;
 			}
 			// Otherwise, increase buildup to aim mode
 			else {

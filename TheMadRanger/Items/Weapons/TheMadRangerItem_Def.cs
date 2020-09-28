@@ -51,7 +51,8 @@ namespace TheMadRanger.Items.Weapons {
 
 			if( config.Get<bool>( nameof(TMRConfig.BandolierNeededToReload) ) ) {
 				int bandolierType = ModContent.ItemType<BandolierItem>();
-				int max = PlayerItemHelpers.GetCurrentVanillaMaxAccessories( player );
+				int max = PlayerItemHelpers.VanillaAccessorySlotFirst
+					+ PlayerItemHelpers.GetCurrentVanillaMaxAccessories( player );
 
 				for( int i = PlayerItemHelpers.VanillaAccessorySlotFirst; i < max; i++ ) {
 					Item item = player.armor[i];
