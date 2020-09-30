@@ -97,9 +97,9 @@ namespace TheMadRanger.Items.Weapons {
 
 		public override void SetStaticDefaults() {
 			this.DisplayName.SetDefault( "The Mad Ranger" );
-			this.Tooltip.SetDefault( "An antique .357 revolver from a far away land."
+			this.Tooltip.SetDefault( "A mysterious, antique .357 revolver from a far away land."
 				+ "\nUnusually powerful; needs a steady hand"
-				+ "\nOnly uses is own manufactured ammo"
+				+ "\nOnly uses its own manufactured ammo"
 				+ "\nWhile aiming, right-click to hold aim steady"
 			);
 		}

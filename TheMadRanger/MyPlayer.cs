@@ -34,31 +34,25 @@ namespace TheMadRanger {
 
 		public override void PreUpdate() {
 			if( !Main.gamePaused && !this.player.dead ) {
-				if( this.InventorySlotOfPreviousHeldItem != this.player.selectedItem ) {
-					if( this.InventorySlotOfPreviousHeldItem != -1 ) {
-						this.CheckPreviousHeldItemState( this.player.inventory[this.InventorySlotOfPreviousHeldItem] );
-					}
-				}
-
-				this.CheckCurrentHeldItemState();
-
-				this.GunHandling.UpdateHolsterAnimation( this.player );
-
-				if( this.InventorySlotOfPreviousHeldItem != this.player.selectedItem ) {
-					this.InventorySlotOfPreviousHeldItem = this.player.selectedItem;
-				}
+				this.PreUpdateActive();
 			}
 		}
 
-		public override void UpdateDead() {
-			this.GunHandling.UpdateUnequipped( this.player );
-			this.AimMode.CheckUnequippedAimState();
-		}
+		private void PreUpdateActive() {
+			if( this.InventorySlotOfPreviousHeldItem != this.player.selectedItem ) {
+				if( this.InventorySlotOfPreviousHeldItem != -1 ) {
+					this.CheckPreviousHeldItemState( this.player.inventory[this.InventorySlotOfPreviousHeldItem] );
+				}
+			}
 
+			this.CheckCurrentHeldItemState();
 
-		////
+			this.GunHandling.UpdateHolsterAnimation( this.player );
 
-		public override void PreUpdateMovement() {
+			if( this.InventorySlotOfPreviousHeldItem != this.player.selectedItem ) {
+				this.InventorySlotOfPreviousHeldItem = this.player.selectedItem;
+			}
+
 			if( this.AimMode.IsLocked ) {
 				var config = TMRConfig.Instance;
 				float aimLockMoveSpeed = config.Get<float>( nameof(TMRConfig.AimModeLockMoveSpeedScale) );
@@ -67,6 +61,13 @@ namespace TheMadRanger {
 				this.player.accRunSpeed = player.maxRunSpeed;
 				this.player.moveSpeed *= aimLockMoveSpeed;
 			}
+		}
+
+		////
+
+		public override void UpdateDead() {
+			this.GunHandling.UpdateUnequipped( this.player );
+			this.AimMode.CheckUnequippedAimState();
 		}
 
 

@@ -102,7 +102,9 @@ namespace TheMadRanger {
 			PlayerLayer.HeldItem.visible = false;
 			PlayerLayer.Arms.visible = false;
 			PlayerLayer.HandOnAcc.visible = false;
-			//PlayerLayer.HandOffAcc.visible = false;
+			PlayerLayer.HandOffAcc.visible = false;
+			this.player.handon = 0;
+			this.player.handoff = 0;
 
 			return true;
 		}
