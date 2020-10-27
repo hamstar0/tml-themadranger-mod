@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
-using TheMadRanger.Helpers.Misc;
+using HamstarHelpers.Helpers.Audio;
 using TheMadRanger.NetProtocols;
 
 
@@ -73,10 +73,10 @@ namespace TheMadRanger.Items.Weapons {
 			bool hasShot = false;
 
 			if( this.CylinderShootOnce() ) {
-				SoundHelpers.PlaySound( "RevolverFire", player.Center, 0.2f );
+				SoundHelpers.PlaySound( TMRMod.Instance, "RevolverFire", player.Center, 0.2f );
 				hasShot = true;
 			} else {
-				SoundHelpers.PlaySound( "RevolverDryFire", player.Center, 0.2f );
+				SoundHelpers.PlaySound( TMRMod.Instance, "RevolverDryFire", player.Center, 0.2f );
 				hasShot = false;
 			}
 

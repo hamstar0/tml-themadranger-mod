@@ -11,10 +11,16 @@ namespace TheMadRanger {
 				return;
 			}
 
-			bool isPlrMoving = this.UpdateEquippedAimStateValueForPlayerMovement( plr );
-			bool isMouseMoving = this.UpdateEquippedAimStateValueForMouseMovement();
+			bool isPreLocked = this.IsPreLocked;
+			bool isPlrMoving = false;
+			bool isMouseMoving = false;
 
-			if( !isPlrMoving && !isMouseMoving ) {
+			if( !isPreLocked ) {
+				isPlrMoving = this.UpdateEquippedAimStateValueForPlayerMovement( plr );
+				isMouseMoving = this.UpdateEquippedAimStateValueForMouseMovement();
+			}
+
+			if( isPreLocked || (!isPlrMoving && !isMouseMoving) ) {
 				this.UpdateEquippedAimStateValueForPlayerIdle();
 			}
 		}

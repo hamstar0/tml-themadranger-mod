@@ -5,8 +5,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
-using TheMadRanger.Helpers.Players;
 using HamstarHelpers.Helpers.Debug;
+using HamstarHelpers.Helpers.Players;
 
 
 namespace TheMadRanger {

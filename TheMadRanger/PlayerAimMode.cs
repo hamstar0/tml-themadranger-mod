@@ -31,6 +31,8 @@ namespace TheMadRanger {
 
 		public bool IsQuickDrawActive => this.QuickDrawDuration > 0;
 
+		public bool IsPreLocked => !this.IsModeActive && !this.IsQuickDrawActive && Main.mouseRight;
+
 		public bool IsLocked => this.IsModeActive && !this.IsQuickDrawActive && Main.mouseRight;
 
 		////

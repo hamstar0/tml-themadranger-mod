@@ -1,16 +1,16 @@
 using Terraria;
 using Terraria.ModLoader;
-using TheMadRanger.Helpers.Misc;
+using HamstarHelpers.Helpers.Audio;
 
 
 namespace TheMadRanger.Items.Weapons {
 	public partial class TheMadRangerItem : ModItem {
 		public void OpenCylinder( Player player ) {
-			SoundHelpers.PlaySound( "RevolverReloadBegin", player.Center, 0.5f );
+			SoundHelpers.PlaySound( TMRMod.Instance, "RevolverReloadBegin", player.Center, 0.5f );
 		}
 
 		public void CloseCylinder( Player player ) {
-			SoundHelpers.PlaySound( "RevolverDryFire", player.Center, 0.2f );
+			SoundHelpers.PlaySound( TMRMod.Instance, "RevolverDryFire", player.Center, 0.2f );
 		}
 
 
@@ -36,14 +36,17 @@ namespace TheMadRanger.Items.Weapons {
 
 		////
 
-		public bool InsertRound( Player player ) {
+		public bool InsertRound( Player player, bool playSound=true ) {
 			bool hasInserted = false;
 			int initPos = this.CylinderIdx;
 
 			do {
 				if( this.CylinderInsertOnce() ) {
 					hasInserted = true;
-					SoundHelpers.PlaySound( "RevolverReloadRound", player.Center, 0.5f );
+
+					if( playSound ) {
+						SoundHelpers.PlaySound( TMRMod.Instance, "RevolverReloadRound", player.Center, 0.5f );
+					}
 					break;
 				}
 			} while( this.CylinderIdx != initPos );
@@ -90,6 +93,12 @@ namespace TheMadRanger.Items.Weapons {
 			}
 
 			return inserted > 0;
+		}
+
+		////
+
+		internal void InsertAllOnRespawn( Player player ) {
+			while( this.InsertRound(player, false) ) { }
 		}
 
 

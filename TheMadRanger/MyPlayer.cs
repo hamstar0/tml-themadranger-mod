@@ -53,7 +53,7 @@ namespace TheMadRanger {
 				this.InventorySlotOfPreviousHeldItem = this.player.selectedItem;
 			}
 
-			if( this.AimMode.IsLocked ) {
+			if( this.AimMode.IsPreLocked || this.AimMode.IsLocked ) {
 				var config = TMRConfig.Instance;
 				float aimLockMoveSpeed = config.Get<float>( nameof(TMRConfig.AimModeLockMoveSpeedScale) );
 
@@ -145,6 +145,14 @@ namespace TheMadRanger {
 
 					items.Add( bandolier );
 				}
+			}
+		}
+
+		////
+
+		public override void OnRespawn( Player player ) {
+			if( TMRPlayer.IsHoldingGun(this.player) ) {
+				((TheMadRangerItem)player.HeldItem.modItem).InsertAllOnRespawn( player );
 			}
 		}
 	}

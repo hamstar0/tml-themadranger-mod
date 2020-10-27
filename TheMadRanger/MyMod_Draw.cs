@@ -59,7 +59,6 @@ namespace TheMadRanger {
 			};
 			var interfaceLayer = new LegacyGameInterfaceLayer( "TheMadRanger: Crosshair", draw, InterfaceScaleType.UI );
 
-			//layers.RemoveAt( idx );
 			layers.Insert( idx, interfaceLayer );
 		}
 

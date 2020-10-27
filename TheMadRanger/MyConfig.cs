@@ -169,9 +169,9 @@ namespace TheMadRanger {
 
 		[Label( "Scale to adjust max movement speed while aim mode 'locked'" )]
 		[Range( 0f, 5f )]
-		[DefaultValue( 0.5f )]
+		[DefaultValue( 0.4f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
-		public float AimModeLockMoveSpeedScale { get; set; } = 0.5f;
+		public float AimModeLockMoveSpeedScale { get; set; } = 0.4f;
 
 
 		//

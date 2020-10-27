@@ -1,9 +1,10 @@
-﻿using HamstarHelpers.Helpers.Tiles;
+﻿using System;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
-using TheMadRanger.Helpers.Misc;
+using HamstarHelpers.Helpers.Audio;
+using HamstarHelpers.Helpers.Tiles;
+
 
 namespace TheMadRanger.Gores {
 	class ShellCasing : ModGore {
@@ -78,7 +79,7 @@ namespace TheMadRanger.Gores {
 			if( gore.drawOffset.X == 0f ) {
 //Main.NewText("bounce "+gore.GetHashCode());
 				gore.drawOffset.X = 0.001f;
-				SoundHelpers.PlaySound( "ShellBounce", gore.position );
+				SoundHelpers.PlaySound( TMRMod.Instance, "ShellBounce", gore.position );
 			}
 
 			int tileX = (int)gore.position.X >> 4;
