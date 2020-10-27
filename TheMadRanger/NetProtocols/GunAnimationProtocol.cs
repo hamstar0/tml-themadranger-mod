@@ -1,8 +1,9 @@
 ﻿using System;
 using Terraria;
 using HamstarHelpers.Classes.Errors;
-using HamstarHelpers.Classes.Protocols.Packet.Interfaces;
 using HamstarHelpers.Helpers.TModLoader;
+using HamstarHelpers.Services.Network.NetIO;
+using HamstarHelpers.Services.Network.NetIO.PayloadTypes;
 
 
 namespace TheMadRanger.NetProtocols {
@@ -15,13 +16,13 @@ namespace TheMadRanger.NetProtocols {
 
 
 
-	class GunAnimationProtocol : PacketProtocolBroadcast {
+	class GunAnimationProtocol : NetIOBroadcastPayload {
 		public static void Broadcast( GunAnimationType animType ) {
 			if( Main.netMode != 1 ) { throw new ModHelpersException( "Not a client." ); }
-
+			
 			var protocol = new GunAnimationProtocol( Main.myPlayer, animType );
 
-			protocol.SendToServer( true );
+			NetIO.Broadcast( protocol );
 		}
 
 
@@ -44,25 +45,7 @@ namespace TheMadRanger.NetProtocols {
 
 		////////////////
 
-		protected override void ReceiveOnClient() {
-			Player plr = Main.player[this.PlayerWho];
-			var otherplr = TmlHelpers.SafelyGetModPlayer<TMRPlayer>( plr );
-			GunAnimationType animType = (GunAnimationType)this.AnimType;
-
-			switch( animType ) {
-			case GunAnimationType.Recoil:
-				otherplr.GunHandling.BeginRecoil( 0f );
-				break;
-			case GunAnimationType.Holster:
-				otherplr.GunHandling.BeginHolster( plr );
-				break;
-			case GunAnimationType.Reload:
-				otherplr.GunHandling.BeginReload( plr );
-				break;
-			}
-		}
-
-		protected override void ReceiveOnServer( int fromWho ) {
+		public override bool ReceiveOnServerBeforeRebroadcast( int fromWho ) {
 			Player plr = Main.player[this.PlayerWho];
 			var otherplr = TmlHelpers.SafelyGetModPlayer<TMRPlayer>( plr );
 			GunAnimationType animType = (GunAnimationType)this.AnimType;
@@ -77,6 +60,25 @@ namespace TheMadRanger.NetProtocols {
 				//case GunAnimationType.Reload:
 				//	otherplr.GunHandling.BeginReload( plr );
 				//	break;
+			}
+			return true;
+		}
+
+		public override void ReceiveBroadcastOnClient() {
+			Player plr = Main.player[this.PlayerWho];
+			var otherplr = TmlHelpers.SafelyGetModPlayer<TMRPlayer>( plr );
+			GunAnimationType animType = (GunAnimationType)this.AnimType;
+
+			switch( animType ) {
+			case GunAnimationType.Recoil:
+				otherplr.GunHandling.BeginRecoil( 0f );
+				break;
+			case GunAnimationType.Holster:
+				otherplr.GunHandling.BeginHolster( plr );
+				break;
+			case GunAnimationType.Reload:
+				otherplr.GunHandling.BeginReload( plr );
+				break;
 			}
 		}
 	}
