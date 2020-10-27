@@ -16,6 +16,7 @@ namespace TheMadRanger.NetProtocols {
 
 
 
+	[Serializable]
 	class GunAnimationProtocol : NetIOBroadcastPayload {
 		public static void Broadcast( GunAnimationType animType ) {
 			if( Main.netMode != 1 ) { throw new ModHelpersException( "Not a client." ); }
