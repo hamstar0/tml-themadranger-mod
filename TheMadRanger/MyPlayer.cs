@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameInput;
 using HamstarHelpers.Helpers.Debug;
@@ -74,13 +75,15 @@ namespace TheMadRanger {
 		////////////////
 
 		private void CheckPreviousHeldItemState( Item prevHeldItem ) {
-			if( prevHeldItem != null && !prevHeldItem.IsAir && prevHeldItem.type == ModContent.ItemType<TheMadRangerItem>() ) {
+			var mygun = prevHeldItem?.modItem as TheMadRangerItem;
+
+			if( mygun != null ) {
 				if( this.HasAttemptedShotSinceEquip ) {
 					this.HasAttemptedShotSinceEquip = false;
-					this.GunHandling.BeginHolster( this.player );
+					this.GunHandling.BeginHolster( this.player, mygun );
 				}
 
-				if( Main.netMode == 1 && this.player.whoAmI == Main.myPlayer ) {
+				if( Main.netMode == NetmodeID.MultiplayerClient && this.player.whoAmI == Main.myPlayer ) {
 					GunAnimationProtocol.Broadcast( GunAnimationType.Holster );
 				}
 			}
@@ -114,13 +117,29 @@ namespace TheMadRanger {
 		////////////////
 
 		public override void ProcessTriggers( TriggersSet triggersSet ) {
+			void handleReload() {
+				Item gun = this.player.HeldItem;
+				if( gun?.active != true ) {
+					return;
+				}
+
+				var mygun = gun.modItem as TheMadRangerItem;
+				if( mygun == null ) {
+					return;
+				}
+
+				if( this.GunHandling.BeginReload(this.player, mygun) ) {
+					if( Main.netMode == NetmodeID.MultiplayerClient && this.player.whoAmI == Main.myPlayer ) {
+						GunAnimationProtocol.Broadcast( GunAnimationType.Reload );
+					}
+				}
+			}
+
+			//
+
 			if( TMRMod.Instance.ReloadKey.JustPressed ) {
 				if( !Main.gamePaused && !this.player.dead ) {
-					if( this.GunHandling.BeginReload( this.player ) ) {
-						if( Main.netMode == 1 && this.player.whoAmI == Main.myPlayer ) {
-							GunAnimationProtocol.Broadcast( GunAnimationType.Reload );
-						}
-					}
+					handleReload();
 				}
 			}
 		}

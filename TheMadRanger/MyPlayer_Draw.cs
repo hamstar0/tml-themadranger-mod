@@ -10,7 +10,7 @@ namespace TheMadRanger {
 		public override void DrawEffects( PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright ) {
 			if( TMRPlayer.IsHoldingGun( this.player ) ) {
 				if( !this.GunHandling.IsAnimating ) {
-					drawInfo.drawPlayer.bodyFrame.Y = TMRPlayer.AimGunForBodyFrameY( this.player );
+					drawInfo.drawPlayer.bodyFrame.Y = TMRPlayer.GetBodyFrameForItemAimAsIfForHeldGun( this.player );
 				}
 			}
 			if( this.GunHandling.IsAnimating ) {
@@ -21,7 +21,7 @@ namespace TheMadRanger {
 		public override void ModifyDrawInfo( ref PlayerDrawInfo drawInfo ) {
 			if( TMRPlayer.IsHoldingGun( this.player ) ) {
 				if( !this.GunHandling.IsAnimating ) {
-					drawInfo.drawPlayer.bodyFrame.Y = TMRPlayer.AimGunForBodyFrameY( this.player );
+					drawInfo.drawPlayer.bodyFrame.Y = TMRPlayer.GetBodyFrameForItemAimAsIfForHeldGun( this.player );
 				}
 			}
 			if( this.GunHandling.IsAnimating ) {
@@ -70,7 +70,7 @@ namespace TheMadRanger {
 
 			int newBodyFrameY;
 			if( aimGun ) {
-				newBodyFrameY = TMRPlayer.AimGunForBodyFrameY( this.player );
+				newBodyFrameY = TMRPlayer.GetBodyFrameForItemAimAsIfForHeldGun( this.player );
 			} else {
 				newBodyFrameY = this.player.bodyFrame.Height * 3;
 			}

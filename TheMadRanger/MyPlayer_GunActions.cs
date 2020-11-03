@@ -17,7 +17,7 @@ namespace TheMadRanger {
 
 		////////////////
 
-		public static int AimGunForBodyFrameY( Player plr ) {
+		public static int GetBodyFrameForItemAimAsIfForHeldGun( Player plr ) {
 			int frameY;
 			float rotDir = plr.itemRotation * (float)plr.direction;
 

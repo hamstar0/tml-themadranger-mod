@@ -4,6 +4,7 @@ using HamstarHelpers.Classes.Errors;
 using HamstarHelpers.Helpers.TModLoader;
 using HamstarHelpers.Services.Network.NetIO;
 using HamstarHelpers.Services.Network.NetIO.PayloadTypes;
+using TheMadRanger.Items.Weapons;
 
 
 namespace TheMadRanger.NetProtocols {
@@ -51,17 +52,28 @@ namespace TheMadRanger.NetProtocols {
 			var otherplr = TmlHelpers.SafelyGetModPlayer<TMRPlayer>( plr );
 			GunAnimationType animType = (GunAnimationType)this.AnimType;
 
+			Item gun = plr.HeldItem;
+			if( gun?.active != true ) {
+				return true;
+			}
+
+			var mygun = gun.modItem as TheMadRangerItem;
+			if( mygun == null ) {
+				return true;
+			}
+
 			switch( animType ) {
 			//case GunAnimationType.Recoil:
 			//	otherplr.GunHandling.BeginRecoil( 0f );
 			//	break;
 			case GunAnimationType.Holster:  // Might interrupt other item actions such that server should know
-				otherplr.GunHandling.BeginHolster( plr );
+				otherplr.GunHandling.BeginHolster( plr, mygun );
 				break;
 				//case GunAnimationType.Reload:
 				//	otherplr.GunHandling.BeginReload( plr );
 				//	break;
 			}
+
 			return true;
 		}
 
@@ -70,15 +82,25 @@ namespace TheMadRanger.NetProtocols {
 			var otherplr = TmlHelpers.SafelyGetModPlayer<TMRPlayer>( plr );
 			GunAnimationType animType = (GunAnimationType)this.AnimType;
 
+			Item gun = plr.HeldItem;
+			if( gun?.active != true ) {
+				return;
+			}
+
+			var mygun = gun.modItem as TheMadRangerItem;
+			if( mygun == null ) {
+				return;
+			}
+
 			switch( animType ) {
 			case GunAnimationType.Recoil:
 				otherplr.GunHandling.BeginRecoil( 0f );
 				break;
 			case GunAnimationType.Holster:
-				otherplr.GunHandling.BeginHolster( plr );
+				otherplr.GunHandling.BeginHolster( plr, mygun );
 				break;
 			case GunAnimationType.Reload:
-				otherplr.GunHandling.BeginReload( plr );
+				otherplr.GunHandling.BeginReload( plr, mygun );
 				break;
 			}
 		}

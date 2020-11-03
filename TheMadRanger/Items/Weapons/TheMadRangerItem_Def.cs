@@ -183,7 +183,9 @@ namespace TheMadRanger.Items.Weapons {
 		////////////////
 
 		public override bool CanUseItem( Player player ) {
-			return player.GetModPlayer<TMRPlayer>().CanAttemptToShootGun();
+			return player.GetModPlayer<TMRPlayer>()
+				.GunHandling
+				.CanAttemptToShootGun( player );
 		}
 
 		public override bool Shoot(

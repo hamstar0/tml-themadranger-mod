@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
 using HamstarHelpers.Helpers.Audio;
@@ -10,6 +11,16 @@ using TheMadRanger.NetProtocols;
 
 namespace TheMadRanger.Items.Weapons {
 	public partial class TheMadRangerItem : ModItem {
+		/// <summary>
+		/// Top level action for attempting to run all of the behaviors of firing a gun (short of producing the actual
+		/// bullet projectile). May instead fail or begin gun reloading, if needed.
+		/// </summary>
+		/// <param name="player"></param>
+		/// <param name="speedX"></param>
+		/// <param name="speedY"></param>
+		/// <param name="damage"></param>
+		/// <param name="knockBack"></param>
+		/// <returns></returns>
 		public bool AttemptGunShot(
 					Player player,
 					ref float speedX,
@@ -20,7 +31,7 @@ namespace TheMadRanger.Items.Weapons {
 
 			myplayer.HasAttemptedShotSinceEquip = true;
 
-			if( !myplayer.CanAttemptToShootGun() ) {
+			if( !myplayer.GunHandling.CanAttemptToShootGun(player) ) {
 				return false;
 			}
 
@@ -28,15 +39,15 @@ namespace TheMadRanger.Items.Weapons {
 				if( !myplayer.GunHandling.ReloadingRounds ) {
 					return false;
 				}
-				myplayer.GunHandling.StopReloading( player );
+				myplayer.GunHandling.StopReloading( player, this );
 				this.ElapsedTimeSinceLastShotAttempt = 0;
 			}
 
 			bool wantsReload;
 			if( !this.AttemptGunShotBegin(player, out wantsReload) ) {
 				if( wantsReload ) {
-					if( myplayer.GunHandling.BeginReload( player ) ) {
-						if( Main.netMode == 1 && player.whoAmI == Main.myPlayer ) {
+					if( myplayer.GunHandling.BeginReload( player, this ) ) {
+						if( Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer ) {
 							GunAnimationProtocol.Broadcast( GunAnimationType.Reload );
 						}
 					}
