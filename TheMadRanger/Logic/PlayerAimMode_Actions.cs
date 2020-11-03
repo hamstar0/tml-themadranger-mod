@@ -3,7 +3,7 @@ using Terraria;
 using HamstarHelpers.Helpers.Debug;
 
 
-namespace TheMadRanger {
+namespace TheMadRanger.Logic {
 	partial class PlayerAimMode {
 		public bool AttemptQuickDrawMode( Player plr ) {
 			var myplayer = plr.GetModPlayer<TMRPlayer>();

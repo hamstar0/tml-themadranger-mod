@@ -8,7 +8,7 @@ using TheMadRanger.Gores;
 using TheMadRanger.Items.Weapons;
 
 
-namespace TheMadRanger {
+namespace TheMadRanger.Logic {
 	partial class GunHandling {
 		public float GetAddedRotationDegrees( Player plr ) {
 			float degrees;
@@ -48,24 +48,25 @@ namespace TheMadRanger {
 		////////////////
 
 		public void UpdateHolsterAnimation( Player plr ) {
-			if( this.HolsterDuration > 0 ) {
-				if( !Main.gamePaused && !plr.dead ) {
-					this.HolsterDuration--;
-				}
+			if( this.HolsterDuration <= 0 ) {
+				this.HolsterTwirlAddedRotationDegrees = 0f;
+				return;
+			}
 
-				if( plr.direction > 0 ) {
-					this.HolsterTwirlAddedRotationDegrees -= 32f;
-					if( this.HolsterTwirlAddedRotationDegrees < 0f ) {
-						this.HolsterTwirlAddedRotationDegrees += 360f;
-					}
-				} else {
-					this.HolsterTwirlAddedRotationDegrees += 32f;
-					if( this.HolsterTwirlAddedRotationDegrees >= 360f ) {
-						this.HolsterTwirlAddedRotationDegrees -= 360f;
-					}
+			if( !Main.gamePaused && !plr.dead ) {
+				this.HolsterDuration--;
+			}
+
+			if( plr.direction > 0 ) {
+				this.HolsterTwirlAddedRotationDegrees -= 32f;
+				if( this.HolsterTwirlAddedRotationDegrees < 0f ) {
+					this.HolsterTwirlAddedRotationDegrees += 360f;
 				}
 			} else {
-				this.HolsterTwirlAddedRotationDegrees = 0f;
+				this.HolsterTwirlAddedRotationDegrees += 32f;
+				if( this.HolsterTwirlAddedRotationDegrees >= 360f ) {
+					this.HolsterTwirlAddedRotationDegrees -= 360f;
+				}
 			}
 		}
 

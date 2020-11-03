@@ -5,7 +5,7 @@ using HamstarHelpers.Helpers.Debug;
 using TheMadRanger.Items;
 
 
-namespace TheMadRanger {
+namespace TheMadRanger.Logic {
 	partial class GunHandling {
 		/*public static Vector2 GetGunTipPosition( Player plr ) {
 			var myplayer = plr.GetModPlayer<TMRPlayer>();

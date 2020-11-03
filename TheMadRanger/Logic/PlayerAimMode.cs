@@ -6,7 +6,7 @@ using HamstarHelpers.Helpers.Debug;
 using HamstarHelpers.Helpers.TModLoader;
 
 
-namespace TheMadRanger {
+namespace TheMadRanger.Logic {
 	partial class PlayerAimMode {
 		public static float ComputeAimShakeMaxConeRadians() {
 			var config = TMRConfig.Instance;

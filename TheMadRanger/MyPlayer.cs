@@ -8,6 +8,7 @@ using HamstarHelpers.Helpers.Debug;
 using TheMadRanger.Items.Weapons;
 using TheMadRanger.Items.Accessories;
 using TheMadRanger.NetProtocols;
+using TheMadRanger.Logic;
 
 
 namespace TheMadRanger {

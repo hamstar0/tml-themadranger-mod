@@ -9,7 +9,7 @@ using HamstarHelpers.Helpers.Debug;
 using TheMadRanger.Items.Weapons;
 
 
-namespace TheMadRanger {
+namespace TheMadRanger.Logic {
 	partial class GunHandling {
 		private void InitDrawLayers() {
 			this.GunDrawLayer = new PlayerLayer( "TheMadRanger", "Custom Gun Animation", ( plrDrawInfo ) => {

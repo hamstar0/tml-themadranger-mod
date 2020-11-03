@@ -4,7 +4,7 @@ using Terraria;
 using HamstarHelpers.Helpers.Debug;
 
 
-namespace TheMadRanger {
+namespace TheMadRanger.Logic {
 	partial class PlayerAimMode {
 		private void UpdateEquippedAimStateValue( Player plr ) {
 			if( this.IsLocked ) {

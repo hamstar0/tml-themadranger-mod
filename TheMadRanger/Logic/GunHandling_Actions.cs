@@ -6,7 +6,7 @@ using TheMadRanger.Items.Weapons;
 using TheMadRanger.Items;
 
 
-namespace TheMadRanger {
+namespace TheMadRanger.Logic {
 	partial class GunHandling {
 		/// <summary>
 		/// Begins a gun firing recoil sequence. Recoil does not affect repeat firing (at present).
