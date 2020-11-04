@@ -6,9 +6,12 @@ using HamstarHelpers.Helpers.Debug;
 namespace TheMadRanger.Logic {
 	partial class PlayerLogic {
 		public static void UpdatePlayerStateForAimMode( TMRPlayer myplayer ) {
-			if( myplayer.AimMode.IsPreLocked || myplayer.AimMode.IsLocked ) {
+			PlayerAimMode aimMode = myplayer.AimMode;
+			GunHandling gunHandling = myplayer.GunHandling;
+
+			if( aimMode.IsModeLocked || (aimMode.IsAttemptingModeLock && !gunHandling.IsAnimating) ) {
 				var config = TMRConfig.Instance;
-				float aimLockMoveSpeed = config.Get<float>( nameof( TMRConfig.AimModeLockMoveSpeedScale ) );
+				float aimLockMoveSpeed = config.Get<float>( nameof(config.AimModeLockMoveSpeedScale) );
 
 				myplayer.player.maxRunSpeed *= aimLockMoveSpeed;
 				myplayer.player.accRunSpeed = myplayer.player.maxRunSpeed;

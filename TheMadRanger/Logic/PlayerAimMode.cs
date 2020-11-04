@@ -22,18 +22,18 @@ namespace TheMadRanger.Logic {
 
 		public bool IsModeActive {
 			get {
-				int aimDuration = TMRConfig.Instance.Get<int>( nameof(TMRConfig.AimModeActivationTickDuration) );
+				var config = TMRConfig.Instance;
+				int aimDuration = config.Get<int>( nameof(config.AimModeActivationTickDuration) );
+				
 				return this.AimElapsed >= aimDuration;
 			}
 		}
 
 		public bool IsModeActivating => this.AimElapsed > 0 && this.AimElapsed >= this.PrevAimElapsed;
 
-		public bool IsQuickDrawActive => this.QuickDrawDuration > 0;
+		public bool IsAttemptingModeLock => Main.mouseRight && !this.IsQuickDrawActive;
 
-		public bool IsPreLocked => !this.IsModeActive && !this.IsQuickDrawActive && Main.mouseRight;
-
-		public bool IsLocked => this.IsModeActive && !this.IsQuickDrawActive && Main.mouseRight;
+		public bool IsModeLocked => this.IsModeActive && this.IsAttemptingModeLock;
 
 		////
 
@@ -43,6 +43,10 @@ namespace TheMadRanger.Logic {
 				return (float)this.AimElapsed / (float)aimDuration;
 			}
 		}
+
+		////
+
+		public bool IsQuickDrawActive => this.QuickDrawDuration > 0;
 
 
 		////////////////

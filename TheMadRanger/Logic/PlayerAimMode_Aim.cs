@@ -7,20 +7,20 @@ using HamstarHelpers.Helpers.Debug;
 namespace TheMadRanger.Logic {
 	partial class PlayerAimMode {
 		private void UpdateEquippedAimStateValue( Player plr ) {
-			if( this.IsLocked ) {
+			if( this.IsModeLocked ) {
 				return;
 			}
 
-			bool isPreLocked = this.IsPreLocked;
+			bool isAimingLocked = this.IsAttemptingModeLock;
 			bool isPlrMoving = false;
 			bool isMouseMoving = false;
 
-			if( !isPreLocked ) {
+			if( !isAimingLocked ) {
 				isPlrMoving = this.UpdateEquippedAimStateValueForPlayerMovement( plr );
 				isMouseMoving = this.UpdateEquippedAimStateValueForMouseMovement();
 			}
 
-			if( isPreLocked || (!isPlrMoving && !isMouseMoving) ) {
+			if( isAimingLocked || (!isPlrMoving && !isMouseMoving) ) {
 				this.UpdateEquippedAimStateValueForPlayerIdle();
 			}
 		}
