@@ -5,6 +5,11 @@ using HamstarHelpers.Helpers.Debug;
 
 namespace TheMadRanger.Logic {
 	partial class PlayerAimMode {
+		/// <summary>
+		/// Begins aim mode, if player allows.
+		/// </summary>
+		/// <param name="plr"></param>
+		/// <returns></returns>
 		public bool AttemptQuickDrawMode( Player plr ) {
 			var myplayer = plr.GetModPlayer<TMRPlayer>();
 			if( !myplayer.GunHandling.IsQuickDrawReady ) {
@@ -28,6 +33,10 @@ namespace TheMadRanger.Logic {
 
 		////
 
+		/// <summary>
+		/// Handles aim state changes when a shot successfully hits any target.
+		/// </summary>
+		/// <param name="plr"></param>
 		public void ApplySuccessfulHit( Player plr ) {
 			var config = TMRConfig.Instance;
 			int aimDuration = config.Get<int>( nameof(TMRConfig.AimModeActivationTickDuration) );
@@ -55,6 +64,10 @@ namespace TheMadRanger.Logic {
 			}
 		}
 
+		/// <summary>
+		/// Handles aim state changes when a shot hits no target.
+		/// </summary>
+		/// <param name="plr"></param>
 		public void ApplyUnsuccessfulHit( Player plr ) {
 			if( this.IsModeActive ) {
 				return;

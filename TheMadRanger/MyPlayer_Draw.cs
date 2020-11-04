@@ -1,16 +1,17 @@
-﻿using HamstarHelpers.Services.Network;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
+using HamstarHelpers.Services.Network;
+using TheMadRanger.Logic;
 
 
 namespace TheMadRanger {
 	partial class TMRPlayer : ModPlayer {
 		public override void DrawEffects( PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright ) {
-			if( TMRPlayer.IsHoldingGun( this.player ) ) {
+			if( PlayerLogic.IsHoldingGun( this.player ) ) {
 				if( !this.GunHandling.IsAnimating ) {
-					drawInfo.drawPlayer.bodyFrame.Y = TMRPlayer.GetBodyFrameForItemAimAsIfForHeldGun( this.player );
+					drawInfo.drawPlayer.bodyFrame.Y = PlayerLogic.GetBodyFrameForItemAimAsIfForHeldGun( this.player );
 				}
 			}
 			if( this.GunHandling.IsAnimating ) {
@@ -19,9 +20,9 @@ namespace TheMadRanger {
 		}
 
 		public override void ModifyDrawInfo( ref PlayerDrawInfo drawInfo ) {
-			if( TMRPlayer.IsHoldingGun( this.player ) ) {
+			if( PlayerLogic.IsHoldingGun( this.player ) ) {
 				if( !this.GunHandling.IsAnimating ) {
-					drawInfo.drawPlayer.bodyFrame.Y = TMRPlayer.GetBodyFrameForItemAimAsIfForHeldGun( this.player );
+					drawInfo.drawPlayer.bodyFrame.Y = PlayerLogic.GetBodyFrameForItemAimAsIfForHeldGun( this.player );
 				}
 			}
 			if( this.GunHandling.IsAnimating ) {
@@ -33,11 +34,11 @@ namespace TheMadRanger {
 		////////////////
 
 		public override void ModifyDrawLayers( List<PlayerLayer> layers ) {
-			if( TMRPlayer.IsHoldingGun( this.player ) ) {
+			if( PlayerLogic.IsHoldingGun( this.player ) ) {
 				(bool isAimWithinArc, int aimDir) aim;
 
 				if( this.player.whoAmI == Main.myPlayer ) {
-					aim = this.ApplyGunAim( Main.mouseX, Main.mouseY );
+					aim = PlayerLogic.ApplyGunAim( this, Main.mouseX, Main.mouseY );
 				} else {
 					(int x, int y) cursor;
 					if( Client.LastKnownCursorPositions.ContainsKey(this.player.whoAmI) ) {
@@ -47,7 +48,7 @@ namespace TheMadRanger {
 						cursor.x += this.player.direction * 256;
 					}
 
-					aim = this.ApplyGunAim( cursor.x, cursor.y );
+					aim = PlayerLogic.ApplyGunAim( this, cursor.x, cursor.y );
 				}
 
 				if( !this.GunHandling.IsAnimating ) {
@@ -70,7 +71,7 @@ namespace TheMadRanger {
 
 			int newBodyFrameY;
 			if( aimGun ) {
-				newBodyFrameY = TMRPlayer.GetBodyFrameForItemAimAsIfForHeldGun( this.player );
+				newBodyFrameY = PlayerLogic.GetBodyFrameForItemAimAsIfForHeldGun( this.player );
 			} else {
 				newBodyFrameY = this.player.bodyFrame.Height * 3;
 			}

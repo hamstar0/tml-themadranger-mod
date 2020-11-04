@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using TheMadRanger.Logic;
 
 
 namespace TheMadRanger {
@@ -45,7 +46,7 @@ namespace TheMadRanger {
 				}
 			}
 
-			hasGun = !myplayer.GunHandling.IsAnimating && TMRPlayer.IsHoldingGun( Main.LocalPlayer );
+			hasGun = !myplayer.GunHandling.IsAnimating && PlayerLogic.IsHoldingGun( Main.LocalPlayer );
 			aimPercent = myplayer.AimMode.AimPercent;
 			return myplayer.AimMode.IsModeActive;
 		}

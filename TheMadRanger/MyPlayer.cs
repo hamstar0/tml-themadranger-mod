@@ -43,25 +43,16 @@ namespace TheMadRanger {
 		private void PreUpdateActive() {
 			if( this.InventorySlotOfPreviousHeldItem != this.player.selectedItem ) {
 				if( this.InventorySlotOfPreviousHeldItem != -1 ) {
-					this.CheckPreviousHeldItemState( this.player.inventory[this.InventorySlotOfPreviousHeldItem] );
+					Item prevItem = this.player.inventory[this.InventorySlotOfPreviousHeldItem];
+					PlayerLogic.CheckPreviousHeldGunItemState( this, prevItem );
 				}
 			}
 
-			this.CheckCurrentHeldItemState();
-
-			this.GunHandling.UpdateHolsterAnimation( this.player );
+			PlayerLogic.CheckCurrentHeldGunItemState( this, this.InventorySlotOfPreviousHeldItem );
+			PlayerLogic.UpdatePlayerStateForAimMode( this );
 
 			if( this.InventorySlotOfPreviousHeldItem != this.player.selectedItem ) {
 				this.InventorySlotOfPreviousHeldItem = this.player.selectedItem;
-			}
-
-			if( this.AimMode.IsPreLocked || this.AimMode.IsLocked ) {
-				var config = TMRConfig.Instance;
-				float aimLockMoveSpeed = config.Get<float>( nameof(TMRConfig.AimModeLockMoveSpeedScale) );
-
-				this.player.maxRunSpeed *= aimLockMoveSpeed;
-				this.player.accRunSpeed = player.maxRunSpeed;
-				this.player.moveSpeed *= aimLockMoveSpeed;
 			}
 		}
 
@@ -70,42 +61,6 @@ namespace TheMadRanger {
 		public override void UpdateDead() {
 			this.GunHandling.UpdateUnequipped( this.player );
 			this.AimMode.CheckUnequippedAimState();
-		}
-
-
-		////////////////
-
-		private void CheckPreviousHeldItemState( Item prevHeldItem ) {
-			var mygun = prevHeldItem?.modItem as TheMadRangerItem;
-
-			if( mygun != null ) {
-				if( this.HasAttemptedShotSinceEquip ) {
-					this.HasAttemptedShotSinceEquip = false;
-					this.GunHandling.BeginHolster( this.player, mygun );
-				}
-
-				if( Main.netMode == NetmodeID.MultiplayerClient && this.player.whoAmI == Main.myPlayer ) {
-					GunAnimationProtocol.Broadcast( GunAnimationType.Holster );
-				}
-			}
-		}
-
-		private void CheckCurrentHeldItemState() {
-			this.AimMode.UpdateAimState( this.player );
-
-			if( TMRPlayer.IsHoldingGun(this.player) ) {
-				this.GunHandling.UpdateEquipped( this.player );
-
-				Item prevItem = null;
-				if( this.InventorySlotOfPreviousHeldItem != -1 ) {
-					prevItem = this.player.inventory[ this.InventorySlotOfPreviousHeldItem ];
-				}
-
-				this.AimMode.UpdateEquippedAimState( this.player, prevItem );
-			} else {
-				this.GunHandling.UpdateUnequipped( this.player );
-				this.AimMode.CheckUnequippedAimState();
-			}
 		}
 
 		////////////////
@@ -152,7 +107,7 @@ namespace TheMadRanger {
 			var config = TMRConfig.Instance;
 
 			if( !mediumcoreDeath ) {
-				if( config.Get<bool>( nameof(TMRConfig.PlayerSpawnsWithGun) ) ) {
+				if( config.Get<bool>( nameof(config.PlayerSpawnsWithGun) ) ) {
 					var revolver = new Item();
 					revolver.SetDefaults( ModContent.ItemType<TheMadRangerItem>() );
 
@@ -171,7 +126,7 @@ namespace TheMadRanger {
 		////
 
 		public override void OnRespawn( Player player ) {
-			if( TMRPlayer.IsHoldingGun(this.player) ) {
+			if( PlayerLogic.IsHoldingGun(this.player) ) {
 				((TheMadRangerItem)player.HeldItem.modItem).InsertAllOnRespawn( player );
 			}
 		}
