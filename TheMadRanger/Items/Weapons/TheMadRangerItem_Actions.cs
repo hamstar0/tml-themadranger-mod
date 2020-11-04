@@ -41,15 +41,16 @@ namespace TheMadRanger.Items.Weapons {
 			int initPos = this.CylinderIdx;
 
 			do {
-				if( this.CylinderInsertOnce() ) {
+				if( this.CylinderInsertRound() ) {
 					hasInserted = true;
 
 					if( playSound ) {
 						SoundHelpers.PlaySound( TMRMod.Instance, "RevolverReloadRound", player.Center, 0.5f );
 					}
+
 					break;
 				}
-			} while( this.CylinderIdx != initPos );
+			} while( this.CylinderIdx != initPos );	// full cylinder loop
 
 			return hasInserted;
 		}
@@ -80,16 +81,16 @@ namespace TheMadRanger.Items.Weapons {
 
 		private bool InsertSpeedloaderIntoEmptyGun( Player player, Item speedloaderItem ) {
 			int inserted = 0;
-			var myitem = speedloaderItem.modItem as SpeedloaderItem;
+			var speedloader = speedloaderItem.modItem as SpeedloaderItem;
 
-			for( int j = 0; j < myitem.LoadedRounds; j++ ) {
-				if( this.CylinderInsertOnce() ) {
+			for( int j = 0; j < speedloader.LoadedRounds; j++ ) {
+				if( this.CylinderInsertRound() ) {
 					inserted += 1;
 				}
 			}
 
 			if( inserted > 0 ) {
-				myitem.TransferRoundsOut( player );
+				speedloader.TransferRoundsOut( player );
 			}
 
 			return inserted > 0;
@@ -104,30 +105,40 @@ namespace TheMadRanger.Items.Weapons {
 
 		////////////////
 
-		private bool CylinderShootOnce() {
-			int roundSlot = this.Cylinder[this.CylinderIdx];
+		public bool CylinderCanShootNow() {
+			return this.Cylinder[ this.CylinderIdx ] == 1;
+		}
+
+
+		////////////////
+
+		private bool CylinderAttemptShoot() {
+			bool hasShot = false;
+			int roundSlot = this.Cylinder[ this.CylinderIdx ];
 
 			if( roundSlot == 1 ) {
-				this.Cylinder[this.CylinderIdx] = -1;
+				hasShot = true;
+				this.Cylinder[ this.CylinderIdx ] = -1;	// -1 = empty shell casing is now in this slot
 			}
 
 			this.RotateCylinder( 1 );
-
-			return roundSlot == 1;
+			return hasShot;
 		}
 
 		////
 
-		private bool CylinderInsertOnce() {
-			int roundSlot = this.Cylinder[this.CylinderIdx];
+		private bool CylinderInsertRound() {
+			bool hasInsertedRound = false;
+			int roundSlot = this.Cylinder[ this.CylinderIdx ];
 
 			if( roundSlot == 0 ) {
-				this.Cylinder[this.CylinderIdx] = 1;
+				this.Cylinder[ this.CylinderIdx ] = 1;
+				hasInsertedRound = true;
 			}
 
 			this.RotateCylinder( -1 );
 
-			return roundSlot == 0;
+			return hasInsertedRound;
 		}
 
 

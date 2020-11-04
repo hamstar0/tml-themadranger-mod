@@ -196,7 +196,7 @@ namespace TheMadRanger.Items.Weapons {
 					ref int type,
 					ref int damage,
 					ref float knockBack ) {
-			bool canShoot = this.AttemptGunShot( player, ref speedX, ref speedY, ref damage, ref knockBack );
+			bool canShoot = this.UseGun( player, ref speedX, ref speedY, ref damage, ref knockBack );
 			return canShoot;
 		}
 
