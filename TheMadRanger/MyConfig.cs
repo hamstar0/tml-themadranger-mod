@@ -78,8 +78,8 @@ namespace TheMadRanger {
 
 		[Label( "Tick duration of holster twirl animation" )]
 		[Range( 0, 60 * 60 )]
-		[DefaultValue( 60 )]
-		public int HolsterTwirlTickDuration { get; set; } = 60;
+		[DefaultValue( 50 )]
+		public int HolsterTwirlTickDuration { get; set; } = 50;
 
 		//
 
