@@ -83,7 +83,7 @@ namespace TheMadRanger.Logic {
 
 			if( config.DebugModeInfo ) {
 				DebugHelpers.Print( "aim_miss", "aim%: "
-					+ ( this.AimPercent * 100f ).ToString( "N0" )
+					+ (this.AimPercent * 100f).ToString( "N0" )
 					+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
 					+ aimMissBuildup );
 			}

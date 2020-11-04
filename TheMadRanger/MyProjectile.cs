@@ -57,11 +57,12 @@ namespace TheMadRanger {
 		}
 
 		////
-
+		
 		public override bool OnTileCollide( Projectile projectile, Vector2 oldVelocity ) {
-			if( this.IsFiredFromRevolver ) { return true; }
+			if( !this.IsFiredFromRevolver ) { return true; }
 			if( projectile.owner < 0 ) { return true; }
-			Player plr = Main.player[projectile.owner];
+
+			Player plr = Main.player[ projectile.owner ];
 			if( !plr.active ) { return false; }
 
 			var myplayer = plr.GetModPlayer<TMRPlayer>();
@@ -76,8 +77,9 @@ namespace TheMadRanger {
 		////
 
 		private void OnHit( Projectile projectile ) {
-			if( this.IsFiredFromRevolver ) { return; }
+			if( !this.IsFiredFromRevolver ) { return; }
 			if( projectile.owner < 0 ) { return; }
+
 			Player plr = Main.player[projectile.owner];
 			if( !plr.active ) { return; }
 
