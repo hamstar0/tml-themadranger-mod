@@ -88,14 +88,5 @@ namespace TheMadRanger.Logic {
 					+ aimMissBuildup );
 			}
 		}
-
-
-		////////////////
-
-		public void InitializeBulletProjectile( Projectile projectile ) {
-			if( this.AimPercent >= 1f ) {
-				projectile.maxPenetrate = 2;
-			}
-		}
 	}
 }

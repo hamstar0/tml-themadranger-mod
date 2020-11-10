@@ -48,8 +48,9 @@ namespace TheMadRanger {
 				}
 			}
 
-			PlayerLogic.CheckCurrentHeldGunItemState( this, this.InventorySlotOfPreviousHeldItem );
-			PlayerLogic.UpdatePlayerStateForAimMode( this );
+			if( PlayerLogic.CheckCurrentHeldGunItemState(this, this.InventorySlotOfPreviousHeldItem) ) {
+				PlayerLogic.UpdatePlayerStateForAimMode( this );
+			}
 
 			if( this.InventorySlotOfPreviousHeldItem != this.player.selectedItem ) {
 				this.InventorySlotOfPreviousHeldItem = this.player.selectedItem;
@@ -60,7 +61,7 @@ namespace TheMadRanger {
 
 		public override void UpdateDead() {
 			this.GunHandling.UpdateUnequipped( this.player );
-			this.AimMode.CheckUnequippedAimState();
+			this.AimMode.UpdateUnequippedAimState();
 		}
 
 		////////////////

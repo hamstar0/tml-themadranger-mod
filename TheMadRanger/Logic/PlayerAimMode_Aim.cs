@@ -35,10 +35,11 @@ namespace TheMadRanger.Logic {
 				return false;
 			}
 
-			float aimMoveBuildup = TMRConfig.Instance.Get<float>( nameof(TMRConfig.AimModeOnPlayerMoveBuildupAmount) );
+			var config = TMRConfig.Instance;
+			float aimMoveBuildup = config.Get<float>( nameof(config.AimModeOnPlayerMoveBuildupAmount) );
 
 			// Player is moving
-			if( TMRConfig.Instance.DebugModeInfo ) {
+			if( config.DebugModeInfo ) {
 				DebugHelpers.Print( "aim_move", "aim%: "
 					+ ( this.AimPercent * 100f ).ToString( "N0" )
 					+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
@@ -55,7 +56,7 @@ namespace TheMadRanger.Logic {
 		private bool UpdateEquippedAimStateValueForMouseMovement() {
 			var config = TMRConfig.Instance;
 			var mousePos = new Vector2( Main.mouseX, Main.mouseY );
-			float mouseThreshSqr = config.Get<float>( nameof(TMRConfig.AimModeMouseMoveThreshold) );
+			float mouseThreshSqr = config.Get<float>( nameof(config.AimModeMouseMoveThreshold) );
 			mouseThreshSqr *= mouseThreshSqr;
 
 			// Mouse is not moving?
@@ -63,7 +64,7 @@ namespace TheMadRanger.Logic {
 				return false;
 			}
 
-			float aimBuildupAmt = config.Get<float>( nameof(TMRConfig.AimModeOnMouseMoveBuildupAmount) );
+			float aimBuildupAmt = config.Get<float>( nameof(config.AimModeOnMouseMoveBuildupAmount) );
 
 			if( config.DebugModeInfo ) {
 				DebugHelpers.Print( "aim_mouse", "aim%: "
@@ -82,8 +83,8 @@ namespace TheMadRanger.Logic {
 
 		private void UpdateEquippedAimStateValueForPlayerIdle() {
 			var config = TMRConfig.Instance;
-			int activationThreshold = config.Get<int>( nameof(TMRConfig.AimModeActivationTickDuration) ) + 2;   // Added buffer for slight aim tweaks
-			float aimIdleBuildup = config.Get<float>( nameof( TMRConfig.AimModeOnIdleBuildupAmount ) );
+			int activationThreshold = config.Get<int>( nameof(config.AimModeActivationTickDuration) ) + 2;   // Added buffer for slight aim tweaks
+			float aimIdleBuildup = config.Get<float>( nameof(config.AimModeOnIdleBuildupAmount) );
 
 			if( this.AimElapsed < activationThreshold ) {
 				if( config.DebugModeInfo ) {

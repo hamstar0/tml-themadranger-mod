@@ -130,9 +130,9 @@ namespace TheMadRanger {
 
 		[Label( "Rate of \"aim mode\" increase while player moves per tick" )]
 		[Range( -60f, 60f )]
-		[DefaultValue( -1f )]
+		[DefaultValue( -0.5f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
-		public float AimModeOnPlayerMoveBuildupAmount { get; set; } = -1f;
+		public float AimModeOnPlayerMoveBuildupAmount { get; set; } = -0.5f;
 
 		[Label( "Rate of \"aim mode\" increase while mouse moves per tick" )]
 		[Range( -60f, 60f )]
@@ -169,9 +169,9 @@ namespace TheMadRanger {
 
 		[Label( "Scale to adjust max movement speed while aim mode 'locked'" )]
 		[Range( 0f, 5f )]
-		[DefaultValue( 0.4f )]
+		[DefaultValue( 0.25f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
-		public float AimModeLockMoveSpeedScale { get; set; } = 0.4f;
+		public float AimModeLockMoveSpeedScale { get; set; } = 0.25f;
 
 
 		//

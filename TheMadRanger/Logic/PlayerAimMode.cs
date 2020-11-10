@@ -64,12 +64,12 @@ namespace TheMadRanger.Logic {
 
 		public void UpdateAimState( Player plr ) {
 			this.PrevAimElapsed = this.AimElapsed;
-
+			
 			if( this.QuickDrawDuration > 1 ) {
 				int aimDuration = TMRConfig.Instance.Get<int>( nameof(TMRConfig.AimModeActivationTickDuration) );
 
 				this.QuickDrawDuration--;
-				this.AimElapsed = aimDuration + 2f;
+				this.AimElapsed = aimDuration + 2f;	// "cheat" until quick draw mode ends
 			} else if( this.QuickDrawDuration == 1 ) {
 				this.QuickDrawDuration = 0;
 				this.AimElapsed = 0;
@@ -95,9 +95,10 @@ namespace TheMadRanger.Logic {
 			this.UpdateEquippedAimStateValue( plr );
 		}
 
-		public void CheckUnequippedAimState() {
+		public void UpdateUnequippedAimState() {
 			this.AimElapsed = 0f;
 			this.PrevAimElapsed = 0f;
+			this.QuickDrawDuration = 0;
 		}
 
 
