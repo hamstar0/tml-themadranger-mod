@@ -5,7 +5,7 @@ using TheMadRanger.Recipes;
 
 namespace TheMadRanger.Items.Accessories {
 	[AutoloadEquip( EquipType.Waist )]
-	class BandolierItem : ModItem {
+	public class BandolierItem : ModItem {
 		public static int Width = 24;
 		public static int Height = 16;
 

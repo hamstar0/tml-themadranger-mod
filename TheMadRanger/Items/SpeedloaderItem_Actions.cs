@@ -8,7 +8,7 @@ using TheMadRanger.Items.Weapons;
 
 
 namespace TheMadRanger.Items {
-	partial class SpeedloaderItem : ModItem {
+	public partial class SpeedloaderItem : ModItem {
 		private static string GetReloadingTimerName( int plrWho ) {
 			return "TheMadRangerSpeedloaderLoad_" + plrWho;
 		}

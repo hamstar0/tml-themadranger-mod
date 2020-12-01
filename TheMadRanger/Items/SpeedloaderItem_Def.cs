@@ -6,7 +6,7 @@ using TheMadRanger.Recipes;
 
 
 namespace TheMadRanger.Items {
-	partial class SpeedloaderItem : ModItem {
+	public partial class SpeedloaderItem : ModItem {
 		public static int Width = 10;
 		public static int Height = 10;
 

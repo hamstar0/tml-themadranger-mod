@@ -8,7 +8,7 @@ using HamstarHelpers.Services.AnimatedColor;
 
 
 namespace TheMadRanger.Items {
-	partial class SpeedloaderItem : ModItem {
+	public partial class SpeedloaderItem : ModItem {
 		public override bool PreDrawInInventory(
 					SpriteBatch spriteBatch,
 					Vector2 position,
