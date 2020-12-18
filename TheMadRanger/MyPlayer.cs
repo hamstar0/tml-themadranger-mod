@@ -67,7 +67,8 @@ namespace TheMadRanger {
 		////////////////
 
 		public override bool PreItemCheck() {
-			return !this.GunHandling.IsAnimating;
+			return true;
+			//return !this.GunHandling.IsAnimating;
 		}
 
 
