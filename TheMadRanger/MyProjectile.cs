@@ -3,10 +3,11 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TheMadRanger.NPCs;
 
 
 namespace TheMadRanger {
-	class MyProjectile : GlobalProjectile {
+	class TMRProjectile : GlobalProjectile {
 		public bool IsFiredFromRevolver { get; private set; } = false;
 		public bool IsQuickFiredFromRevolver { get; private set; } = false;
 
@@ -15,6 +16,19 @@ namespace TheMadRanger {
 
 		public override bool InstancePerEntity => true;
 
+		////////////////
+
+		private bool IsBanditShot = false;
+
+
+
+		////////////////
+
+		public override void SetDefaults( Projectile projectile ) {
+			if( BanditNPC.IsFiring && projectile.type == ProjectileID.SniperBullet ) {
+				this.IsBanditShot = true;
+			}
+		}
 
 
 		////////////////
@@ -43,6 +57,26 @@ namespace TheMadRanger {
 
 
 		////////////////
+
+		public override void ModifyHitNPC( Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection ) {
+			if( this.IsBanditShot ) {
+				damage = BanditNPC.ShotDamage;
+			}
+		}
+
+		public override void ModifyHitPlayer( Projectile projectile, Player target, ref int damage, ref bool crit ) {
+			if( this.IsBanditShot ) {
+				damage = BanditNPC.ShotDamage;
+			}
+		}
+
+		public override void ModifyHitPvp( Projectile projectile, Player target, ref int damage, ref bool crit ) {
+			if( this.IsBanditShot ) {
+				damage = BanditNPC.ShotDamage;
+			}
+		}
+
+		////
 
 		public override void OnHitNPC( Projectile projectile, NPC target, int damage, float knockback, bool crit ) {
 			if( this.IsFiredFromRevolver ) {
