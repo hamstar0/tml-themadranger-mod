@@ -10,7 +10,7 @@ namespace TheMadRanger.NPCs {
 	partial class BanditNPC : ModNPC {
 		public static int RetreatTickDuration { get; } = 60 * 15;
 		public static int ContactDamage { get; } = 10;
-		public static int ShotDamage { get; } = 10;
+		public static int ShotDamage { get; } = 15;
 		public static int RetreatTileDistance { get; } = 9;
 		public static float MaxChaseSpeed { get; } = 3.5f;
 		public static float MaxRetreatSpeed { get; } = 4f;

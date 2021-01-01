@@ -106,7 +106,7 @@ namespace TheMadRanger.NPCs {
 				return;
 			}
 
-			if( this.npc.position.X == 0 && this.npc.velocity.Y == 0f ) {
+			if( this.npc.velocity.LengthSquared() < 1f ) {
 				this.RetreatStuckElapsed++;
 
 				this.npc.velocity.Y -= 8f;

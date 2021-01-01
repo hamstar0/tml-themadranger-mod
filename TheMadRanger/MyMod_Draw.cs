@@ -34,36 +34,52 @@ namespace TheMadRanger {
 				: this.RunPreAimCursorAnimation( aimPercent );
 
 			int idx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Cursor" ) );
-			if( idx == -1 ) { return; }
+			if( idx == -1 ) {
+				return;
+			}
 
 			if( this.ColorAnim == null ) {
 				this.ColorAnim = AnimatedColors.Create( 6, AnimatedColors.Alert.Colors.ToArray() );
 			}
 
-			GameInterfaceDrawMethod draw = () => {
-				if( !Main.playerInventory && Main.InGameUI.CurrentState == null ) {
-					if( isPreAimMode ) {
-						this.DrawPreAimCursor( aimPercent );
-					} else if( isAimMode ) {
-						this.DrawAimCursor();
-					} else if( hasGun ) {
-						this.DrawUnaimCursor();
-					}
-				}
-
-				if( TMRConfig.Instance.DebugModeInfo ) {
-					this.DrawDebugLine();
-				}
-
+			GameInterfaceDrawMethod drawCrosshair = () => {
+				this.DrawCursor( hasGun, isPreAimMode, isAimMode, aimPercent );
 				return true;
 			};
-			var interfaceLayer = new LegacyGameInterfaceLayer( "TheMadRanger: Crosshair", draw, InterfaceScaleType.UI );
+			var interfaceLayer = new LegacyGameInterfaceLayer(
+				"TheMadRanger: Crosshair",
+				drawCrosshair,
+				InterfaceScaleType.UI
+			);
+
+			if( isAimMode ) {
+				layers.RemoveAt( idx );
+			}
 
 			layers.Insert( idx, interfaceLayer );
 		}
 
 
 		////////////////
+		
+		private void DrawCursor( bool hasGun, bool isPreAimMode, bool isAimMode, float aimPercent ) {
+			if( !Main.playerInventory && Main.InGameUI.CurrentState == null ) {
+				if( isPreAimMode ) {
+					this.DrawPreAimCursor( aimPercent );
+				} else if( isAimMode ) {
+					this.DrawAimCursor();
+				} else if( hasGun ) {
+					this.DrawUnaimCursor();
+				}
+			}
+
+			if( TMRConfig.Instance.DebugModeInfo ) {
+				this.DrawDebugLine();
+			}
+		}
+
+
+		////
 
 		private void DrawDebugLine() {
 			Player plr = Main.LocalPlayer;
