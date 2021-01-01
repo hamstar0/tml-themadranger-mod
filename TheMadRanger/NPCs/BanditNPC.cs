@@ -144,11 +144,16 @@ namespace TheMadRanger.NPCs {
 			NPC npc = this.npc;
 			
 			if( npc.life <= 0 ) {
-				Gore.NewGore( npc.position, npc.velocity, GoreID.GoblinScoutHead, 1f );
-				Gore.NewGore( new Vector2( npc.position.X, npc.position.Y + 20f ), npc.velocity, GoreID.GoblinScoutHand, 1f );
-				Gore.NewGore( new Vector2( npc.position.X, npc.position.Y + 20f ), npc.velocity, GoreID.GoblinScoutHand, 1f );
-				Gore.NewGore( new Vector2( npc.position.X, npc.position.Y + 34f ), npc.velocity, GoreID.GoblinScoutLeg, 1f );
-				Gore.NewGore( new Vector2( npc.position.X, npc.position.Y + 34f ), npc.velocity, GoreID.GoblinScoutLeg, 1f );
+				Mod mod = this.mod;
+				Vector2 pos = npc.position;
+				Vector2 vel = npc.velocity;
+				float scale = npc.scale;
+
+				Gore.NewGore( npc.position, vel, mod.GetGoreSlot("Gores/BanditHead"), scale );
+				Gore.NewGore( new Vector2(pos.X, pos.Y + 20f), vel, mod.GetGoreSlot("Gores/BanditArm"), scale );
+				Gore.NewGore( new Vector2(pos.X, pos.Y + 20f), vel, mod.GetGoreSlot("Gores/BanditArm"), scale );
+				Gore.NewGore( new Vector2(pos.X, pos.Y + 34f), vel, mod.GetGoreSlot("Gores/BanditLeg"), scale );
+				Gore.NewGore( new Vector2(pos.X, pos.Y + 34f), vel, mod.GetGoreSlot("Gores/BanditLeg"), scale );
 			}
 		}
 	}
