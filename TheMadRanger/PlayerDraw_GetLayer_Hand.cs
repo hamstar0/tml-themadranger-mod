@@ -20,7 +20,9 @@ namespace TheMadRanger {
 			Player plr = plrDrawInfo.drawPlayer;
 			int itemType = plr.HeldItem.type;
 			Texture2D itemTex = Main.itemTexture[itemType];
-			Vector2 itemPos = plr.position + ( plr.itemLocation - plr.position );
+
+			Vector2 itemPos = plr.itemLocation;//plr.position + (plr.itemLocation - plr.position);
+			itemPos.Y += plrDrawInfo.drawPlayer.gfxOffY;
 
 			// Hand:
 			if( plr.handon > 0 ) {
@@ -28,6 +30,7 @@ namespace TheMadRanger {
 				pos += plr.bodyPosition;
 				pos += new Vector2( plrBodyFrame.Width, plrBodyFrame.Height) * 0.5f;
 				pos.Y += (plrBodyFrame.Height + 4) + plr.height;
+				pos.Y += plrDrawInfo.drawPlayer.gfxOffY;
 
 				drawData = new DrawData(
 					Main.accHandsOnTexture[(int)plr.handon],

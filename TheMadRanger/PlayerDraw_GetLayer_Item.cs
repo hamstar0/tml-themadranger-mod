@@ -81,7 +81,8 @@ namespace TheMadRanger {
 
 			//
 
-			Vector2 pos = itemWldPos - Main.screenPosition + itemTexOffset;
+			Vector2 pos = (itemWldPos - Main.screenPosition) + itemTexOffset;
+			pos.Y += plrDrawInfo.drawPlayer.gfxOffY;
 
 			DrawData getDrawData( Texture2D tex, Color color ) {
 				return new DrawData(

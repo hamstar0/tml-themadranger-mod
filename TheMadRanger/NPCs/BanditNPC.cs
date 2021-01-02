@@ -3,6 +3,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
+using TheMadRanger.Items.Weapons;
+using TheMadRanger.Items;
+using TheMadRanger.Items.Accessories;
 
 
 namespace TheMadRanger.NPCs {
@@ -70,13 +73,6 @@ namespace TheMadRanger.NPCs {
 		public override void SetDefaults() {
 			NPC npc = this.npc;
 
-			// Adjust coin drop amount on a curve
-			float valMul = Main.rand.NextFloat();
-			valMul = valMul * valMul * valMul * valMul * valMul * valMul;
-			int minVal = Item.buyPrice( 0, 0, 10, 0 );
-			int maxVal = Item.buyPrice( 0, 10, 0, 0 );
-			int value = minVal + (int)((float)(maxVal - minVal) * valMul);
-
 			npc.width = 18;
 			npc.height = 40;
 
@@ -85,7 +81,7 @@ namespace TheMadRanger.NPCs {
 			npc.damage = BanditNPC.ContactDamage;
 			npc.knockBackResist = 0.3f;
 
-			npc.value = value;
+			npc.value = Item.buyPrice( 0, 0, 10, 0 );
 
 			npc.aiStyle = 3;
 			this.aiType = NPCID.SkeletonSniper;
@@ -99,6 +95,39 @@ namespace TheMadRanger.NPCs {
 
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
+		}
+
+
+		////////////////
+
+		public override bool PreNPCLoot() {
+			// Adjust coin drop amount on a curve
+			float valMul = Main.rand.NextFloat();
+			valMul = (float)Math.Pow( (double)valMul, 8 );
+
+			int minVal = Item.buyPrice( 0, 0, 10, 0 );
+			int maxVal = Item.buyPrice( 0, 3, 0, 0 );
+
+			npc.value = minVal + (int)((float)(maxVal - minVal) * valMul);
+
+			return base.PreNPCLoot();
+		}
+
+		public override void NPCLoot() {
+			var config = TMRConfig.Instance;
+			float tmrChance = config.Get<float>( nameof(config.BanditLootGunDropPercentChance) );
+			float speedloaderChance = config.Get<float>( nameof(config.BanditLootSpeedloaderDropPercentChance) );
+			float bandolierChance = config.Get<float>( nameof(config.BanditLootBandolierDropPercentChance) );
+			
+			if( Main.rand.NextFloat() < tmrChance ) {
+				Item.NewItem( this.npc.position, ModContent.ItemType<TheMadRangerItem>(), 1 );
+			}
+			if( Main.rand.NextFloat() < speedloaderChance ) {
+				Item.NewItem( this.npc.position, ModContent.ItemType<SpeedloaderItem>(), 1 );
+			}
+			if( Main.rand.NextFloat() < bandolierChance ) {
+				Item.NewItem( this.npc.position, ModContent.ItemType<BandolierItem>(), 1 );
+			}
 		}
 	}
 }

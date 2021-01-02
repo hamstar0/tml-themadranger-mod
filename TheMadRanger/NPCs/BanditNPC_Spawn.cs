@@ -45,9 +45,9 @@ namespace TheMadRanger.NPCs {
 
 					BanditNPC.IsComboSpawn = Main.rand.NextFloat() < comboChance;
 				} else {
-					float comboChance = config.Get<float>( nameof(config.BanditComboChainSpawnChance) );
+					float comboChainChance = config.Get<float>( nameof(config.BanditComboChainSpawnChance) );
 
-					BanditNPC.IsComboSpawn = Main.rand.NextFloat() < comboChance;
+					BanditNPC.IsComboSpawn = Main.rand.NextFloat() < comboChainChance;
 				}
 			}
 

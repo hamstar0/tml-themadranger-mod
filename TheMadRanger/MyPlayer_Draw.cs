@@ -78,7 +78,7 @@ namespace TheMadRanger {
 
 			//
 
-			if( !PlayerDraw.GetPlayerLayersForItemHolding( this.player, newBodyFrameY, out armLayer, out itemLayer, out handLayer ) ) {
+			if( !PlayerDraw.GetPlayerLayersForItemHolding(this.player, newBodyFrameY, out armLayer, out itemLayer, out handLayer) ) {
 				return false;
 			}
 
