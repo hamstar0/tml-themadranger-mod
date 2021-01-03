@@ -52,8 +52,10 @@ namespace TheMadRanger {
 				InterfaceScaleType.UI
 			);
 
-			if( isAimMode ) {
-				layers.RemoveAt( idx );
+			if( !Main.playerInventory && Main.InGameUI.CurrentState == null ) {
+				if( (isPreAimMode && aimPercent > 0.25f) || isAimMode ) {
+					layers.RemoveAt( idx );
+				}
 			}
 
 			layers.Insert( idx, interfaceLayer );
