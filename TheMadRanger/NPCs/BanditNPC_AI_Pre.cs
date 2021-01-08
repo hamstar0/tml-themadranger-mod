@@ -17,8 +17,6 @@ namespace TheMadRanger.NPCs {
 			if( this.RetreatTimer <= 0 ) {
 				this.IsRetreatingNow = false;	// redundant
 
-				this.IsBraveNow = true;
-
 				return true;
 			}
 

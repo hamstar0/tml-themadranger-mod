@@ -27,5 +27,18 @@ namespace TheMadRanger.NPCs {
 			this.PostAI_ApplyNormalMovementChangesIf();
 			this.PostAI_ApplyRetreatMovementChangesIf();
 		}
+
+
+		////////////////
+
+		public bool BeginRetreat() {
+			if( this.HasAttemptedRetreat ) {
+				return false;
+			}
+
+			this.HasAttemptedRetreat = true;
+			this.IsRetreatingNow = true;
+			return true;
+		}
 	}
 }

@@ -41,16 +41,10 @@ namespace TheMadRanger.NPCs {
 			}
 		}
 
-		public bool IsBraveNow {
-			get => this.BraveryTimer > 0;
-			private set {
-				if( value ) {
-					this.BraveryTimer = 60 * 3;
-				} else {
-					this.BraveryTimer = 0;
-				}
-			}
-		}
+
+		////////////////
+
+		public bool HasAttemptedRetreat { get; private set; } = false;
 
 
 		////////////////
@@ -58,8 +52,6 @@ namespace TheMadRanger.NPCs {
 		private int RetreatTimer = 0;
 
 		private int RetreatStuckElapsed = 0;
-
-		private int BraveryTimer = 0;
 
 
 

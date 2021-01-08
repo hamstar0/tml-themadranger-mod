@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
 
@@ -9,14 +8,27 @@ using HamstarHelpers.Helpers.Debug;
 namespace TheMadRanger.NPCs {
 	partial class BanditNPC : ModNPC {
 		public override void OnHitByItem( Player player, Item item, int damage, float knockback, bool crit ) {
-			if( !this.IsRetreatingNow && !this.IsBraveNow ) {
-				this.IsRetreatingNow = true;
-			}
+			this.OnHit();
 		}
 
 		public override void OnHitByProjectile( Projectile projectile, int damage, float knockback, bool crit ) {
-			if( !this.IsRetreatingNow && !this.IsBraveNow ) {
-				this.IsRetreatingNow = true;
+			this.OnHit();
+		}
+
+		////
+
+		private void OnHit() {
+			if( this.IsRetreatingNow || this.HasAttemptedRetreat ) {
+				return;
+			}
+
+			var config = TMRConfig.Instance;
+			int cumulativeDamage = this.npc.lifeMax - this.npc.life;
+			float skittishPerc = config.Get<float>( nameof( config.BanditTotalDamageSkittishnessPercent ) );
+			int skittishThreshold = (int)( (float)this.npc.lifeMax * skittishPerc );
+
+			if( cumulativeDamage > skittishThreshold ) {
+				this.BeginRetreat();
 			}
 		}
 

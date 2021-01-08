@@ -39,5 +39,12 @@ namespace TheMadRanger {
 		[DefaultValue( 0.05f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
 		public float BanditLootBandolierDropPercentChance { get; set; } = 0.05f;
+
+		//
+
+		[Range( 0f, 1f )]
+		[DefaultValue( 0.15f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float BanditTotalDamageSkittishnessPercent { get; set; } = 0.15f;
 	}
 }

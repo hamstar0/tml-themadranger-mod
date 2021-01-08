@@ -38,7 +38,6 @@ namespace TheMadRanger.NPCs {
 			if( this.RetreatStuckElapsed > (60 * 5) ) {
 				this.RetreatStuckElapsed = 0;
 
-				this.IsBraveNow = true;
 				this.IsRetreatingNow = false;
 			}
 		}

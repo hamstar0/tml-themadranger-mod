@@ -16,19 +16,17 @@ namespace TheMadRanger.NPCs {
 				return;
 			}
 
-			this.BraveryTimer--;
-
-			if( !this.IsBraveNow ) {
-				this.AI_CheckRetreatIf_Unbrave( player );
+			if( !this.HasAttemptedRetreat ) {
+				this.AI_CheckRetreatWithTargetIf( player );
 			}
 		}
 
-		private void AI_CheckRetreatIf_Unbrave( Player targetPlayer ) {
+		private void AI_CheckRetreatWithTargetIf( Player targetPlayer ) {
 			int retreatDist = BanditNPC.RetreatTileDistance * 16;
 			int retreatDistSqr = retreatDist * retreatDist;
 
 			if( (targetPlayer.Center - npc.Center).LengthSquared() < retreatDistSqr ) {
-				this.IsRetreatingNow = true;
+				this.BeginRetreat();
 			}
 		}
 	}
