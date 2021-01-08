@@ -7,9 +7,9 @@ namespace TheMadRanger {
 	public partial class TMRConfig : ModConfig {
 		[Label( "Percent chance of a bandit to spawn on the surface at day" )]
 		[Range( 0f, 1f )]
-		[DefaultValue( 0.01f )]
+		[DefaultValue( 0.03f )]
 		[CustomModConfigItem( typeof(MyFloatInputElement) )]
-		public float BanditSpawnChance { get; set; } = 0.01f;
+		public float BanditSpawnChance { get; set; } = 0.03f;
 
 		[Label( "Percent chance of a bandit to spawn as a combo" )]
 		[Range( 0f, 1f )]

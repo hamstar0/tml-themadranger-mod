@@ -37,8 +37,8 @@ namespace TheMadRanger.Items {
 		public override void SetStaticDefaults() {
 			this.DisplayName.SetDefault( ".357 Speedloader" );
 			this.Tooltip.SetDefault(
-				"Quickly loads a .357 revolver cylinder."
-				+"\nRight-click to preload speedloader"
+				"Quickly swaps in a pre-loaded \"Mad Ranger\" cylinder."
+				+"\nRight-click to pre-load ammo (needs Bandolier equipped)"
 			);
 		}
 
@@ -46,7 +46,7 @@ namespace TheMadRanger.Items {
 			this.item.width = SpeedloaderItem.Width;
 			this.item.height = SpeedloaderItem.Height;
 			this.item.maxStack = 1;
-			this.item.value = Item.buyPrice( 0, 1, 0, 0 );
+			this.item.value = Item.buyPrice( 0, 5, 0, 0 );
 			this.item.rare = 4;
 			this.item.scale = 0.75f;
 		}
