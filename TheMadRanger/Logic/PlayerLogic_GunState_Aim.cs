@@ -64,7 +64,7 @@ namespace TheMadRanger.Logic {
 				plr.itemRotation = MathHelper.ToDegrees( plr.itemRotation ) - (float)( plr.direction * addedRotDeg );
 				plr.itemRotation = MathHelper.ToRadians( plr.itemRotation );
 			} else {
-				plr.itemRotation += myplayer.AimMode.GetAimStateShakeAddedRadians( true );
+				plr.itemRotation += myplayer.AimMode.GetAimStateShakeRadiansOffset( true );
 			}
 
 			plr.itemLocation.X = plr.position.X

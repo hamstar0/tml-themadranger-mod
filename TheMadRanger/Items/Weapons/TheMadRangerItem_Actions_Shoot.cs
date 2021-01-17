@@ -88,16 +88,16 @@ namespace TheMadRanger.Items.Weapons {
 		}
 
 		private void ModifyShootAim( TMRPlayer myplayer, ref int damage, ref float speedX, ref float speedY ) {
-			float shakeAddedRads = myplayer.AimMode.GetAimStateShakeAddedRadians( false );
+			float offsetRads = myplayer.AimMode.GetAimStateShakeRadiansOffset( false );
 
 			var randSpeed = new Vector2( speedX, speedY )
-				.RotatedBy( shakeAddedRads );
+				.RotatedBy( offsetRads );
 			speedX = randSpeed.X;
 			speedY = randSpeed.Y;
 
 			damage = myplayer.AimMode.GetAimStateShakeDamage( damage );
 
-			myplayer.GunHandling.BeginRecoil( MathHelper.ToDegrees(shakeAddedRads) * -myplayer.player.direction );
+			myplayer.GunHandling.BeginRecoil( MathHelper.ToDegrees(offsetRads) * -myplayer.player.direction );
 		}
 
 

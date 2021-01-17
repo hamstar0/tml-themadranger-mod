@@ -42,9 +42,9 @@ namespace TheMadRanger {
 
 		[Label( "\"Aim mode\" increase from missing shots" )]
 		[Range( -999f, 999f )]
-		[DefaultValue( 0f )]	//-5f
+		[DefaultValue( -5f )]	//-5f
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
-		public float AimModeOnMissBuildupAmount { get; set; } = 0f;
+		public float AimModeOnMissBuildupAmount { get; set; } = -5f;
 
 
 		[Label( "Mouse move distance-per-tick to count as 'moving'" )]

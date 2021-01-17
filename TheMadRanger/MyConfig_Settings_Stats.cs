@@ -27,8 +27,8 @@ namespace TheMadRanger {
 
 		[Label( "Degrees range of un-aimed shoots" )]
 		[Range( 0f, 360f )]
-		[DefaultValue( 30f )]
+		[DefaultValue( 40f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
-		public float UnaimedConeDegreesRange { get; set; } = 30f;
+		public float UnaimedConeDegreesRange { get; set; } = 40f;
 	}
 }

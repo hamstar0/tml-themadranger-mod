@@ -8,7 +8,7 @@ using HamstarHelpers.Helpers.TModLoader;
 
 namespace TheMadRanger.Logic {
 	partial class PlayerAimMode {
-		public static float ComputeAimShakeMaxConeRadians() {
+		public static float ComputeAimShakeRadiansOffsetWithinCone() {
 			var config = TMRConfig.Instance;
 			UnifiedRandom rand = TmlHelpers.SafelyGetRand();
 			float radRange = MathHelper.ToRadians( config.Get<float>( nameof(TMRConfig.UnaimedConeDegreesRange) ) );
@@ -104,12 +104,12 @@ namespace TheMadRanger.Logic {
 
 		////////////////
 
-		public float GetAimStateShakeAddedRadians( bool isIdling ) {
+		public float GetAimStateShakeRadiansOffset( bool isIdling ) {
 			if( this.IsModeActive ) {
 				return 0f;
 			}
 
-			float rads = PlayerAimMode.ComputeAimShakeMaxConeRadians();
+			float rads = PlayerAimMode.ComputeAimShakeRadiansOffsetWithinCone();
 			if( isIdling ) {
 				rads *= 0.03f;
 			}
