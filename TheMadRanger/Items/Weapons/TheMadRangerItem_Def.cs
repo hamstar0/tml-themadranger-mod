@@ -101,6 +101,7 @@ namespace TheMadRanger.Items.Weapons {
 				+ "\nUnusually powerful; needs a steady hand"
 				+ "\nOnly uses its own ammo type"
 				+ "\nHold right-click to keep aim steady"
+				+ "\nUses loaded speedloaders for faster reloads"
 			);
 		}
 
