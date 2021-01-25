@@ -40,6 +40,7 @@ namespace TheMadRanger.Items.Weapons {
 
 			bool wantsReload;
 			bool canShoot = this.DecideGunUse( out wantsReload );
+			bool hasShot = false;
 
 			this.GunUseFx( player, canShoot );
 
@@ -50,14 +51,16 @@ namespace TheMadRanger.Items.Weapons {
 							GunAnimationProtocol.Broadcast( GunAnimationType.Reload );
 						}
 					}
+				} else {
+					this.RotateCylinder( 1 );
 				}
-				return false;
-			}
+			} else {
+				hasShot = this.CylinderAttemptShoot();
 
-			bool hasShot = this.CylinderAttemptShoot();
-			if( hasShot ) {
-				this.PreShoot( myplayer );
-				this.ModifyShootAim( myplayer, ref damage, ref speedX, ref speedY );
+				if( hasShot ) {
+					this.PreShoot( myplayer );
+					this.ModifyShootAim( myplayer, ref damage, ref speedX, ref speedY );
+				}
 			}
 
 			return hasShot;

@@ -144,7 +144,7 @@ namespace TheMadRanger.Items.Weapons {
 
 		////////////////
 
-		private void RotateCylinder( int dir ) {
+		public void RotateCylinder( int dir ) {
 			dir %= this.Cylinder.Length;
 
 			if( dir > 0 ) {
