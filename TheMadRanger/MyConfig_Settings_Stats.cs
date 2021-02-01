@@ -1,8 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
-using HamstarHelpers.Classes.UI.ModConfig;
 
 
 namespace TheMadRanger {
@@ -30,5 +28,18 @@ namespace TheMadRanger {
 		[DefaultValue( 40f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
 		public float UnaimedConeDegreesRange { get; set; } = 40f;
+
+		//
+
+		[Label( "Shot damage added per 32^2 unit of target's area" )]
+		[Range( -100, 100 )]
+		[DefaultValue( -2 )]
+		public int DamagePerTargetVolumeUnitsOf32Sqr { get; set; } = -2;
+
+		[Label( "Shot damage scale against bosses" )]
+		[Range( 0f, 10f )]
+		[DefaultValue( 1f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float DamageScaleAgainstBosses { get; set; } = 1f;
 	}
 }

@@ -1,5 +1,4 @@
-using System.Linq;
-using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,6 +7,7 @@ using HamstarHelpers.Helpers.Debug;
 using HamstarHelpers.Helpers.Players;
 using TheMadRanger.Recipes;
 using TheMadRanger.Items.Accessories;
+using HamstarHelpers.Helpers.Items.Attributes;
 
 
 namespace TheMadRanger.Items.Weapons {
@@ -170,46 +170,37 @@ namespace TheMadRanger.Items.Weapons {
 
 		////////////////
 
+		public override void ModifyTooltips( List<TooltipLine> tooltips ) {
+			var config = TMRConfig.Instance;
+			int dmgPer32 = config.Get<int>( nameof(config.DamagePerTargetVolumeUnitsOf32Sqr) );
+			float dmgMulForBoss = config.Get<float>( nameof(config.DamageScaleAgainstBosses) );
+
+			if( dmgPer32 != 0 ) {
+				string dmgText = dmgPer32 + " damage for each 32 inch chunk (squared) of a target's size (area)";
+				var tip = new TooltipLine( this.mod, "TMRDamagePer32", dmgText );
+
+				ItemInformationAttributeHelpers.ApplyTooltipAt( tooltips, tip, VanillaTooltipName.Damage, true );
+			}
+
+			if( dmgMulForBoss != 1f ) {
+				string dmgText = "Damage scaled to "+(int)(dmgMulForBoss * 100f)+"% against bosses";
+				var tip = new TooltipLine( this.mod, "TMRDamagePerBoss", dmgText );
+
+				ItemInformationAttributeHelpers.ApplyTooltipAt( tooltips, tip, VanillaTooltipName.Damage, true );
+			}
+		}
+
+
+		////////////////
+
 		public override void UpdateInventory( Player player ) {
 			if( !Main.gamePaused && !player.dead ) {
 				this.ElapsedTimeSinceLastShotAttempt++;
 			}
 
 			if( TMRConfig.Instance.DebugModeInfo ) {
-				DebugHelpers.Print( "cylinder", this.CylinderIdx + " = " + string.Join( ", ", this.Cylinder ) );
+				DebugHelpers.Print( "cylinder", this.CylinderIdx + " = " + string.Join(", ", this.Cylinder) );
 			}
-		}
-
-
-		////////////////
-
-		public override bool CanUseItem( Player player ) {
-			return player.GetModPlayer<TMRPlayer>()
-				.GunHandling
-				.CanAttemptToShootGun( player );
-		}
-
-		public override bool Shoot(
-					Player player,
-					ref Vector2 position,
-					ref float speedX,
-					ref float speedY,
-					ref int type,
-					ref int damage,
-					ref float knockBack ) {
-			bool canShoot = this.UseGun( player, ref speedX, ref speedY, ref damage, ref knockBack );
-			return canShoot;
-		}
-
-
-		////////////////
-
-		public bool IsCylinderFull() {
-			return this.Cylinder.All( c => c == 1 );
-		}
-
-		public bool IsCylinderEmpty() {
-			return this.Cylinder.All( c => c == 0 );
 		}
 	}
 }
