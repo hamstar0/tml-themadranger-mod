@@ -46,7 +46,10 @@ namespace TheMadRanger.NPCs {
 		private void PreAI_ApplyRetreatIf_ApplyRun() {
 			//bool isAimedInVelocityDir = (this.npc.direction > 1 && this.npc.velocity.X > 0f)
 			//	|| (this.npc.direction < 1 && this.npc.velocity.X < 0f);
-			if( Math.Abs(this.npc.velocity.X) < BanditNPC.MaxRetreatSpeed ) {
+			var config = TMRConfig.Instance;
+			float maxRetreatSpeed = config.Get<float>( nameof(config.BanditMaxRetreatSpeed) );
+
+			if( Math.Abs(this.npc.velocity.X) < maxRetreatSpeed ) {
 				this.npc.velocity.X += (float)this.npc.direction * 0.1f;
 			}
 		}

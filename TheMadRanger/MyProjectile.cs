@@ -45,19 +45,22 @@ namespace TheMadRanger {
 
 		public override void ModifyHitNPC( Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection ) {
 			if( this.IsBanditShot ) {
-				damage = BanditNPC.ShotDamage;
+				var config = TMRConfig.Instance;
+				damage = config.Get<int>( nameof(config.BanditShotDamage) );
 			}
 		}
 
 		public override void ModifyHitPlayer( Projectile projectile, Player target, ref int damage, ref bool crit ) {
 			if( this.IsBanditShot ) {
-				damage = BanditNPC.ShotDamage;
+				var config = TMRConfig.Instance;
+				damage = config.Get<int>( nameof(config.BanditShotDamage) );
 			}
 		}
 
 		public override void ModifyHitPvp( Projectile projectile, Player target, ref int damage, ref bool crit ) {
 			if( this.IsBanditShot ) {
-				damage = BanditNPC.ShotDamage;
+				var config = TMRConfig.Instance;
+				damage = config.Get<int>( nameof(config.BanditShotDamage) );
 			}
 		}
 	}

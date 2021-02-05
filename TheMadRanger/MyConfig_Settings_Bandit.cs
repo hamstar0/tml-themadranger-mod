@@ -5,6 +5,30 @@ using Terraria.ModLoader.Config;
 
 namespace TheMadRanger {
 	public partial class TMRConfig : ModConfig {
+		[DefaultValue( 60 * 15 )]
+		public int BanditRetreatTickDuration { get; set; } = 60 * 15;
+
+		[DefaultValue( 10 )]
+		public int BanditContactDamage { get; set; } = 10;
+
+		[DefaultValue( 15 )]
+		public int BanditShotDamage { get; set; } = 15;
+
+		[DefaultValue( 9 )]
+		public int BanditRetreatTileDistance { get; set; } = 9;
+
+		[Range( 0f, 15f )]
+		[DefaultValue( 3.5f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float BanditMaxChaseSpeed { get; set; } = 3.5f;
+
+		[Range( 0f, 15f )]
+		[DefaultValue( 4f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float BanditMaxRetreatSpeed { get; set; } = 4f;
+
+		//
+
 		[Label( "Percent chance of a bandit to spawn on the surface at day" )]
 		[Range( 0f, 1f )]
 		[DefaultValue( 0.03f )]
@@ -24,7 +48,7 @@ namespace TheMadRanger {
 		public float BanditComboChainSpawnChance { get; set; } = 0.7f;
 
 		//
-
+		
 		[Range( 0f, 1f )]
 		[DefaultValue( 0.05f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]

@@ -15,15 +15,6 @@ namespace TheMadRanger.NPCs {
 
 		////////////////
 
-		public static int RetreatTickDuration { get; } = 60 * 15;
-		public static int ContactDamage { get; } = 10;
-		public static int ShotDamage { get; } = 20;
-		public static int RetreatTileDistance { get; } = 9;
-		public static float MaxChaseSpeed { get; } = 3.5f;
-		public static float MaxRetreatSpeed { get; } = 4f;
-
-		////
-
 		public static bool IsFiring { get; private set; } = false;
 
 
@@ -34,7 +25,8 @@ namespace TheMadRanger.NPCs {
 			get => this.RetreatTimer > 0;
 			private set {
 				if( value ) {
-					this.RetreatTimer = BanditNPC.RetreatTickDuration;
+					var config = TMRConfig.Instance;
+					this.RetreatTimer = config.Get<int>( nameof(config.BanditRetreatTickDuration) );
 				} else {
 					this.RetreatTimer = 0;
 				}
@@ -63,6 +55,7 @@ namespace TheMadRanger.NPCs {
 		}
 
 		public override void SetDefaults() {
+			var config = TMRConfig.Instance;
 			NPC npc = this.npc;
 
 			npc.width = 18;
@@ -70,7 +63,7 @@ namespace TheMadRanger.NPCs {
 
 			npc.lifeMax = 50;
 			npc.defense = 1;
-			npc.damage = BanditNPC.ContactDamage;
+			npc.damage = config.Get<int>( nameof(config.BanditContactDamage) );
 			npc.knockBackResist = 0.3f;
 
 			npc.value = Item.buyPrice( 0, 0, 10, 0 );

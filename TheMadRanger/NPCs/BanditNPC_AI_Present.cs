@@ -22,7 +22,8 @@ namespace TheMadRanger.NPCs {
 		}
 
 		private void AI_CheckRetreatWithTargetIf( Player targetPlayer ) {
-			int retreatDist = BanditNPC.RetreatTileDistance * 16;
+			var config = TMRConfig.Instance;
+			int retreatDist = config.Get<int>( nameof(config.BanditRetreatTileDistance) );
 			int retreatDistSqr = retreatDist * retreatDist;
 
 			if( (targetPlayer.Center - npc.Center).LengthSquared() < retreatDistSqr ) {

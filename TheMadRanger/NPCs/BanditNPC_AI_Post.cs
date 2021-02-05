@@ -17,7 +17,10 @@ namespace TheMadRanger.NPCs {
 				return;
 			}
 
-			if( Math.Abs(this.npc.velocity.X) < BanditNPC.MaxChaseSpeed ) {
+			var config = TMRConfig.Instance;
+			float maxChaseSpeed = config.Get<float>( nameof(config.BanditMaxChaseSpeed) );
+
+			if( Math.Abs(this.npc.velocity.X) < maxChaseSpeed ) {
 				this.npc.velocity.X += (float)this.npc.direction * 0.3f;
 			}
 		}
