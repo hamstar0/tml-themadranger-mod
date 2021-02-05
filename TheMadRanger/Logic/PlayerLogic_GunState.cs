@@ -11,7 +11,16 @@ namespace TheMadRanger.Logic {
 	partial class PlayerLogic {
 		public static bool IsHoldingGun( Player player ) {
 			Item heldItem = player.HeldItem;
-			return heldItem != null && !heldItem.IsAir && heldItem.type == ModContent.ItemType<TheMadRangerItem>();
+			return heldItem?.active == true && heldItem.type == ModContent.ItemType<TheMadRangerItem>();
+		}
+
+		public static bool IsUsingHeldGun( Player player ) {
+			if( !PlayerLogic.IsHoldingGun(player) ) {
+				return false;
+			}
+
+			var myplayer = player.GetModPlayer<TMRPlayer>();
+			return myplayer.GunHandling.IsAnimating || myplayer.AimMode.IsModeActivating;
 		}
 
 
@@ -35,11 +44,11 @@ namespace TheMadRanger.Logic {
 		}
 
 		public static bool CheckCurrentHeldGunItemState( TMRPlayer myplayer, int inventorySlotOfPrevHeldItem ) {
-			bool isHoldingGun = PlayerLogic.IsHoldingGun( myplayer.player );
+			bool canHoldGun = PlayerLogic.IsHoldingGun( myplayer.player );
 
 			myplayer.AimMode.UpdateAimState( myplayer.player );
 
-			if( isHoldingGun ) {
+			if( canHoldGun ) {
 				myplayer.GunHandling.UpdateEquipped( myplayer.player );
 
 				Item prevItem = null;
@@ -55,7 +64,7 @@ namespace TheMadRanger.Logic {
 
 			myplayer.GunHandling.UpdateHolsterAnimation( myplayer.player );
 
-			return isHoldingGun;
+			return canHoldGun;
 		}
 	}
 }

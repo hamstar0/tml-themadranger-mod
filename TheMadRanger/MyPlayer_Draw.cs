@@ -8,8 +8,15 @@ using TheMadRanger.Logic;
 
 namespace TheMadRanger {
 	partial class TMRPlayer : ModPlayer {
+		public override void FrameEffects() {
+			if( PlayerLogic.IsUsingHeldGun( this.player ) ) {
+				int dir = ( Main.MouseWorld.X > this.player.Center.X ).ToDirectionInt();
+				this.player.ChangeDir( dir );
+			}
+		}
+
 		public override void DrawEffects( PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright ) {
-			if( PlayerLogic.IsHoldingGun( this.player ) ) {
+			if( PlayerLogic.IsUsingHeldGun( this.player ) ) {
 				if( !this.GunHandling.IsAnimating ) {
 					drawInfo.drawPlayer.bodyFrame.Y = PlayerLogic.GetBodyFrameForItemAimAsIfForHeldGun( this.player );
 				}
@@ -20,7 +27,7 @@ namespace TheMadRanger {
 		}
 
 		public override void ModifyDrawInfo( ref PlayerDrawInfo drawInfo ) {
-			if( PlayerLogic.IsHoldingGun( this.player ) ) {
+			if( PlayerLogic.IsUsingHeldGun( this.player ) ) {
 				if( !this.GunHandling.IsAnimating ) {
 					drawInfo.drawPlayer.bodyFrame.Y = PlayerLogic.GetBodyFrameForItemAimAsIfForHeldGun( this.player );
 				}
@@ -34,7 +41,7 @@ namespace TheMadRanger {
 		////////////////
 
 		public override void ModifyDrawLayers( List<PlayerLayer> layers ) {
-			if( PlayerLogic.IsHoldingGun( this.player ) ) {
+			if( PlayerLogic.IsUsingHeldGun( this.player ) ) {
 				(bool isAimWithinArc, int aimDir) aim;
 
 				if( this.player.whoAmI == Main.myPlayer ) {
