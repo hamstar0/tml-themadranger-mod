@@ -29,13 +29,13 @@ namespace TheMadRanger {
 			newFrame = oldFrame = plr.bodyFrame;
 			newFrame.Y = newBodyFrameY;
 			
-			itemLayer = ( plrDrawInfo ) => {
-				foreach( DrawData drawData in PlayerDraw.GetPlayerLayerForHeldItem(plrDrawInfo, plrLight) ) {
+			armLayer = ( plrDrawInfo ) => {
+				foreach( DrawData drawData in PlayerDraw.GetPlayerLayerForArms(plrDrawInfo, newFrame) ) {
 					Main.playerDrawData.Add( drawData );
 				}
 			};
-			armLayer = ( plrDrawInfo ) => {
-				foreach( DrawData drawData in PlayerDraw.GetPlayerLayerForArms(plrDrawInfo, newFrame) ) {
+			itemLayer = ( plrDrawInfo ) => {
+				foreach( DrawData drawData in PlayerDraw.GetPlayerLayerForHeldItem(plrDrawInfo, plrLight) ) {
 					Main.playerDrawData.Add( drawData );
 				}
 			};

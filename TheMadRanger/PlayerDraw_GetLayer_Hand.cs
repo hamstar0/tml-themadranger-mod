@@ -23,25 +23,27 @@ namespace TheMadRanger {
 
 			Vector2 itemPos = plr.itemLocation;//plr.position + (plr.itemLocation - plr.position);
 			itemPos.Y += plrDrawInfo.drawPlayer.gfxOffY;
+			itemPos.Y *= plr.gravDir;
 
 			// Hand:
 			if( plr.handon > 0 ) {
-				Vector2 pos = (plr.position - Main.screenPosition).Floor();
+				Vector2 pos = (plr.position - Main.screenPosition);//.Floor();
 				pos += plr.bodyPosition;
 				pos += new Vector2( plrBodyFrame.Width, plrBodyFrame.Height) * 0.5f;
 				pos.Y += (plrBodyFrame.Height + 4) + plr.height;
-				pos.Y += plrDrawInfo.drawPlayer.gfxOffY;
+				pos.Y += plr.gfxOffY;//plrDrawInfo.drawPlayer.gfxOffY;
+				pos.Y *= plr.gravDir;
 
 				drawData = new DrawData(
-					Main.accHandsOnTexture[(int)plr.handon],
-					pos,
-					plrBodyFrame,
-					plrDrawInfo.middleArmorColor,
-					plr.bodyRotation,
-					plrDrawInfo.bodyOrigin,
-					1f,
-					plrDrawInfo.spriteEffects,
-					0
+					texture: Main.accHandsOnTexture[(int)plr.handon],
+					position: pos,
+					sourceRect: plrBodyFrame,
+					color: plrDrawInfo.middleArmorColor,
+					rotation: plr.bodyRotation,
+					origin: plrDrawInfo.bodyOrigin,
+					scale: 1f,
+					effect: plrDrawInfo.spriteEffects,
+					inactiveLayerDepth: 0
 				);
 				drawData.shader = plrDrawInfo.handOnShader;
 				//drawInfo.Draw( Main.spriteBatch );
@@ -73,15 +75,15 @@ namespace TheMadRanger {
 				}
 
 				drawData = new DrawData(
-					itemTex,
-					(itemPos - Main.screenPosition).Floor(),
-					new Rectangle( 0, 0, itemTex.Width, itemTex.Height ),
-					plr.HeldItem.GetAlpha( plrLight ),
-					plr.itemRotation,
-					itemOrigin,
-					plr.HeldItem.scale,
-					plrDrawInfo.spriteEffects,
-					0
+					texture: itemTex,
+					position: (itemPos - Main.screenPosition),
+					sourceRect: new Rectangle( 0, 0, itemTex.Width, itemTex.Height ),
+					color: plr.HeldItem.GetAlpha( plrLight ),
+					rotation: plr.itemRotation,
+					origin: itemOrigin,
+					scale: plr.HeldItem.scale,
+					effect: plrDrawInfo.spriteEffects,
+					inactiveLayerDepth: 0
 				);
 				//drawInfo.Draw( Main.spriteBatch );
 				yield return drawData;

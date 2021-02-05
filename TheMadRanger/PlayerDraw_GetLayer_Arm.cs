@@ -34,9 +34,10 @@ namespace TheMadRanger {
 			//
 
 			var pos = plr.position - Main.screenPosition;
-			pos.X = (int)( pos.X - ( plrBodyFrame.Width / 2 ) + ( plr.width / 2 ) );
+			pos.X = (int)( pos.X - (plrBodyFrame.Width / 2) + (plr.width / 2) );
 			pos.Y = (int)( pos.Y + plr.height - plrBodyFrame.Height + 4 );
 			pos.Y += plrDrawInfo.drawPlayer.gfxOffY;
+			pos.Y *= plrDrawInfo.drawPlayer.gravDir;
 			pos += plr.bodyPosition;
 			pos += new Vector2( plrBodyFrame.Width / 2, plrBodyFrame.Height / 2 );
 

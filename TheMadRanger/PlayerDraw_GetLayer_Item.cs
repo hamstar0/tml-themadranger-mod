@@ -49,7 +49,10 @@ namespace TheMadRanger {
 
 		////////////////
 
-		public static IEnumerable<DrawData> GetPlayerLayerForHeldItem( PlayerDrawInfo plrDrawInfo, Color plrLight, float shadow = 0f ) {
+		public static IEnumerable<DrawData> GetPlayerLayerForHeldItem(
+					PlayerDrawInfo plrDrawInfo,
+					Color plrLight,
+					float shadow = 0f ) {
 			DrawData drawData;
 
 			Player plr = plrDrawInfo.drawPlayer;
@@ -63,38 +66,36 @@ namespace TheMadRanger {
 				out itemScrPos
 			);
 
-			Texture2D itemTex = Main.itemTexture[plr.HeldItem.type];
+			Texture2D itemTex = Main.itemTexture[ plr.HeldItem.type ];
 			var itemTexOffset = new Vector2( itemTex.Width / 2, itemScrPos.Y );
 
-			Vector2 itemWldPos = plr.itemLocation;//plr.position + (plr.itemLocation - plr.position);
+			Vector2 itemWldPos = plr.itemLocation.Floor();//plr.position + (plr.itemLocation - plr.position);
+
 			Vector2 origin = new Vector2(
 				(float)( -itemScrPos.X ),
 				(float)( itemTex.Height / 2 )
 			);
-
 			if( plr.direction == -1 ) {
-				origin = new Vector2(
-					(float)( itemTex.Width + itemScrPos.X ),
-					(float)( itemTex.Height / 2 )
-				);
+				origin.X = (float)( itemTex.Width + itemScrPos.X );
 			}
 
 			//
 
 			Vector2 pos = (itemWldPos - Main.screenPosition) + itemTexOffset;
 			pos.Y += plrDrawInfo.drawPlayer.gfxOffY;
+			pos.Y *= plr.gravDir;
 
 			DrawData getDrawData( Texture2D tex, Color color ) {
 				return new DrawData(
-					tex,
-					pos,
-					new Rectangle( 0, 0, itemTex.Width, itemTex.Height ),
-					color,
-					plr.itemRotation,
-					origin,
-					plr.HeldItem.scale,
-					plrDrawInfo.spriteEffects,
-					0
+					texture: tex,
+					position: pos,
+					sourceRect: new Rectangle( 0, 0, itemTex.Width, itemTex.Height ),
+					color: color,
+					rotation: plr.itemRotation,
+					origin: origin,
+					scale: plr.HeldItem.scale,
+					effect: plrDrawInfo.spriteEffects,
+					inactiveLayerDepth: 0
 				);
 			}
 

@@ -33,8 +33,8 @@ namespace TheMadRanger {
 
 		[Label( "Shot damage added per 32^2 unit of target's area" )]
 		[Range( -100, 100 )]
-		[DefaultValue( -2 )]
-		public int DamagePerTargetVolumeUnitsOf32Sqr { get; set; } = -2;
+		[DefaultValue( -3 )]
+		public int DamagePerTargetVolumeUnitsOf32Sqr { get; set; } = -3;
 
 		[Label( "Shot damage scale against bosses" )]
 		[Range( 0f, 10f )]

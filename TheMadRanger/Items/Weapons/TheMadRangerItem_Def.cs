@@ -175,8 +175,8 @@ namespace TheMadRanger.Items.Weapons {
 			int dmgPer32 = config.Get<int>( nameof(config.DamagePerTargetVolumeUnitsOf32Sqr) );
 			float dmgMulForBoss = config.Get<float>( nameof(config.DamageScaleAgainstBosses) );
 
-			if( dmgPer32 != 0 ) {
-				string dmgText = dmgPer32 + " damage for each 32 inch chunk (squared) of a target's size (area)";
+			if( dmgPer32 < 0 ) {
+				string dmgText = "Damage reduced against larger targets ("+dmgPer32+" per 32 in. sqr. area)";
 				var tip = new TooltipLine( this.mod, "TMRDamagePer32", dmgText );
 
 				ItemInformationAttributeHelpers.ApplyTooltipAt( tooltips, tip, VanillaTooltipName.Damage, true );

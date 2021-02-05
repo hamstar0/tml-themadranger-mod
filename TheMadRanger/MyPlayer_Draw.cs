@@ -66,7 +66,7 @@ namespace TheMadRanger {
 				}
 			}
 
-			this.GunHandling.ModifyDrawLayers( this.player, layers );
+			this.GunHandling.ModifyDrawLayersForGunAnim( this.player, layers );
 		}
 
 
@@ -74,7 +74,7 @@ namespace TheMadRanger {
 		
 		private bool ModifyDrawLayersForGun( List<PlayerLayer> layers, bool aimGun ) {
 			PlayerLayer plrLayer;
-			Action<PlayerDrawInfo> itemLayer, armLayer, handLayer;
+			Action<PlayerDrawInfo> armLayer, itemLayer, handLayer;
 
 			int newBodyFrameY;
 			if( aimGun ) {
@@ -91,15 +91,15 @@ namespace TheMadRanger {
 
 			//
 
-			int itemLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HeldItem );
-			if( itemLayerIdx != -1 ) {
-				plrLayer = new PlayerLayer( "TheMadRanger", "Held Item", itemLayer );
-				layers.Insert( itemLayerIdx + 1, plrLayer );
-			}
 			int armLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.Arms );
 			if( armLayerIdx != -1 ) {
 				plrLayer = new PlayerLayer( "TheMadRanger", "Item Holding Arm", armLayer );
 				layers.Insert( armLayerIdx+1, plrLayer );
+			}
+			int itemLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HeldItem );
+			if( itemLayerIdx != -1 ) {
+				plrLayer = new PlayerLayer( "TheMadRanger", "Held Item", itemLayer );
+				layers.Insert( itemLayerIdx + 1, plrLayer );
 			}
 			int handLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HandOnAcc );
 			if( handLayerIdx != -1 ) {

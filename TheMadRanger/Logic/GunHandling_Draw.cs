@@ -11,9 +11,9 @@ using TheMadRanger.Items.Weapons;
 
 namespace TheMadRanger.Logic {
 	partial class GunHandling {
-		private void InitDrawLayers() {
-			this.GunDrawLayer = new PlayerLayer( "TheMadRanger", "Custom Gun Animation", ( plrDrawInfo ) => {
-				Main.playerDrawData.Add( this.GetGunDrawData( plrDrawInfo ) );
+		private void InitGunAnimDrawLayers() {
+			this.GunAnimDrawLayer = new PlayerLayer( "TheMadRanger", "Custom Gun Animation", ( plrDrawInfo ) => {
+				Main.playerDrawData.Add( this.GetGunAnimationDrawData( plrDrawInfo ) );
 
 				DrawData? drawData = this.GetReloadDrawData( plrDrawInfo );
 				if( drawData.HasValue ) {
@@ -25,12 +25,13 @@ namespace TheMadRanger.Logic {
 
 		////////////////
 
-		public void ModifyDrawLayers( Player plr, List<PlayerLayer> layers ) {
+		public void ModifyDrawLayersForGunAnim( Player plr, List<PlayerLayer> layers ) {
 			if( this.IsAnimating ) {
 				int heldItemIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HeldItem );
+
 				if( heldItemIdx != -1 ) {
 					layers[ heldItemIdx ].visible = false;
-					layers.Insert( heldItemIdx + 1, this.GunDrawLayer );
+					layers.Insert( heldItemIdx + 1, this.GunAnimDrawLayer );
 				}
 			}
 		}
@@ -38,7 +39,7 @@ namespace TheMadRanger.Logic {
 
 		////////////////
 
-		public DrawData GetGunDrawData( PlayerDrawInfo plrDrawInfo ) {
+		public DrawData GetGunAnimationDrawData( PlayerDrawInfo plrDrawInfo ) {
 			Player plr = plrDrawInfo.drawPlayer;
 			Texture2D itemTex = Main.itemTexture[ ModContent.ItemType<TheMadRangerItem>() ];
 
@@ -55,14 +56,15 @@ namespace TheMadRanger.Logic {
 
 			Vector2 pos = plr.MountedCenter
 				+ new Vector2(plr.direction * 8, 0)
-				+ new Vector2(plr.direction * offset.X, offset.Y)
-				- Main.screenPosition;
+				+ new Vector2(plr.direction * offset.X, plr.gravDir * offset.Y);
+			pos.Y += plr.gfxOffY;
+
 			float rot = this.GetAddedRotationRadians( plr );
 
 			DrawData getDrawData( Texture2D tex, Color color ) {
 				return new DrawData(
 					texture: tex,
-					position: pos,
+					position: pos - Main.screenPosition,
 					sourceRect: null,
 					color: color,
 					rotation: rot,

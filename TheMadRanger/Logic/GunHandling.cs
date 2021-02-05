@@ -58,14 +58,14 @@ namespace TheMadRanger.Logic {
 
 		////
 
-		public PlayerLayer GunDrawLayer { get; private set; }
+		public PlayerLayer GunAnimDrawLayer { get; private set; }
 
 
 
 		////////////////
 
 		public GunHandling() {
-			this.InitDrawLayers();
+			this.InitGunAnimDrawLayers();
 		}
 
 
