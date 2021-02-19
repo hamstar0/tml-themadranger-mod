@@ -6,6 +6,10 @@ using HamstarHelpers.Helpers.Audio;
 
 namespace TheMadRanger.Items.Weapons {
 	public partial class TheMadRangerItem : ModItem {
+		public int[] GetCylinder() {
+			return this.Cylinder.ToArray();
+		}
+
 		public bool IsCylinderFull() {
 			return this.Cylinder.All( c => c == 1 );
 		}
@@ -50,7 +54,7 @@ namespace TheMadRanger.Items.Weapons {
 
 		public bool InsertRound( Player player, bool playSound=true ) {
 			bool hasInserted = false;
-			int initPos = this.CylinderIdx;
+			int initPos = this.CurrentCylinderSlot;
 
 			do {
 				if( this.CylinderInsertRound() ) {
@@ -62,7 +66,7 @@ namespace TheMadRanger.Items.Weapons {
 
 					break;
 				}
-			} while( this.CylinderIdx != initPos );	// full cylinder loop
+			} while( this.CurrentCylinderSlot != initPos );	// full cylinder loop
 
 			return hasInserted;
 		}
@@ -118,7 +122,7 @@ namespace TheMadRanger.Items.Weapons {
 		////////////////
 
 		public bool CylinderCanShootNow() {
-			return this.Cylinder[ this.CylinderIdx ] == 1;
+			return this.Cylinder[ this.CurrentCylinderSlot ] == 1;
 		}
 
 
@@ -126,11 +130,11 @@ namespace TheMadRanger.Items.Weapons {
 
 		private bool CylinderAttemptShoot() {
 			bool hasShot = false;
-			int roundSlot = this.Cylinder[ this.CylinderIdx ];
+			int roundSlot = this.Cylinder[ this.CurrentCylinderSlot ];
 
 			if( roundSlot == 1 ) {
 				hasShot = true;
-				this.Cylinder[ this.CylinderIdx ] = -1;	// -1 = empty shell casing is now in this slot
+				this.Cylinder[ this.CurrentCylinderSlot ] = -1;	// -1 = empty shell casing is now in this slot
 			}
 
 			this.RotateCylinder( 1 );
@@ -141,10 +145,10 @@ namespace TheMadRanger.Items.Weapons {
 
 		private bool CylinderInsertRound() {
 			bool hasInsertedRound = false;
-			int roundSlot = this.Cylinder[ this.CylinderIdx ];
+			int roundSlot = this.Cylinder[ this.CurrentCylinderSlot ];
 
 			if( roundSlot == 0 ) {
-				this.Cylinder[ this.CylinderIdx ] = 1;
+				this.Cylinder[ this.CurrentCylinderSlot ] = 1;
 				hasInsertedRound = true;
 			}
 
@@ -157,14 +161,13 @@ namespace TheMadRanger.Items.Weapons {
 		////////////////
 
 		public void RotateCylinder( int dir ) {
-			dir %= this.Cylinder.Length;
-
+			//dir %= this.Cylinder.Length;
 			if( dir > 0 ) {
-				this.CylinderIdx = (this.CylinderIdx + dir) % this.Cylinder.Length;
+				this.CurrentCylinderSlot = (this.CurrentCylinderSlot + dir) % this.Cylinder.Length;
 			} else {
-				this.CylinderIdx = this.CylinderIdx + dir;
-				if( this.CylinderIdx < 0 ) {
-					this.CylinderIdx = this.Cylinder.Length - 1;
+				this.CurrentCylinderSlot = this.CurrentCylinderSlot + dir;
+				if( this.CurrentCylinderSlot < 0 ) {
+					this.CurrentCylinderSlot = this.Cylinder.Length - 1;
 				}
 			}
 		}

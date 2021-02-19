@@ -19,9 +19,9 @@ namespace TheMadRanger {
 
 		[Label("Color intensity of aim reticule")]
 		[Range( 0f, 1f )]
-		[DefaultValue( 1f )]
+		[DefaultValue( 0.8f )]
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
-		public float ReticuleIntensityPercent { get; } = 1f;
+		public float ReticuleIntensityPercent { get; } = 0.8f;
 
 
 		//

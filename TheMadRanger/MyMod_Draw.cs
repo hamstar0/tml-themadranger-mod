@@ -26,13 +26,6 @@ namespace TheMadRanger {
 		////////////////
 
 		public override void ModifyInterfaceLayers( List<GameInterfaceLayer> layers ) {
-			float aimPercent;
-			bool hasGun;
-			bool isAimMode = this.RunAimCursorAnimation( out hasGun, out aimPercent );
-			bool isPreAimMode = isAimMode
-				? false
-				: this.RunPreAimCursorAnimation( aimPercent );
-
 			int idx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Cursor" ) );
 			if( idx == -1 ) {
 				return;
@@ -42,13 +35,20 @@ namespace TheMadRanger {
 				this.ColorAnim = AnimatedColors.Create( 6, AnimatedColors.Alert.Colors.ToArray() );
 			}
 
-			GameInterfaceDrawMethod drawCrosshair = () => {
-				this.DrawCursor( hasGun, isPreAimMode, isAimMode, aimPercent );
+			float aimPercent;
+			bool isReloading, hasGun;
+			bool isAimMode = this.RunAimCursorAnimation( out isReloading, out hasGun, out aimPercent );
+			bool isPreAimMode = isAimMode
+				? false
+				: this.RunPreAimCursorAnimation( aimPercent );
+
+			GameInterfaceDrawMethod drawHUD = () => {
+				this.DrawCursor( isReloading, hasGun, isPreAimMode, isAimMode, aimPercent );
 				return true;
 			};
 			var interfaceLayer = new LegacyGameInterfaceLayer(
 				"TheMadRanger: Crosshair",
-				drawCrosshair,
+				drawHUD,
 				InterfaceScaleType.UI
 			);
 
@@ -64,7 +64,7 @@ namespace TheMadRanger {
 
 		////////////////
 		
-		private void DrawCursor( bool hasGun, bool isPreAimMode, bool isAimMode, float aimPercent ) {
+		private void DrawCursor( bool isReloading, bool hasGun, bool isPreAimMode, bool isAimMode, float aimPercent ) {
 			if( !Main.playerInventory && Main.InGameUI.CurrentState == null ) {
 				if( isPreAimMode ) {
 					this.DrawPreAimCursor( aimPercent );
@@ -72,6 +72,10 @@ namespace TheMadRanger {
 					this.DrawAimCursor();
 				} else if( hasGun ) {
 					this.DrawUnaimCursor();
+				}
+
+				if( isReloading || isPreAimMode || isAimMode ) {
+					this.DrawBullets( aimPercent, isReloading );
 				}
 			}
 

@@ -75,12 +75,14 @@ namespace TheMadRanger.Items.Weapons {
 
 		private int[] Cylinder;
 
-		private int CylinderIdx = 0;
-
 		private int ElapsedTimeSinceLastShotAttempt = 0;
 
 
 		////////////////
+
+		public int CurrentCylinderSlot { get; private set; } = 0;
+
+		////
 
 		public override bool CloneNewInstances => false;
 
@@ -146,7 +148,7 @@ namespace TheMadRanger.Items.Weapons {
 				return;
 			}
 
-			this.CylinderIdx = tag.GetInt( "cylinder_idx" );
+			this.CurrentCylinderSlot = tag.GetInt( "cylinder_idx" );
 
 			for( int i = 0; i < this.Cylinder.Length; i++ ) {
 				if( !tag.ContainsKey("cylinder_round_" + i) ) {
@@ -158,7 +160,7 @@ namespace TheMadRanger.Items.Weapons {
 
 		public override TagCompound Save() {
 			var tag = new TagCompound {
-				{ "cylinder_idx", this.CylinderIdx }
+				{ "cylinder_idx", this.CurrentCylinderSlot }
 			};
 			for( int i = 0; i < this.Cylinder.Length; i++ ) {
 				tag["cylinder_round_" + i ] = this.Cylinder[i];
@@ -199,7 +201,7 @@ namespace TheMadRanger.Items.Weapons {
 			}
 
 			if( TMRConfig.Instance.DebugModeInfo ) {
-				DebugHelpers.Print( "cylinder", this.CylinderIdx + " = " + string.Join(", ", this.Cylinder) );
+				DebugHelpers.Print( "cylinder", this.CurrentCylinderSlot + " = " + string.Join(", ", this.Cylinder) );
 			}
 		}
 	}
