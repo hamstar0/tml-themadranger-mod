@@ -2,32 +2,31 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using HamstarHelpers.Classes.Loadable;
 using TheMadRanger.Logic;
 
 
-namespace TheMadRanger {
-	public partial class TMRMod : Mod {
-		private bool RunPreAimCursorAnimation( float aimPercent ) {
+namespace TheMadRanger.HUD {
+	partial class CrosshairHUD : ILoadable {
+		private void RunPreAimCursorAnimation( HUDDrawData hudDrawData ) {
 			var myplayer = Main.LocalPlayer.GetModPlayer<TMRPlayer>();
 			if( !myplayer.AimMode.IsModeActivating || myplayer.AimMode.IsModeActive ) {
-				return false;
+				return;
 			}
 
 			this.PreAimZoomAnimationPercent += 1f / 20f;
 			if( this.PreAimZoomAnimationPercent > 1f ) {
 				this.PreAimZoomAnimationPercent = 0f;
 			}
-			return true;
 		}
 		
-		private bool RunAimCursorAnimation( out bool isReloading, out bool hasGun, out float aimPercent ) {
+		private void RunAimCursorAnimation( HUDDrawData hudDrawData ) {
 			var myplayer = Main.LocalPlayer.GetModPlayer<TMRPlayer>();
 
 			if( !myplayer.AimMode.IsModeActive ) {
 				// Fade out and zoom out slowly, invisibly
 				if( this.AimZoomAnimationPercent >= 0f ) {
-					this.AimZoomAnimationPercent -= 1f / TMRMod.CrosshairDurationTicksMax;
+					this.AimZoomAnimationPercent -= 1f / CrosshairHUD.CrosshairDurationTicksMax;
 				} else {
 					this.AimZoomAnimationPercent = -1f;
 				}
@@ -40,25 +39,20 @@ namespace TheMadRanger {
 						this.AimZoomAnimationPercent = 0f;
 					}
 				} else if( this.AimZoomAnimationPercent <= 1f ) {
-					this.AimZoomAnimationPercent += 1f / TMRMod.CrosshairDurationTicksMax;  // Actual fading in
+					this.AimZoomAnimationPercent += 1f / CrosshairHUD.CrosshairDurationTicksMax;  // Actual fading in
 				}
 				
 				if( this.AimZoomAnimationPercent > 1f ) {
 					this.AimZoomAnimationPercent = 1f;
 				}
 			}
-
-			isReloading = myplayer.GunHandling.IsReloading;
-			hasGun = !myplayer.GunHandling.IsAnimating && PlayerLogic.IsHoldingGun( Main.LocalPlayer );
-			aimPercent = myplayer.AimMode.AimPercent;
-			return myplayer.AimMode.IsModeActive;
 		}
 
 
 		////////////////
 
 		private void DrawPreAimCursor( float aimPercent ) {
-			Texture2D tex = this.GetTexture( "crosshair" );
+			Texture2D tex = TMRMod.Instance.GetTexture( "crosshair" );
 
 			float zoomFocus = 1f - this.PreAimZoomAnimationPercent;
 			float scale = 0.2f
@@ -97,7 +91,7 @@ namespace TheMadRanger {
 
 		private void DrawAimCursor() {
 			var config = TMRConfig.Instance;
-			Texture2D tex = this.GetTexture( "crosshair" );
+			Texture2D tex = TMRMod.Instance.GetTexture( "crosshair" );
 
 			float percentEmpty = 1f - this.AimZoomAnimationPercent;
 			float scale = 0.25f + (1.75f * percentEmpty);

@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameInput;
+using Terraria.ModLoader.IO;
 using HamstarHelpers.Helpers.Debug;
-using TheMadRanger.Items.Weapons;
-using TheMadRanger.Items.Accessories;
 using TheMadRanger.NetProtocols;
 using TheMadRanger.Logic;
+using TheMadRanger.Items.Weapons;
+using TheMadRanger.Items.Accessories;
 
 
 namespace TheMadRanger {
@@ -26,10 +28,41 @@ namespace TheMadRanger {
 
 		public bool HasAttemptedShotSinceEquip { get; internal set; } = false;
 
+		public Vector2 AmmoDisplayOffset { get; internal set; } = default;
+
+
 		////////////////
 
 		public override bool CloneNewInstances => false;
 
+
+
+		////////////////
+
+		public override void Initialize() {
+			this.AmmoDisplayOffset = default;
+		}
+
+
+		////////////////
+
+		public override void Load( TagCompound tag ) {
+			this.AmmoDisplayOffset = default;
+
+			if( tag.ContainsKey("ammo_display_x") ) {
+				this.AmmoDisplayOffset = new Vector2(
+					tag.GetInt( "ammo_display_x" ),
+					tag.GetInt( "ammo_display_y" )
+				);
+			}
+		}
+
+		public override TagCompound Save() {
+			return new TagCompound {
+				{ "ammo_display_x", (int)this.AmmoDisplayOffset.X },
+				{ "ammo_display_y", (int)this.AmmoDisplayOffset.Y }
+			};
+		}
 
 
 		////////////////

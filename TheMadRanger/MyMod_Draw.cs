@@ -5,57 +5,69 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
-using HamstarHelpers.Services.AnimatedColor;
 using HamstarHelpers.Helpers.Debug;
+using TheMadRanger.HUD;
 
 
 namespace TheMadRanger {
 	public partial class TMRMod : Mod {
-		public const float CrosshairDurationTicksMax = 7f;
+		private HUDDrawData HUDData = null;
 
 
 
 		////////////////
 
-		private float PreAimZoomAnimationPercent = 0f;
-		private float AimZoomAnimationPercent = -1f;
-		private AnimatedColors ColorAnim = null;
+		public override void UpdateUI( GameTime gameTime ) {
+			this.HUDData = new HUDDrawData();
+			var crosshairHUD = ModContent.GetInstance<CrosshairHUD>();
+			var ammoDisplayHUD = ModContent.GetInstance<AmmoDisplayHUD>();
 
+			crosshairHUD.Update( this.HUDData );
+			ammoDisplayHUD.Update( this.HUDData );
+
+			if( this.HUDData.IsEditingHUD.Values.Any(b => b) ) {
+				Main.LocalPlayer.mouseInterface = true;
+			}
+		}
 
 
 		////////////////
 
 		public override void ModifyInterfaceLayers( List<GameInterfaceLayer> layers ) {
+			if( this.HUDData == null ) {
+				return;
+			}
+
 			int idx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Cursor" ) );
 			if( idx == -1 ) {
 				return;
 			}
+			
+			var crosshairHUD = ModContent.GetInstance<CrosshairHUD>();
+			var ammoDisplayHUD = ModContent.GetInstance<AmmoDisplayHUD>();
 
-			if( this.ColorAnim == null ) {
-				this.ColorAnim = AnimatedColors.Create( 6, AnimatedColors.Alert.Colors.ToArray() );
-			}
+			//
 
-			float aimPercent;
-			bool isReloading, hasGun;
-			bool isAimMode = this.RunAimCursorAnimation( out isReloading, out hasGun, out aimPercent );
-			bool isPreAimMode = isAimMode
-				? false
-				: this.RunPreAimCursorAnimation( aimPercent );
+			GameInterfaceDrawMethod draw = () => {
+				crosshairHUD.Draw( this.HUDData );
+				ammoDisplayHUD.Draw( this.HUDData );
 
-			GameInterfaceDrawMethod drawHUD = () => {
-				this.DrawCursor( isReloading, hasGun, isPreAimMode, isAimMode, aimPercent );
+				if( TMRConfig.Instance.DebugModeInfo ) {
+					this.DrawDebugLine();
+				}
 				return true;
 			};
+
 			var interfaceLayer = new LegacyGameInterfaceLayer(
 				"TheMadRanger: Crosshair",
-				drawHUD,
+				draw,
 				InterfaceScaleType.UI
 			);
 
-			if( !Main.playerInventory && Main.InGameUI.CurrentState == null ) {
-				if( (isPreAimMode && aimPercent > 0.25f) || isAimMode ) {
-					layers.RemoveAt( idx );
-				}
+			//
+
+			if( crosshairHUD.ConsumesCursor(this.HUDData) || ammoDisplayHUD.ConsumesCursor(this.HUDData) ) {
+				layers.RemoveAt( idx );
 			}
 
 			layers.Insert( idx, interfaceLayer );
@@ -63,29 +75,6 @@ namespace TheMadRanger {
 
 
 		////////////////
-		
-		private void DrawCursor( bool isReloading, bool hasGun, bool isPreAimMode, bool isAimMode, float aimPercent ) {
-			if( !Main.playerInventory && Main.InGameUI.CurrentState == null ) {
-				if( isPreAimMode ) {
-					this.DrawPreAimCursor( aimPercent );
-				} else if( isAimMode ) {
-					this.DrawAimCursor();
-				} else if( hasGun ) {
-					this.DrawUnaimCursor();
-				}
-
-				if( isReloading || isPreAimMode || isAimMode ) {
-					this.DrawBullets( aimPercent, isReloading );
-				}
-			}
-
-			if( TMRConfig.Instance.DebugModeInfo ) {
-				this.DrawDebugLine();
-			}
-		}
-
-
-		////
 
 		private void DrawDebugLine() {
 			Player plr = Main.LocalPlayer;
