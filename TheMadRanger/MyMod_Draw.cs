@@ -38,8 +38,8 @@ namespace TheMadRanger {
 				return;
 			}
 
-			int idx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Cursor" ) );
-			if( idx == -1 ) {
+			int cursorIdx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Cursor" ) );
+			if( cursorIdx == -1 ) {
 				return;
 			}
 			
@@ -67,10 +67,10 @@ namespace TheMadRanger {
 			//
 
 			if( crosshairHUD.ConsumesCursor(this.HUDData) || ammoDisplayHUD.ConsumesCursor(this.HUDData) ) {
-				layers.RemoveAt( idx );
+				layers.RemoveAt( cursorIdx );
 			}
 
-			layers.Insert( idx, interfaceLayer );
+			layers.Insert( cursorIdx, interfaceLayer );
 		}
 
 
