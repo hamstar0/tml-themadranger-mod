@@ -17,10 +17,10 @@ namespace TheMadRanger.HUD {
 		private bool RunHUDEditor( out bool isHovering ) {
 			Vector2 basePos = AmmoDisplayHUD.GetAmmoHUDCenter();
 			var area = new Rectangle(
-				(int)basePos.X - 40,
-				(int)basePos.Y - 40,
-				80,
-				80
+				(int)basePos.X - 28,
+				(int)basePos.Y - 28,
+				56,
+				56
 			);
 
 			isHovering = area.Contains( Main.MouseScreen.ToPoint() );

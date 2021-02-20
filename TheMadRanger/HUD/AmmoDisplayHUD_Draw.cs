@@ -46,7 +46,7 @@ namespace TheMadRanger.HUD {
 
 			float radians = MathHelper.ToRadians( cylinderSlot * 60 );
 			Vector2 pos = AmmoDisplayHUD.GetAmmoHUDCenter()
-				+ (new Vector2(0f, -1f).RotatedBy(radians) * 36f);
+				+ (new Vector2(0f, -1f).RotatedBy(radians) * 24f);
 
 			Color color = bulletState == 1
 				? Color.White * 0.6f
