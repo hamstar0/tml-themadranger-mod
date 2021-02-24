@@ -2,6 +2,7 @@
 using System.Linq;
 using Terraria;
 using HamstarHelpers.Classes.Loadable;
+using HamstarHelpers.Helpers.Debug;
 
 
 namespace TheMadRanger.HUD {
@@ -66,10 +67,10 @@ namespace TheMadRanger.HUD {
 			if( Main.playerInventory ) {
 				return false;
 			}
-			if( Main.InGameUI.CurrentState == null ) {
+			if( Main.InGameUI.CurrentState != null ) {
 				return false;
 			}
-
+			
 			return hudDrawData.IsAimMode
 				|| (hudDrawData.IsPreAimMode && hudDrawData.AimPercent > 0.25f);
 		}

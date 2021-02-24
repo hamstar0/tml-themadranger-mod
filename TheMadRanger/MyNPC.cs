@@ -13,7 +13,7 @@ namespace TheMadRanger {
 					ref bool crit,
 					ref int hitDirection ) {
 			var myproj = projectile.GetGlobalProjectile<TMRProjectile>();
-			if( myproj.IsFiredFromRevolver ) {
+			if( myproj.IsFiredFromRevolver == true ) {
 				this.ModifyTMRHit( npc, ref damage );
 			}
 		}

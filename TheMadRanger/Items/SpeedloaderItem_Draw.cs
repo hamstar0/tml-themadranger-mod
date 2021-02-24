@@ -31,6 +31,7 @@ namespace TheMadRanger.Items {
 				Vector2 overlayPos = position;
 				overlayPos.X += tex.Width / 2;
 				overlayPos.Y += tex.Height / 2;
+				overlayPos.Y += 6;
 				Vector2 overlayDim = Main.fontMouseText.MeasureString( "X" );
 
 				spriteBatch.DrawString(

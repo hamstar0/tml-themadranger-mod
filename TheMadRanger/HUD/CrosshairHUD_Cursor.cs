@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using HamstarHelpers.Classes.Loadable;
-using TheMadRanger.Logic;
 
 
 namespace TheMadRanger.HUD {
@@ -94,7 +93,7 @@ namespace TheMadRanger.HUD {
 			Texture2D tex = TMRMod.Instance.GetTexture( "crosshair" );
 
 			float percentEmpty = 1f - this.AimZoomAnimationPercent;
-			float scale = 0.25f + (1.75f * percentEmpty);
+			float scale = 0.2f + (1.75f * percentEmpty);
 
 			float intensity = config.Get<float>( nameof(TMRConfig.ReticuleIntensityPercent) );
 			float pulse = (float)Main.mouseTextColor / 255f;

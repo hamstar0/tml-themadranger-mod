@@ -62,6 +62,7 @@ namespace TheMadRanger.NPCs {
 			npc.height = 40;
 
 			npc.lifeMax = 50;
+			npc.life = npc.lifeMax;
 			npc.defense = 1;
 			npc.damage = config.Get<int>( nameof(config.BanditContactDamage) );
 			npc.knockBackResist = 0.3f;

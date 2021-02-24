@@ -7,7 +7,7 @@ using TheMadRanger.NPCs;
 
 namespace TheMadRanger {
 	partial class TMRProjectile : GlobalProjectile {
-		public bool IsFiredFromRevolver { get; private set; } = false;
+		public bool? IsFiredFromRevolver { get; private set; } = null;
 		public bool IsQuickFiredFromRevolver { get; private set; } = false;
 
 
@@ -33,8 +33,10 @@ namespace TheMadRanger {
 		////////////////
 
 		public override bool PreAI( Projectile projectile ) {
-			if( projectile.type == ProjectileID.Bullet && !projectile.npcProj && !this.IsFiredFromRevolver ) {
-				this.InitializeTMRBulletIf( projectile );
+			if( projectile.type == ProjectileID.Bullet && !projectile.npcProj ) {
+				if( !this.IsFiredFromRevolver.HasValue ) {
+					this.InitializeTMRBulletIf( projectile );
+				}
 			}
 
 			return base.PreAI( projectile );
@@ -51,13 +53,6 @@ namespace TheMadRanger {
 		}
 
 		public override void ModifyHitPlayer( Projectile projectile, Player target, ref int damage, ref bool crit ) {
-			if( this.IsBanditShot ) {
-				var config = TMRConfig.Instance;
-				damage = config.Get<int>( nameof(config.BanditShotDamage) );
-			}
-		}
-
-		public override void ModifyHitPvp( Projectile projectile, Player target, ref int damage, ref bool crit ) {
 			if( this.IsBanditShot ) {
 				var config = TMRConfig.Instance;
 				damage = config.Get<int>( nameof(config.BanditShotDamage) );

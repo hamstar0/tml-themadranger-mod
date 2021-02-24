@@ -1,5 +1,6 @@
 ﻿using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using TheMadRanger.Recipes;
@@ -48,6 +49,7 @@ namespace TheMadRanger.Items {
 			this.item.maxStack = 1;
 			this.item.value = Item.buyPrice( 0, 5, 0, 0 );
 			this.item.rare = 4;
+			this.item.ammo = this.item.type;
 			this.item.scale = 0.75f;
 		}
 
