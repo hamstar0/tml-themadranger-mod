@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -18,14 +17,15 @@ namespace TheMadRanger {
 		////////////////
 
 		public override void UpdateUI( GameTime gameTime ) {
-			this.HUDData = new HUDDrawData();
+			this.HUDData = new HUDDrawData( this.HUDData );
+
 			var crosshairHUD = ModContent.GetInstance<CrosshairHUD>();
 			var ammoDisplayHUD = ModContent.GetInstance<AmmoDisplayHUD>();
 
 			crosshairHUD.Update( this.HUDData );
 			ammoDisplayHUD.Update( this.HUDData );
 
-			if( this.HUDData.IsEditingHUD.Values.Any(b => b) ) {
+			if( this.HUDData.IsAmmoHUDBeingEdited ) {
 				Main.LocalPlayer.mouseInterface = true;
 			}
 		}
@@ -49,8 +49,8 @@ namespace TheMadRanger {
 			//
 
 			GameInterfaceDrawMethod draw = () => {
-				crosshairHUD.Draw( this.HUDData );
-				ammoDisplayHUD.Draw( this.HUDData );
+				crosshairHUD.DrawIf( Main.spriteBatch, this.HUDData );
+				ammoDisplayHUD.DrawIf( Main.spriteBatch, this.HUDData );
 
 				if( TMRConfig.Instance.DebugModeInfo ) {
 					this.DrawDebugLine();

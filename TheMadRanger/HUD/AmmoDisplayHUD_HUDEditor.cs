@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Terraria;
 using HamstarHelpers.Classes.Loadable;
 using HamstarHelpers.Helpers.Debug;
@@ -24,8 +25,10 @@ namespace TheMadRanger.HUD {
 			);
 
 			isHovering = area.Contains( Main.MouseScreen.ToPoint() );
+			bool isAlt = Main.keyState.IsKeyDown( Keys.LeftAlt )
+				|| Main.keyState.IsKeyDown( Keys.RightAlt );
 
-			if( Main.mouseLeft ) {
+			if( Main.mouseLeft && isAlt ) {
 				if( this.BaseAmmoDragOffset.HasValue || isHovering ) {
 					this.HUDEditor_Bullets_Drag( basePos );
 				}

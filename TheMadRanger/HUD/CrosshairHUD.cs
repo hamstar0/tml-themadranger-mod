@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Linq;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using HamstarHelpers.Classes.Loadable;
 using HamstarHelpers.Helpers.Debug;
+using HamstarHelpers.Helpers.HUD;
 
 
 namespace TheMadRanger.HUD {
@@ -15,7 +16,6 @@ namespace TheMadRanger.HUD {
 
 		private float PreAimZoomAnimationPercent = 0f;
 		private float AimZoomAnimationPercent = -1f;
-
 
 
 
@@ -34,29 +34,30 @@ namespace TheMadRanger.HUD {
 		////////////////
 
 		public void Update( HUDDrawData hudDrawData ) {
-			if( !hudDrawData.IsEditingHUD.Values.Any(b => b) ) {
-				this.RunPreAimCursorAnimation( hudDrawData );
-				this.RunAimCursorAnimation( hudDrawData );
-			}
+			this.RunPreAimCursorAnimation( hudDrawData );
+			this.RunAimCursorAnimation( hudDrawData );
 		}
 
 
 		////////////////
 
-		public void Draw( HUDDrawData hudDrawData ) {
-			if( Main.InGameUI.CurrentState != null ) {
+		public void DrawIf( SpriteBatch sb, HUDDrawData hudDrawData ) {
+			/*if( Main.InGameUI.CurrentState != null ) {
+				return;
+			}*/
+			if( Main.LocalPlayer.mouseInterface ) {	//not HUDHelpers.IsMouseInterfacingWithUI; inventory always == true
 				return;
 			}
-			if( hudDrawData.IsEditingHUD.Values.Any(b => b) ) {
+			if( hudDrawData.IsAmmoHUDBeingEdited ) {
 				return;
 			}
-
+			
 			if( hudDrawData.IsPreAimMode ) {
-				this.DrawPreAimCursor( hudDrawData.AimPercent );
+				this.DrawPreAimCursor( sb, hudDrawData.AimPercent );
 			} else if( hudDrawData.IsAimMode ) {
-				this.DrawAimCursor();
+				this.DrawAimCursor( sb );
 			} else if( hudDrawData.HasGun ) {
-				this.DrawUnaimCursor();
+				this.DrawUnaimCursor( sb );
 			}
 		}
 
@@ -64,13 +65,13 @@ namespace TheMadRanger.HUD {
 		////////////////
 
 		public bool ConsumesCursor( HUDDrawData hudDrawData ) {
-			if( Main.playerInventory ) {
+			/*if( Main.InGameUI.CurrentState != null ) {
+				return false;
+			}*/
+			if( HUDHelpers.IsMouseInterfacingWithUI ) { //Main.LocalPlayer.mouseInterface
 				return false;
 			}
-			if( Main.InGameUI.CurrentState != null ) {
-				return false;
-			}
-			
+
 			return hudDrawData.IsAimMode
 				|| (hudDrawData.IsPreAimMode && hudDrawData.AimPercent > 0.25f);
 		}

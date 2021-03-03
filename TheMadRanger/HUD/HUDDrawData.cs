@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Terraria;
 using TheMadRanger.Logic;
 
@@ -12,16 +11,13 @@ namespace TheMadRanger.HUD {
 		public bool IsAimMode;
 		public float AimPercent;
 
-
-		////////////////
-
-		public IDictionary<object, bool> IsEditingHUD { get; } = new Dictionary<object, bool>();
+		public bool IsAmmoHUDBeingEdited;
 
 
 
 		////////////////
 
-		public HUDDrawData() {
+		public HUDDrawData( HUDDrawData prevHudData ) {
 			var myplayer = Main.LocalPlayer.GetModPlayer<TMRPlayer>();
 
 			this.HasGun = !myplayer.GunHandling.IsAnimating && PlayerLogic.IsHoldingGun( Main.LocalPlayer );
@@ -29,6 +25,8 @@ namespace TheMadRanger.HUD {
 			this.AimPercent = myplayer.AimMode.AimPercent;
 			this.IsAimMode = myplayer.AimMode.IsModeActive;
 			this.IsPreAimMode = !myplayer.AimMode.IsModeActive && myplayer.AimMode.IsModeActivating;
+
+			this.IsAmmoHUDBeingEdited = prevHudData?.IsAmmoHUDBeingEdited ?? false;
 		}
 	}
 }

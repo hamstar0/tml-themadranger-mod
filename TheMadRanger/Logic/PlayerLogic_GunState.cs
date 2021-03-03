@@ -27,7 +27,7 @@ namespace TheMadRanger.Logic {
 
 		////////////////
 
-		public static void CheckPreviousHeldGunItemState( TMRPlayer myplayer, Item prevHeldItem ) {
+		public static void UpdatePreviousHeldGunItemState( TMRPlayer myplayer, Item prevHeldItem ) {
 			var mygun = prevHeldItem?.modItem as TheMadRangerItem;
 			if( mygun == null ) {
 				return;
@@ -43,7 +43,7 @@ namespace TheMadRanger.Logic {
 			}
 		}
 
-		public static bool CheckCurrentHeldGunItemState( TMRPlayer myplayer, int inventorySlotOfPrevHeldItem ) {
+		public static bool UpdateCurrentHeldGunItemState( TMRPlayer myplayer, int inventorySlotOfPrevHeldItem ) {
 			bool canHoldGun = PlayerLogic.IsHoldingGun( myplayer.player );
 
 			myplayer.AimMode.UpdateAimState( myplayer.player );

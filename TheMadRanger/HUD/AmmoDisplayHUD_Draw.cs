@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -9,14 +10,14 @@ using TheMadRanger.Items.Weapons;
 
 namespace TheMadRanger.HUD {
 	partial class AmmoDisplayHUD : ILoadable {
-		public void Draw( HUDDrawData hudDrawData ) {
+		public void DrawIf( SpriteBatch sb, HUDDrawData hudDrawData ) {
 			if( Main.InGameUI.CurrentState != null ) {
 				return;
 			}
 			//if( hudDrawData.IsReloading || hudDrawData.IsPreAimMode || hudDrawData.IsAimMode ) {
 
 			Item heldItem = Main.LocalPlayer.HeldItem;
-			var myitem = heldItem.modItem as TheMadRangerItem;
+			var myitem = heldItem?.modItem as TheMadRangerItem;
 			if( myitem == null ) {
 				return;
 			}
@@ -39,6 +40,19 @@ namespace TheMadRanger.HUD {
 					opacity
 					//aimPercent: hudDrawData.AimPercent,
 					//isReloading: hudDrawData.IsReloading
+				);
+			}
+
+			if( this.IsHovering && !hudDrawData.IsAmmoHUDBeingEdited ) {
+				Utils.DrawBorderStringFourWay(
+					sb: sb,
+					font: Main.fontMouseText,
+					text: "Alt+Click to drag",
+					x: Main.MouseScreen.X + 12,
+					y: Main.MouseScreen.Y + 16,
+					textColor: new Color( Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor ),
+					borderColor: Color.Black,
+					origin: default
 				);
 			}
 		}

@@ -24,7 +24,7 @@ namespace TheMadRanger {
 
 			InboxMessages.SetMessage(
 				"TheMadRangerInfo",
-				"Want more control over reloading? Be sure to bind gun reloading for The Mad Ranger mod to a button of your choice. Also see the mod's configs for more options.",
+				"Want more control over gun reloading? Be sure to bind a key for reloading. Also see the mod's configs for more options.",
 				false
 			);
 		}

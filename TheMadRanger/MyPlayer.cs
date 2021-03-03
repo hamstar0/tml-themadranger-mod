@@ -76,12 +76,12 @@ namespace TheMadRanger {
 		private void PreUpdateActive() {
 			if( this.InventorySlotOfPreviousHeldItem != this.player.selectedItem ) {
 				if( this.InventorySlotOfPreviousHeldItem != -1 ) {
-					Item prevItem = this.player.inventory[this.InventorySlotOfPreviousHeldItem];
-					PlayerLogic.CheckPreviousHeldGunItemState( this, prevItem );
+					Item prevItem = this.player.inventory[ this.InventorySlotOfPreviousHeldItem ];
+					PlayerLogic.UpdatePreviousHeldGunItemState( this, prevItem );
 				}
 			}
 
-			if( PlayerLogic.CheckCurrentHeldGunItemState(this, this.InventorySlotOfPreviousHeldItem) ) {
+			if( PlayerLogic.UpdateCurrentHeldGunItemState(this, this.InventorySlotOfPreviousHeldItem) ) {
 				PlayerLogic.UpdatePlayerStateForAimMode( this );
 			}
 

@@ -50,7 +50,7 @@ namespace TheMadRanger.HUD {
 
 		////////////////
 
-		private void DrawPreAimCursor( float aimPercent ) {
+		private void DrawPreAimCursor( SpriteBatch sb, float aimPercent ) {
 			Texture2D tex = TMRMod.Instance.GetTexture( "crosshair" );
 
 			float zoomFocus = 1f - this.PreAimZoomAnimationPercent;
@@ -63,7 +63,7 @@ namespace TheMadRanger.HUD {
 			Color fgColor = Color.White * intensity * flicker;
 			Color bgColor = Color.Black * intensity * flicker;
 
-			Main.spriteBatch.Draw(
+			sb.Draw(
 				texture: tex,
 				position: new Vector2( Main.mouseX, Main.mouseY ),
 				sourceRectangle: null,
@@ -75,7 +75,7 @@ namespace TheMadRanger.HUD {
 				layerDepth: 0f
 			);
 
-			Main.spriteBatch.Draw(
+			sb.Draw(
 				texture: tex,
 				position: new Vector2( Main.mouseX, Main.mouseY ),
 				sourceRectangle: null,
@@ -88,7 +88,7 @@ namespace TheMadRanger.HUD {
 			);
 		}
 
-		private void DrawAimCursor() {
+		private void DrawAimCursor( SpriteBatch sb ) {
 			var config = TMRConfig.Instance;
 			Texture2D tex = TMRMod.Instance.GetTexture( "crosshair" );
 
@@ -100,7 +100,7 @@ namespace TheMadRanger.HUD {
 			Color fgColor = Color.Yellow * intensity * pulse * pulse * pulse * pulse;
 			Color bgColor = Color.Black * intensity * pulse * pulse * pulse * pulse;
 
-			Main.spriteBatch.Draw(
+			sb.Draw(
 				texture: tex,
 				position: new Vector2( Main.mouseX, Main.mouseY ),
 				sourceRectangle: null,
@@ -112,7 +112,7 @@ namespace TheMadRanger.HUD {
 				layerDepth: 0f
 			);
 
-			Main.spriteBatch.Draw(
+			sb.Draw(
 				texture: tex,
 				position: new Vector2( Main.mouseX, Main.mouseY ),
 				sourceRectangle: null,
@@ -125,11 +125,11 @@ namespace TheMadRanger.HUD {
 			);
 		}
 
-		private void DrawUnaimCursor() {
+		private void DrawUnaimCursor( SpriteBatch sb ) {
 			/*var config = TMRConfig.Instance;
 			Texture2D tex = this.GetTexture( "crosshair" );
 
-			Main.spriteBatch.Draw(
+			sb.Draw(
 				texture: tex,
 				position: new Vector2( Main.mouseX, Main.mouseY ),
 				sourceRectangle: null,

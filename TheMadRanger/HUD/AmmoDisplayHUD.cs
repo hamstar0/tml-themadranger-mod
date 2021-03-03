@@ -22,6 +22,12 @@ namespace TheMadRanger.HUD {
 
 
 		////////////////
+		
+		private bool IsHovering = false;
+
+
+
+		////////////////
 
 		void ILoadable.OnModsLoad() {
 		}
@@ -37,11 +43,10 @@ namespace TheMadRanger.HUD {
 
 		public void Update( HUDDrawData hudDrawData ) {
 			if( Main.playerInventory ) {
-				this.RunHUDEditor( out bool isHovering );
-
-				hudDrawData.IsEditingHUD[this] = isHovering;
+				hudDrawData.IsAmmoHUDBeingEdited = this.RunHUDEditor( out this.IsHovering );
 			} else {
-				hudDrawData.IsEditingHUD[this] = false;
+				this.IsHovering = false;
+				hudDrawData.IsAmmoHUDBeingEdited = false;
 			}
 		}
 
