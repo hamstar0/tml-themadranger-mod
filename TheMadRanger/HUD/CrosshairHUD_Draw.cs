@@ -7,43 +7,23 @@ using HamstarHelpers.Classes.Loadable;
 
 namespace TheMadRanger.HUD {
 	partial class CrosshairHUD : ILoadable {
-		private void RunPreAimCursorAnimation( HUDDrawData hudDrawData ) {
-			var myplayer = Main.LocalPlayer.GetModPlayer<TMRPlayer>();
-			if( !myplayer.AimMode.IsModeActivating || myplayer.AimMode.IsModeActive ) {
+		public void DrawIf( SpriteBatch sb, HUDDrawData hudDrawData ) {
+			/*if( Main.InGameUI.CurrentState != null ) {
+				return;
+			}*/
+			if( Main.LocalPlayer.mouseInterface ) { //not HUDHelpers.IsMouseInterfacingWithUI; inventory always == true
+				return;
+			}
+			if( hudDrawData.IsAmmoHUDBeingEdited ) {
 				return;
 			}
 
-			this.PreAimZoomAnimationPercent += 1f / 20f;
-			if( this.PreAimZoomAnimationPercent > 1f ) {
-				this.PreAimZoomAnimationPercent = 0f;
-			}
-		}
-		
-		private void RunAimCursorAnimation( HUDDrawData hudDrawData ) {
-			var myplayer = Main.LocalPlayer.GetModPlayer<TMRPlayer>();
-
-			if( !myplayer.AimMode.IsModeActive ) {
-				// Fade out and zoom out slowly, invisibly
-				if( this.AimZoomAnimationPercent >= 0f ) {
-					this.AimZoomAnimationPercent -= 1f / CrosshairHUD.CrosshairDurationTicksMax;
-				} else {
-					this.AimZoomAnimationPercent = -1f;
-				}
-			} else {
-				// Begin fade in and zoom in
-				if( this.AimZoomAnimationPercent == -1f ) {
-					if( myplayer.AimMode.IsQuickDrawActive ) {
-						this.AimZoomAnimationPercent = 1f;
-					} else {
-						this.AimZoomAnimationPercent = 0f;
-					}
-				} else if( this.AimZoomAnimationPercent <= 1f ) {
-					this.AimZoomAnimationPercent += 1f / CrosshairHUD.CrosshairDurationTicksMax;  // Actual fading in
-				}
-				
-				if( this.AimZoomAnimationPercent > 1f ) {
-					this.AimZoomAnimationPercent = 1f;
-				}
+			if( hudDrawData.IsPreAimMode ) {
+				this.DrawPreAimCursor( sb, hudDrawData.AimPercent );
+			} else if( hudDrawData.IsAimMode ) {
+				this.DrawAimCursor( sb );
+			} else if( hudDrawData.HasGun ) {
+				this.DrawUnaimCursor( sb );
 			}
 		}
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using HamstarHelpers.Classes.Loadable;
 using HamstarHelpers.Helpers.Debug;
@@ -28,37 +27,6 @@ namespace TheMadRanger.HUD {
 		}
 
 		void ILoadable.OnPostModsLoad() {
-		}
-
-
-		////////////////
-
-		public void Update( HUDDrawData hudDrawData ) {
-			this.RunPreAimCursorAnimation( hudDrawData );
-			this.RunAimCursorAnimation( hudDrawData );
-		}
-
-
-		////////////////
-
-		public void DrawIf( SpriteBatch sb, HUDDrawData hudDrawData ) {
-			/*if( Main.InGameUI.CurrentState != null ) {
-				return;
-			}*/
-			if( Main.LocalPlayer.mouseInterface ) {	//not HUDHelpers.IsMouseInterfacingWithUI; inventory always == true
-				return;
-			}
-			if( hudDrawData.IsAmmoHUDBeingEdited ) {
-				return;
-			}
-			
-			if( hudDrawData.IsPreAimMode ) {
-				this.DrawPreAimCursor( sb, hudDrawData.AimPercent );
-			} else if( hudDrawData.IsAimMode ) {
-				this.DrawAimCursor( sb );
-			} else if( hudDrawData.HasGun ) {
-				this.DrawUnaimCursor( sb );
-			}
 		}
 
 
