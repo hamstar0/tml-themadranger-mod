@@ -1,60 +1,38 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
-using HamstarHelpers.Classes.Loadable;
 using HamstarHelpers.Helpers.Debug;
+using HUDElementsLib;
 
 
 namespace TheMadRanger.HUD {
-	partial class AmmoDisplayHUD : ILoadable {
-		public static Vector2 GetAmmoHUDCenter() {
+	public partial class AmmoDisplayHUD : HUDElement {
+		public static AmmoDisplayHUD CreateDefault() {
+			var config = TMRConfig.Instance;
 			var pos = new Vector2(
-				Main.screenWidth - 96,
-				Main.screenHeight - 128
+				config.Get<float>( nameof(config.AmmoHUDPositionX) ),
+				config.Get<float>( nameof(config.AmmoHUDPositionY) )
 			);
-
-			var myplayer = Main.LocalPlayer.GetModPlayer<TMRPlayer>();
-			pos += myplayer.AmmoDisplayOffset;
-
-			return pos;
+			return new AmmoDisplayHUD( "Ammo Display", pos );
 		}
 
 
 
 		////////////////
-		
-		private bool IsHovering = false;
 
-
-
-		////////////////
-
-		void ILoadable.OnModsLoad() {
-		}
-
-		void ILoadable.OnModsUnload() {
-		}
-
-		void ILoadable.OnPostModsLoad() {
+		private AmmoDisplayHUD( string name, Vector2 pos ) : base( name, pos, new Vector2(56f, 56f) ) {
 		}
 
 
 		////////////////
 
-		public void Update( HUDDrawData hudDrawData ) {
-			if( Main.playerInventory ) {
-				hudDrawData.IsAmmoHUDBeingEdited = this.RunHUDEditor( out this.IsHovering );
-			} else {
-				this.IsHovering = false;
-				hudDrawData.IsAmmoHUDBeingEdited = false;
-			}
-		}
+		public Vector2 GetDrawPositionOrigin() {
+			Vector2 pos = this.GetPositionOnHUD( true );
+			Vector2 dim = this.GetDimensionsOnHUD();
+			float width = dim.X * 0.5f;
+			float height = dim.Y * 0.5f;
 
-
-		////////////////
-
-		public bool ConsumesCursor( HUDDrawData hudDrawData ) {
-			return this.BaseAmmoDragOffset.HasValue;
+			return new Vector2( pos.X+width, pos.Y+height );
 		}
 	}
 }

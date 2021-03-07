@@ -44,5 +44,18 @@ namespace TheMadRanger {
 
 		[DefaultValue( true )]
 		public bool BandolierNeededToReload { get; set; } = true;
+
+
+		//
+
+		[Range( -4096f, 4096f )]
+		[DefaultValue( -96f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float AmmoHUDPositionX { get; set; } = -96f;
+
+		[Range( -2048, 2048 )]
+		[DefaultValue( -128 )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float AmmoHUDPositionY { get; set; } = -128;
 	}
 }

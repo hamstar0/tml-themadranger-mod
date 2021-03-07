@@ -1,5 +1,8 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+using TheMadRanger.HUD;
+using HUDElementsLib;
 
 
 namespace TheMadRanger {
@@ -18,6 +21,8 @@ namespace TheMadRanger {
 
 		internal ModHotKey ReloadKey = null;
 
+		public AmmoDisplayHUD AmmoHUD { get; private set; }
+
 
 
 		////////////////
@@ -35,8 +40,19 @@ namespace TheMadRanger {
 		}
 
 
+		////
+
+		public override void PostSetupContent() {
+			if( !Main.dedServ && Main.netMode != NetmodeID.Server ) {
+				this.AmmoHUD = AmmoDisplayHUD.CreateDefault();
+
+				HUDElementsLibAPI.AddWidget( this.AmmoHUD );
+			}
+		}
+
+
 		////////////////
-		
+
 		/*internal float RotRad = 0f;
 		internal int RotDeg = 0;
 		public override void PostSetupContent() {

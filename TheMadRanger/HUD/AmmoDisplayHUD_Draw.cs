@@ -1,16 +1,22 @@
 using System;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using HamstarHelpers.Classes.Loadable;
 using HamstarHelpers.Helpers.Debug;
 using TheMadRanger.Items.Weapons;
+using HUDElementsLib;
 
 
 namespace TheMadRanger.HUD {
-	partial class AmmoDisplayHUD : ILoadable {
-		public void DrawIf( SpriteBatch sb, HUDDrawData hudDrawData ) {
+	public partial class AmmoDisplayHUD : HUDElement {
+		public override void Draw( SpriteBatch sb ) {
+			base.Draw( sb );
+
+			this.DrawIf( sb );
+		}
+
+
+		private void DrawIf( SpriteBatch sb ) {	//HUDDrawData hudDrawData
 			if( Main.InGameUI.CurrentState != null ) {
 				return;
 			}
@@ -42,19 +48,6 @@ namespace TheMadRanger.HUD {
 					//isReloading: hudDrawData.IsReloading
 				);
 			}
-
-			if( this.IsHovering && !hudDrawData.IsAmmoHUDBeingEdited ) {
-				Utils.DrawBorderStringFourWay(
-					sb: sb,
-					font: Main.fontMouseText,
-					text: "Alt+Click to drag",
-					x: Main.MouseScreen.X + 12,
-					y: Main.MouseScreen.Y + 16,
-					textColor: new Color( Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor ),
-					borderColor: Color.Black,
-					origin: default
-				);
-			}
 		}
 
 
@@ -62,8 +55,8 @@ namespace TheMadRanger.HUD {
 			Texture2D tex = TMRMod.Instance.GetTexture( "bulletbutt" );
 
 			float radians = MathHelper.ToRadians( cylinderSlot * 60 );
-			Vector2 pos = AmmoDisplayHUD.GetAmmoHUDCenter()
-				+ (new Vector2(0f, -1f).RotatedBy(radians) * 24f);
+			Vector2 ringOrigin = this.GetDrawPositionOrigin();
+			Vector2 pos = ringOrigin + (new Vector2(0f, -1f).RotatedBy(radians) * 24f);
 
 			Color color = bulletState == 1
 				? Color.White * 0.6f

@@ -20,14 +20,8 @@ namespace TheMadRanger {
 			this.HUDData = new HUDDrawData( this.HUDData );
 
 			var crosshairHUD = ModContent.GetInstance<CrosshairHUD>();
-			var ammoDisplayHUD = ModContent.GetInstance<AmmoDisplayHUD>();
 
 			crosshairHUD.Update( this.HUDData );
-			ammoDisplayHUD.Update( this.HUDData );
-
-			if( this.HUDData.IsAmmoHUDBeingEdited ) {
-				Main.LocalPlayer.mouseInterface = true;
-			}
 		}
 
 
@@ -44,13 +38,11 @@ namespace TheMadRanger {
 			}
 			
 			var crosshairHUD = ModContent.GetInstance<CrosshairHUD>();
-			var ammoDisplayHUD = ModContent.GetInstance<AmmoDisplayHUD>();
 
 			//
 
 			GameInterfaceDrawMethod draw = () => {
 				crosshairHUD.DrawIf( Main.spriteBatch, this.HUDData );
-				ammoDisplayHUD.DrawIf( Main.spriteBatch, this.HUDData );
 
 				if( TMRConfig.Instance.DebugModeInfo ) {
 					this.DrawDebugLine();
@@ -66,7 +58,7 @@ namespace TheMadRanger {
 
 			//
 
-			if( crosshairHUD.ConsumesCursor(this.HUDData) || ammoDisplayHUD.ConsumesCursor(this.HUDData) ) {
+			if( crosshairHUD.ConsumesCursor(this.HUDData) ) {
 				layers.RemoveAt( cursorIdx );
 			}
 

@@ -11,8 +11,6 @@ namespace TheMadRanger.HUD {
 		public bool IsAimMode;
 		public float AimPercent;
 
-		public bool IsAmmoHUDBeingEdited;
-
 
 
 		////////////////
@@ -25,8 +23,6 @@ namespace TheMadRanger.HUD {
 			this.AimPercent = myplayer.AimMode.AimPercent;
 			this.IsAimMode = myplayer.AimMode.IsModeActive;
 			this.IsPreAimMode = !myplayer.AimMode.IsModeActive && myplayer.AimMode.IsModeActivating;
-
-			this.IsAmmoHUDBeingEdited = prevHudData?.IsAmmoHUDBeingEdited ?? false;
 		}
 	}
 }
