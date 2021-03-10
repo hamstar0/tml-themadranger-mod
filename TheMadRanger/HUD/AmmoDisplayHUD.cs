@@ -27,8 +27,8 @@ namespace TheMadRanger.HUD {
 		////////////////
 
 		public Vector2 GetDrawPositionOrigin() {
-			Vector2 pos = this.GetCustomPositionOnHUD( true );
-			Vector2 dim = this.GetCustomDimensionsOnHUD();
+			Vector2 pos = this.GetHudComputedPosition( true );
+			Vector2 dim = this.GetHudComputedDimensions();
 			float width = dim.X * 0.5f;
 			float height = dim.Y * 0.5f;
 
