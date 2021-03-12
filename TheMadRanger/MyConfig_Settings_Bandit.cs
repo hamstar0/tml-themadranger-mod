@@ -31,9 +31,9 @@ namespace TheMadRanger {
 
 		[Label( "Percent chance of a bandit to spawn on the surface at day" )]
 		[Range( 0f, 1f )]
-		[DefaultValue( 0.03f )]
+		[DefaultValue( 0.05f )]
 		[CustomModConfigItem( typeof(MyFloatInputElement) )]
-		public float BanditSpawnChance { get; set; } = 0.03f;
+		public float BanditSpawnChance { get; set; } = 0.05f;
 
 		[Label( "Percent chance of a bandit to spawn as a combo" )]
 		[Range( 0f, 1f )]
@@ -43,9 +43,9 @@ namespace TheMadRanger {
 
 		[Label( "Percent chance of a bandit to chain its spawn combo" )]
 		[Range( 0f, 1f )]
-		[DefaultValue( 0.7f )]
+		[DefaultValue( 0.75f )]
 		[CustomModConfigItem( typeof(MyFloatInputElement) )]
-		public float BanditComboChainSpawnChance { get; set; } = 0.7f;
+		public float BanditComboChainSpawnChance { get; set; } = 0.75f;
 
 		//
 		
