@@ -9,19 +9,27 @@ using HUDElementsLib;
 
 namespace TheMadRanger.HUD {
 	public partial class AmmoDisplayHUD : HUDElement {
-		public override void Draw( SpriteBatch sb ) {
-			base.Draw( sb );
-
-			this.DrawIf( sb );
+		public static bool CanDrawAmmoDisplay() {
+			Item heldItem = Main.LocalPlayer.HeldItem;
+			var myitem = heldItem?.modItem as TheMadRangerItem;
+			return myitem != null;
 		}
 
 
-		private void DrawIf( SpriteBatch sb ) {	//HUDDrawData hudDrawData
-			if( Main.InGameUI.CurrentState != null ) {
-				return;
-			}
-			//if( hudDrawData.IsReloading || hudDrawData.IsPreAimMode || hudDrawData.IsAimMode ) {
 
+		////////////////
+
+		public override void Draw( SpriteBatch sb ) {
+			base.Draw( sb );
+
+			if( AmmoDisplayHUD.CanDrawAmmoDisplay() ) {
+				this.DrawBulletRing( sb );
+			}
+		}
+
+
+		private void DrawBulletRing( SpriteBatch sb ) {	//HUDDrawData hudDrawData
+			//if( hudDrawData.IsReloading || hudDrawData.IsPreAimMode || hudDrawData.IsAimMode ) {
 			Item heldItem = Main.LocalPlayer.HeldItem;
 			var myitem = heldItem?.modItem as TheMadRangerItem;
 			if( myitem == null ) {

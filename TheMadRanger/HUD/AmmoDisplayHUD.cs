@@ -26,6 +26,13 @@ namespace TheMadRanger.HUD {
 
 		////////////////
 
+		public override bool IsInteractive() {
+			return AmmoDisplayHUD.CanDrawAmmoDisplay();
+		}
+
+
+		////////////////
+
 		public Vector2 GetDrawPositionOrigin() {
 			Vector2 pos = this.GetHUDComputedPosition( true );
 			Vector2 dim = this.GetHUDComputedDimensions();
