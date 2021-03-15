@@ -19,8 +19,8 @@ namespace TheMadRanger.HUD {
 
 		////////////////
 
-		public override void Draw( SpriteBatch sb ) {
-			base.Draw( sb );
+		protected override void DrawSelf( SpriteBatch sb ) {
+			base.DrawSelf( sb );
 
 			if( AmmoDisplayHUD.CanDrawAmmoDisplay() ) {
 				this.DrawBulletRing( sb );
