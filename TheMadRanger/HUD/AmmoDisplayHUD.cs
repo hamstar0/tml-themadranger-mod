@@ -26,7 +26,7 @@ namespace TheMadRanger.HUD {
 
 		////////////////
 
-		public override bool IsInteractive() {
+		public override bool IsEnabled() {
 			return AmmoDisplayHUD.CanDrawAmmoDisplay();
 		}
 
