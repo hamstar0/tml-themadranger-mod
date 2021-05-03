@@ -32,7 +32,7 @@ namespace TheMadRanger.HUD {
 		////////////////
 
 		private void DrawPreAimCursor( SpriteBatch sb, float aimPercent ) {
-			Texture2D tex = TMRMod.Instance.GetTexture( "crosshair" );
+			Texture2D tex = TMRMod.Instance.GetTexture( "HUD/crosshair" );
 
 			float zoomFocus = 1f - this.PreAimZoomAnimationPercent;
 			float scale = 0.2f
@@ -71,7 +71,7 @@ namespace TheMadRanger.HUD {
 
 		private void DrawAimCursor( SpriteBatch sb ) {
 			var config = TMRConfig.Instance;
-			Texture2D tex = TMRMod.Instance.GetTexture( "crosshair" );
+			Texture2D tex = TMRMod.Instance.GetTexture( "HUD/crosshair" );
 
 			float percentEmpty = 1f - this.AimZoomAnimationPercent;
 			float scale = 0.2f + (1.75f * percentEmpty);
@@ -108,7 +108,7 @@ namespace TheMadRanger.HUD {
 
 		private void DrawUnaimCursor( SpriteBatch sb ) {
 			/*var config = TMRConfig.Instance;
-			Texture2D tex = this.GetTexture( "crosshair" );
+			Texture2D tex = this.GetTexture( "HUD/crosshair" );
 
 			sb.Draw(
 				texture: tex,

@@ -36,6 +36,7 @@ namespace TheMadRanger.HUD {
 				return;
 			}
 
+			Vector2 ringCenter = this.GetDrawPositionOrigin();
 			float opacity = Main.playerInventory ? 0.5f : 1f;
 
 			int[] bullets = myitem.GetCylinder();
@@ -49,9 +50,10 @@ namespace TheMadRanger.HUD {
 				}
 
 				this.DrawBullet(
+					ringCenter: ringCenter,
 					cylinderSlot: i,
 					bulletState: bullets[rotSlot],
-					opacity
+					opacity: opacity
 					//aimPercent: hudDrawData.AimPercent,
 					//isReloading: hudDrawData.IsReloading
 				);
@@ -59,12 +61,11 @@ namespace TheMadRanger.HUD {
 		}
 
 
-		private void DrawBullet( int cylinderSlot, int bulletState, float opacity ) {  //float aimPercent, bool isReloading
-			Texture2D tex = TMRMod.Instance.GetTexture( "bulletbutt" );
+		private void DrawBullet( Vector2 ringCenter, int cylinderSlot, int bulletState, float opacity ) {  //float aimPercent, bool isReloading
+			Texture2D tex = TMRMod.Instance.GetTexture( "HUD/bulletbutt" );
 
 			float radians = MathHelper.ToRadians( cylinderSlot * 60 );
-			Vector2 ringOrigin = this.GetDrawPositionOrigin();
-			Vector2 pos = ringOrigin + (new Vector2(0f, -1f).RotatedBy(radians) * 24f);
+			Vector2 pos = ringCenter + (new Vector2(0f, -1f).RotatedBy(radians) * 24f);
 
 			Color color = bulletState == 1
 				? Color.White * 0.6f

@@ -1,8 +1,9 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TheMadRanger.HUD;
+using HamstarHelpers.Helpers.Debug;
 using HUDElementsLib;
+using TheMadRanger.HUD;
 
 
 namespace TheMadRanger {
