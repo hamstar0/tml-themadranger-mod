@@ -35,8 +35,9 @@ namespace TheMadRanger.HUD {
 			Texture2D tex = TMRMod.Instance.GetTexture( "HUD/crosshair" );
 
 			float zoomFocus = 1f - this.PreAimZoomAnimationPercent;
+			float aimFocus = 1f - aimPercent;
 			float scale = 0.2f
-				+ ((1f - aimPercent) * 0.4f)
+				+ (0.4f * aimFocus)
 				+ (0.1f * zoomFocus);
 
 			float intensity = 0.1f + (aimPercent * 0.5f);
@@ -51,7 +52,7 @@ namespace TheMadRanger.HUD {
 				color: bgColor,
 				rotation: 0f,
 				origin: new Vector2( tex.Width / 2, tex.Height / 2 ),
-				scale: scale + 0.1f,
+				scale: scale + 0.05f,
 				effects: SpriteEffects.None,
 				layerDepth: 0f
 			);
@@ -74,7 +75,8 @@ namespace TheMadRanger.HUD {
 			Texture2D tex = TMRMod.Instance.GetTexture( "HUD/crosshair" );
 
 			float percentEmpty = 1f - this.AimZoomAnimationPercent;
-			float scale = 0.2f + (1.75f * percentEmpty);
+			float scale = 0.25f
+				+ (1.75f * percentEmpty);
 
 			float intensity = config.Get<float>( nameof(TMRConfig.ReticuleIntensityPercent) );
 			float pulse = (float)Main.mouseTextColor / 255f;
@@ -87,8 +89,8 @@ namespace TheMadRanger.HUD {
 				sourceRectangle: null,
 				color: bgColor,
 				rotation: 0f,
-				origin: new Vector2( tex.Width, tex.Height ) * 0.5f,
-				scale: scale + 0.1f,
+				origin: new Vector2( tex.Width / 2, tex.Height / 2 ),
+				scale: scale + 0.05f,
 				effects: SpriteEffects.None,
 				layerDepth: 0f
 			);
@@ -99,7 +101,7 @@ namespace TheMadRanger.HUD {
 				sourceRectangle: null,
 				color: fgColor,
 				rotation: 0f,
-				origin: new Vector2( tex.Width, tex.Height ) * 0.5f,
+				origin: new Vector2( tex.Width / 2, tex.Height / 2 ),
 				scale: scale,
 				effects: SpriteEffects.None,
 				layerDepth: 0f
