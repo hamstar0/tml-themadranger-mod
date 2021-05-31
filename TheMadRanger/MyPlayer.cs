@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameInput;
 using Terraria.ModLoader.IO;
-using HamstarHelpers.Helpers.Debug;
+using ModLibsCore.Libraries.Debug;
 using TheMadRanger.NetProtocols;
 using TheMadRanger.Logic;
 using TheMadRanger.Items.Weapons;

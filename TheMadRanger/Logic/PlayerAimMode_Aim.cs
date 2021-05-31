@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
-using HamstarHelpers.Helpers.Debug;
+using ModLibsCore.Libraries.Debug;
 
 
 namespace TheMadRanger.Logic {
@@ -40,7 +40,7 @@ namespace TheMadRanger.Logic {
 
 			// Player is moving
 			if( config.DebugModeInfo ) {
-				DebugHelpers.Print( "aim_move", "aim%: "
+				DebugLibraries.Print( "aim_move", "aim%: "
 					+ ( this.AimPercent * 100f ).ToString( "N0" )
 					+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
 					+ aimMoveBuildup );
@@ -67,7 +67,7 @@ namespace TheMadRanger.Logic {
 			float aimBuildupAmt = config.Get<float>( nameof(config.AimModeOnMouseMoveBuildupAmount) );
 
 			if( config.DebugModeInfo ) {
-				DebugHelpers.Print( "aim_mouse", "aim%: "
+				DebugLibraries.Print( "aim_mouse", "aim%: "
 					+ ( this.AimPercent * 100f ).ToString( "N0" )
 					+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
 					+ aimBuildupAmt );
@@ -88,7 +88,7 @@ namespace TheMadRanger.Logic {
 
 			if( this.AimElapsed < activationThreshold ) {
 				if( config.DebugModeInfo ) {
-					DebugHelpers.Print( "aim_idle", "aim%: "
+					DebugLibraries.Print( "aim_idle", "aim%: "
 						+ ( this.AimPercent * 100f ).ToString( "N0" )
 						+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
 						+ aimIdleBuildup );

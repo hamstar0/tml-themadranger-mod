@@ -2,7 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using HamstarHelpers.Classes.Loadable;
+using ModLibsCore.Classes.Loadable;
 using HUDElementsLib;
 
 
@@ -12,7 +12,7 @@ namespace TheMadRanger.HUD {
 			/*if( Main.InGameUI.CurrentState != null ) {
 				return;
 			}*/
-			if( Main.LocalPlayer.mouseInterface ) { //not HUDHelpers.IsMouseInterfacingWithUI; inventory always == true
+			if( Main.LocalPlayer.mouseInterface ) { //not HUDLibraries.IsMouseInterfacingWithUI; inventory always == true
 				return;
 			}
 			if( HUDElementsLibAPI.GetDraggingElement() != null ) {

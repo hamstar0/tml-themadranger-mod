@@ -11,11 +11,20 @@
     <Exec Command="&quot;$(tMLBuildServerPath)&quot; -build $(ProjectDir) -eac $(TargetPath) -unsafe $(AllowUnsafeBlocks)" />
   </Target>
   <ItemGroup>
-    <Reference Include="HamstarHelpers">
-      <HintPath>..\..\..\Mod Helpers\Project\HamstarHelpers\bin\Release\net452\HamstarHelpers.dll</HintPath>
-    </Reference>
     <Reference Include="HUDElementsLib">
       <HintPath>..\..\..\HUD Elements Lib\Project\HUDElementsLib\bin\Release\net45\HUDElementsLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ModLibsCore">
+      <HintPath>..\..\..\Mod Libs\Mod Libs Core\Project\ModLibsCore\bin\Release\net452\ModLibsCore.dll</HintPath>
+    </Reference>
+    <Reference Include="ModLibsGeneral">
+      <HintPath>..\..\..\Mod Libs\Mod Libs General\Project\ModLibsGeneral\bin\Release\net452\ModLibsGeneral.dll</HintPath>
+    </Reference>
+    <Reference Include="ModLibsInterMod">
+      <HintPath>..\..\..\Mod Libs\Mod Libs Services Inter-Mod\Project\ModLibsInterMod\bin\Release\net452\ModLibsInterMod.dll</HintPath>
+    </Reference>
+    <Reference Include="ModLibsNet">
+      <HintPath>..\..\..\Mod Libs\Mod Libs Services Network\Project\ModLibsNet\bin\Release\net452\ModLibsNet.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

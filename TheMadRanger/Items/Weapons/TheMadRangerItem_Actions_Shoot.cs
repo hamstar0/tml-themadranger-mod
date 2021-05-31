@@ -4,8 +4,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.Audio;
+using ModLibsCore.Libraries.Debug;
+using ModLibsGeneral.Libraries.Audio;
 using TheMadRanger.NetProtocols;
 
 
@@ -109,9 +109,9 @@ namespace TheMadRanger.Items.Weapons {
 
 		public void GunUseFx( Player player, bool isFiring ) {
 			if( isFiring ) {
-				SoundHelpers.PlaySound( TMRMod.Instance, "RevolverFire", player.Center, 0.2f );
+				SoundLibraries.PlaySound( TMRMod.Instance, "RevolverFire", player.Center, 0.2f );
 			} else {
-				SoundHelpers.PlaySound( TMRMod.Instance, "RevolverDryFire", player.Center, 0.2f );
+				SoundLibraries.PlaySound( TMRMod.Instance, "RevolverDryFire", player.Center, 0.2f );
 			}
 		}
 	}

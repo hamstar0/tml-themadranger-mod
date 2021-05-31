@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
-using HamstarHelpers.Helpers.Debug;
+using ModLibsCore.Libraries.Debug;
 using HUDElementsLib;
 
 

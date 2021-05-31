@@ -1,6 +1,6 @@
 ﻿using System;
 using Terraria;
-using HamstarHelpers.Helpers.Debug;
+using ModLibsCore.Libraries.Debug;
 
 
 namespace TheMadRanger.Logic {
@@ -56,7 +56,7 @@ namespace TheMadRanger.Logic {
 				}
 
 				if( TMRConfig.Instance.DebugModeInfo ) {
-					DebugHelpers.Print( "aim_hit", "aim%: "
+					DebugLibraries.Print( "aim_hit", "aim%: "
 						+ ( this.AimPercent * 100f ).ToString( "N0" )
 						+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
 						+ max );
@@ -82,7 +82,7 @@ namespace TheMadRanger.Logic {
 			}
 
 			if( config.DebugModeInfo ) {
-				DebugHelpers.Print( "aim_miss", "aim%: "
+				DebugLibraries.Print( "aim_miss", "aim%: "
 					+ (this.AimPercent * 100f).ToString( "N0" )
 					+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
 					+ aimMissBuildup );

@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.DotNET.Reflection;
+using ModLibsCore.Libraries.Debug;
+using ModLibsCore.Libraries.DotNET.Reflection;
 using TheMadRanger.Gores;
 using TheMadRanger.Items.Weapons;
 
@@ -170,7 +170,7 @@ namespace TheMadRanger.Logic {
 			int shellGoreSlot = TMRMod.Instance.GetGoreSlot( "Gores/ShellCasing" );
 
 			Vector2 itemScrPos;
-			ReflectionHelpers.RunMethod(
+			ReflectionLibraries.RunMethod(
 				Main.instance,
 				"DrawPlayerItemPos",
 				new object[] { plr.gravDir, plr.HeldItem.type },

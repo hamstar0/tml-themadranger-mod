@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using HamstarHelpers.Helpers.Audio;
-using HamstarHelpers.Helpers.Tiles;
+using ModLibsGeneral.Libraries.Audio;
+using ModLibsGeneral.Libraries.Tiles;
 
 
 namespace TheMadRanger.Gores {
@@ -79,20 +79,20 @@ namespace TheMadRanger.Gores {
 			if( gore.drawOffset.X == 0f ) {
 //Main.NewText("bounce "+gore.GetHashCode());
 				gore.drawOffset.X = 0.001f;
-				SoundHelpers.PlaySound( TMRMod.Instance, "ShellBounce", gore.position );
+				SoundLibraries.PlaySound( TMRMod.Instance, "ShellBounce", gore.position );
 			}
 
 			int tileX = (int)gore.position.X >> 4;
 			int tileY = (int)gore.position.Y >> 4;
 			Tile tile = Main.tile[tileX, tileY];
 
-			if( TileHelpers.IsSolid(tile, false, false) ) {
+			if( TileLibraries.IsSolid(tile, false, false) ) {
 				if( tile.slope() != 0 ) {
 					return false;
 				}
 
 				tile = Main.tile[tileX, tileY - 1];
-				if( !TileHelpers.IsSolid( tile, false, false ) ) {
+				if( !TileLibraries.IsSolid( tile, false, false ) ) {
 					gore.drawOffset.Y = 8f;
 					gore.position.Y -= 16f;
 				} else {

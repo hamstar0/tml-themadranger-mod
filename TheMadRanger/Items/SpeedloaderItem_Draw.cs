@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using ReLogic.Graphics;
-using HamstarHelpers.Services.AnimatedColor;
+using ModLibsGeneral.Services.AnimatedColor;
 
 
 namespace TheMadRanger.Items {

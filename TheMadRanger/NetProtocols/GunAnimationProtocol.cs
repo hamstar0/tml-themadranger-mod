@@ -1,9 +1,8 @@
 ﻿using System;
 using Terraria;
-using HamstarHelpers.Classes.Errors;
-using HamstarHelpers.Helpers.TModLoader;
-using HamstarHelpers.Services.Network.NetIO;
-using HamstarHelpers.Services.Network.NetIO.PayloadTypes;
+using ModLibsCore.Classes.Errors;
+using ModLibsCore.Libraries.TModLoader;
+using ModLibsCore.Services.Network.SimplePacket;
 using TheMadRanger.Items.Weapons;
 
 
@@ -18,13 +17,13 @@ namespace TheMadRanger.NetProtocols {
 
 
 	[Serializable]
-	class GunAnimationProtocol : NetIOBroadcastPayload {
+	class GunAnimationProtocol : SimplePacketPayload {
 		public static void Broadcast( GunAnimationType animType ) {
-			if( Main.netMode != 1 ) { throw new ModHelpersException( "Not a client." ); }
+			if( Main.netMode != 1 ) { throw new ModLibsException( "Not a client." ); }
 			
-			var protocol = new GunAnimationProtocol( Main.myPlayer, animType );
+			var packet = new GunAnimationProtocol( Main.myPlayer, animType );
 
-			NetIO.Broadcast( protocol );
+			SimplePacket.SendToServer( packet );
 		}
 
 
@@ -45,21 +44,22 @@ namespace TheMadRanger.NetProtocols {
 			this.AnimType = (int)animType;
 		}
 
+
 		////////////////
 
-		public override bool ReceiveOnServerBeforeRebroadcast( int fromWho ) {
+		public override void ReceiveOnServer( int fromWho ) {
 			Player plr = Main.player[this.PlayerWho];
-			var otherplr = TmlHelpers.SafelyGetModPlayer<TMRPlayer>( plr );
+			var otherplr = TmlLibraries.SafelyGetModPlayer<TMRPlayer>( plr );
 			GunAnimationType animType = (GunAnimationType)this.AnimType;
 
 			Item gun = plr.HeldItem;
 			if( gun?.active != true ) {
-				return true;
+				return;
 			}
 
 			var mygun = gun.modItem as TheMadRangerItem;
 			if( mygun == null ) {
-				return true;
+				return;
 			}
 
 			switch( animType ) {
@@ -74,12 +74,12 @@ namespace TheMadRanger.NetProtocols {
 				//	break;
 			}
 
-			return true;
+			SimplePacket.SendToClient( this, -1, fromWho );
 		}
 
-		public override void ReceiveBroadcastOnClient() {
+		public override void ReceiveOnClient() {
 			Player plr = Main.player[this.PlayerWho];
-			var otherplr = TmlHelpers.SafelyGetModPlayer<TMRPlayer>( plr );
+			var otherplr = TmlLibraries.SafelyGetModPlayer<TMRPlayer>( plr );
 			GunAnimationType animType = (GunAnimationType)this.AnimType;
 
 			Item gun = plr.HeldItem;

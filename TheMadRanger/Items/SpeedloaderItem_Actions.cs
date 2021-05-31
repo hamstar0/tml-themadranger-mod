@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using HamstarHelpers.Helpers.Audio;
-using HamstarHelpers.Services.Timers;
+using ModLibsCore.Services.Timers;
+using ModLibsGeneral.Libraries.Audio;
 using TheMadRanger.Items.Weapons;
 
 
@@ -57,7 +57,7 @@ namespace TheMadRanger.Items {
 				return false;
 			}
 
-			SoundHelpers.PlaySound( TMRMod.Instance, "RevolverReloadBegin", player.Center, 0.5f );
+			SoundLibraries.PlaySound( TMRMod.Instance, "RevolverReloadBegin", player.Center, 0.5f );
 
 			int duration = TMRConfig.Instance.Get<int>( nameof(TMRConfig.SpeedloaderLoadTickDuration) );
 			Timers.SetTimer( timerName, duration, false, () => {
@@ -73,7 +73,7 @@ namespace TheMadRanger.Items {
 		public void TransferRoundsOut( Player player ) {
 			this.LoadedRounds = 0;
 
-			SoundHelpers.PlaySound( TMRMod.Instance, "RevolverReloadRound", player.Center, 0.5f );
+			SoundLibraries.PlaySound( TMRMod.Instance, "RevolverReloadRound", player.Center, 0.5f );
 		}
 	}
 }

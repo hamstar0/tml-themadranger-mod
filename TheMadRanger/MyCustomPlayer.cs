@@ -1,11 +1,11 @@
 ﻿using System;
 using Terraria;
 using Terraria.ID;
-using HamstarHelpers.Classes.Errors;
-using HamstarHelpers.Classes.PlayerData;
-using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Services.Network;
-using HamstarHelpers.Services.Messages.Inbox;
+using ModLibsCore.Classes.Errors;
+using ModLibsCore.Classes.PlayerData;
+using ModLibsCore.Libraries.Debug;
+using ModLibsNet.Services.Network;
+using ModLibsInterMod.Libraries.Mods.APIMirrors.ModHelpersAPIMirrors;
 
 
 namespace TheMadRanger {
@@ -17,12 +17,12 @@ namespace TheMadRanger {
 			if( !isCurrentPlayer ) {
 				return;
 			}
-
+			
 			if( Main.netMode == NetmodeID.MultiplayerClient ) {
-				Client.StartBroadcastingMyCursorPosition();
+				ClientCursorData.StartBroadcastingMyCursorPosition();
 			}
-
-			InboxMessages.SetMessage(
+			
+			InboxAPIMirrorsLibraries.SetMessage(
 				"TheMadRangerInfo",
 				"Want more control over gun reloading? Be sure to bind a key for reloading. Also see the mod's configs for more options.",
 				false
@@ -31,7 +31,7 @@ namespace TheMadRanger {
 
 		protected override object OnExit() {
 			if( Main.netMode == 1 && this.PlayerWho == Main.myPlayer ) {
-				Client.StopBroadcastingMyCursorPosition();
+				ClientCursorData.StopBroadcastingMyCursorPosition();
 			}
 			return base.OnExit();
 		}

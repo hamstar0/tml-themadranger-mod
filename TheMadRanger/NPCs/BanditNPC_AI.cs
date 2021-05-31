@@ -1,7 +1,7 @@
 ﻿using System;
 using Terraria;
 using Terraria.ModLoader;
-using HamstarHelpers.Helpers.Debug;
+using ModLibsCore.Libraries.Debug;
 
 
 namespace TheMadRanger.NPCs {
@@ -17,7 +17,7 @@ namespace TheMadRanger.NPCs {
 		}
 
 		public override void AI() {
-			//DebugHelpers.Print( "ai", string.Join(", ", this.npc.ai) );
+			//DebugLibraries.Print( "ai", string.Join(", ", this.npc.ai) );
 			this.AI_CheckRetreatIf();
 		}
 

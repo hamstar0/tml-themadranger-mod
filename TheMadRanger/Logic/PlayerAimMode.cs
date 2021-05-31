@@ -2,15 +2,15 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Utilities;
-using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.TModLoader;
+using ModLibsCore.Libraries.Debug;
+using ModLibsCore.Libraries.TModLoader;
 
 
 namespace TheMadRanger.Logic {
 	partial class PlayerAimMode {
 		public static float ComputeAimShakeRadiansOffsetWithinCone() {
 			var config = TMRConfig.Instance;
-			UnifiedRandom rand = TmlHelpers.SafelyGetRand();
+			UnifiedRandom rand = TmlLibraries.SafelyGetRand();
 			float radRange = MathHelper.ToRadians( config.Get<float>( nameof(TMRConfig.UnaimedConeDegreesRange) ) );
 
 			return (rand.NextFloat() * radRange) - (radRange * 0.5f);
@@ -124,7 +124,7 @@ namespace TheMadRanger.Logic {
 			}
 
 			var config = TMRConfig.Instance;
-			UnifiedRandom rand = TmlHelpers.SafelyGetRand();
+			UnifiedRandom rand = TmlLibraries.SafelyGetRand();
 			float maxAimDmg = config.Get<int>( nameof(TMRConfig.MaximumAimedGunDamage) );
 			float minUnaimDmg = config.Get<int>( nameof(TMRConfig.MinimumUnaimedGunDamage) );
 			float maxUnaimDmg = config.Get<int>( nameof(TMRConfig.MaximumUnaimedGunDamage) );

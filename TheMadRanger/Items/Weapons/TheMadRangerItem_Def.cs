@@ -3,11 +3,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.Players;
+using ModLibsCore.Libraries.Debug;
+using ModLibsGeneral.Libraries.Players;
+using ModLibsGeneral.Libraries.Items.Attributes;
 using TheMadRanger.Recipes;
 using TheMadRanger.Items.Accessories;
-using HamstarHelpers.Helpers.Items.Attributes;
 
 
 namespace TheMadRanger.Items.Weapons {
@@ -51,10 +51,10 @@ namespace TheMadRanger.Items.Weapons {
 
 			if( config.Get<bool>( nameof(TMRConfig.BandolierNeededToReload) ) ) {
 				int bandolierType = ModContent.ItemType<BandolierItem>();
-				int max = PlayerItemHelpers.VanillaAccessorySlotFirst
-					+ PlayerItemHelpers.GetCurrentVanillaMaxAccessories( player );
+				int max = PlayerItemLibraries.VanillaAccessorySlotFirst
+					+ PlayerItemLibraries.GetCurrentVanillaMaxAccessories( player );
 
-				for( int i = PlayerItemHelpers.VanillaAccessorySlotFirst; i < max; i++ ) {
+				for( int i = PlayerItemLibraries.VanillaAccessorySlotFirst; i < max; i++ ) {
 					Item item = player.armor[i];
 					if( item == null || item.IsAir || item.type != bandolierType ) {
 						continue;
@@ -181,14 +181,14 @@ namespace TheMadRanger.Items.Weapons {
 				string dmgText = "Damage reduced against larger targets ("+dmgPer32+" per 32 in. sqr. area)";
 				var tip = new TooltipLine( this.mod, "TMRDamagePer32", dmgText );
 
-				ItemInformationAttributeHelpers.ApplyTooltipAt( tooltips, tip, VanillaTooltipName.Damage, true );
+				ItemInformationAttributeLibraries.ApplyTooltipAt( tooltips, tip, VanillaTooltipName.Damage, true );
 			}
 
 			if( dmgMulForBoss != 1f ) {
 				string dmgText = "Damage scaled to "+(int)(dmgMulForBoss * 100f)+"% against bosses";
 				var tip = new TooltipLine( this.mod, "TMRDamagePerBoss", dmgText );
 
-				ItemInformationAttributeHelpers.ApplyTooltipAt( tooltips, tip, VanillaTooltipName.Damage, true );
+				ItemInformationAttributeLibraries.ApplyTooltipAt( tooltips, tip, VanillaTooltipName.Damage, true );
 			}
 		}
 
@@ -201,7 +201,7 @@ namespace TheMadRanger.Items.Weapons {
 			}
 
 			if( TMRConfig.Instance.DebugModeInfo ) {
-				DebugHelpers.Print( "cylinder", this.CurrentCylinderSlot + " = " + string.Join(", ", this.Cylinder) );
+				DebugLibraries.Print( "cylinder", this.CurrentCylinderSlot + " = " + string.Join(", ", this.Cylinder) );
 			}
 		}
 	}

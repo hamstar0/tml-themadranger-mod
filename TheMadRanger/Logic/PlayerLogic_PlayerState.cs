@@ -1,6 +1,6 @@
 ﻿using System;
 using Terraria;
-using HamstarHelpers.Helpers.Debug;
+using ModLibsCore.Libraries.Debug;
 
 
 namespace TheMadRanger.Logic {

@@ -5,8 +5,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
-using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.Players;
+using ModLibsCore.Libraries.Debug;
+using ModLibsGeneral.Libraries.Players;
 
 
 namespace TheMadRanger {
@@ -43,7 +43,7 @@ namespace TheMadRanger {
 
 			if( plr.body > 0 && (!plr.invis || (plr.body != 21 && plr.body != 22)) ) {
 				int bodyFrameXOffset = 0;
-				if( !PlayerAppearanceHelpers.IsPlayerBackSlotFilled(plr) && plr.back > 0 && !plr.mount.Active && plr.front >= 1 ) {
+				if( !PlayerAppearanceLibraries.IsPlayerBackSlotFilled(plr) && plr.back > 0 && !plr.mount.Active && plr.front >= 1 ) {
 					int bodyFrameIdx = plrBodyFrame.Y / 56;
 					if( bodyFrameIdx < 1 || bodyFrameIdx > 5 ) {
 						bodyFrameXOffset = 10;

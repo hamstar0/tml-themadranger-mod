@@ -1,7 +1,7 @@
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
-using HamstarHelpers.Helpers.Audio;
+using ModLibsGeneral.Libraries.Audio;
 
 
 namespace TheMadRanger.Items.Weapons {
@@ -22,11 +22,11 @@ namespace TheMadRanger.Items.Weapons {
 		////////////////
 
 		public void OpenCylinder( Player player ) {
-			SoundHelpers.PlaySound( TMRMod.Instance, "RevolverReloadBegin", player.Center, 0.5f );
+			SoundLibraries.PlaySound( TMRMod.Instance, "RevolverReloadBegin", player.Center, 0.5f );
 		}
 
 		public void CloseCylinder( Player player ) {
-			SoundHelpers.PlaySound( TMRMod.Instance, "RevolverDryFire", player.Center, 0.2f );
+			SoundLibraries.PlaySound( TMRMod.Instance, "RevolverDryFire", player.Center, 0.2f );
 		}
 
 
@@ -61,7 +61,7 @@ namespace TheMadRanger.Items.Weapons {
 					hasInserted = true;
 
 					if( playSound ) {
-						SoundHelpers.PlaySound( TMRMod.Instance, "RevolverReloadRound", player.Center, 0.5f );
+						SoundLibraries.PlaySound( TMRMod.Instance, "RevolverReloadRound", player.Center, 0.5f );
 					}
 
 					break;

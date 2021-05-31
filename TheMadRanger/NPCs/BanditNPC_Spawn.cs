@@ -2,8 +2,8 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.World;
+using ModLibsCore.Libraries.Debug;
+using ModLibsGeneral.Libraries.World;
 
 
 namespace TheMadRanger.NPCs {
@@ -15,7 +15,7 @@ namespace TheMadRanger.NPCs {
 			if( Main.eclipse || !Main.dayTime ) {
 				return 0f;
 			}
-			if( spawnInfo.sky || spawnInfo.spawnTileY > WorldHelpers.SurfaceLayerBottomTileY ) {
+			if( spawnInfo.sky || spawnInfo.spawnTileY > WorldLocationLibraries.SurfaceLayerBottomTileY ) {
 				return 0f;
 			}
 

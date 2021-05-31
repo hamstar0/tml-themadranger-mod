@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
-using HamstarHelpers.Services.Network;
+using ModLibsNet.Services.Network;
 using TheMadRanger.Logic;
 
 
@@ -43,13 +43,13 @@ namespace TheMadRanger {
 		public override void ModifyDrawLayers( List<PlayerLayer> layers ) {
 			if( PlayerLogic.IsUsingHeldGun( this.player ) ) {
 				(bool isAimWithinArc, int aimDir) aim;
-
+				
 				if( this.player.whoAmI == Main.myPlayer ) {
 					aim = PlayerLogic.ApplyGunAim( this, Main.mouseX, Main.mouseY );
 				} else {
 					(int x, int y) cursor;
-					if( Client.LastKnownCursorPositions.ContainsKey(this.player.whoAmI) ) {
-						cursor = Client.LastKnownCursorPositions[ this.player.whoAmI ];
+					if( ClientCursorData.LastKnownCursorPositions.ContainsKey(this.player.whoAmI) ) {
+						cursor = ClientCursorData.LastKnownCursorPositions[ this.player.whoAmI ];
 					} else {
 						cursor = ((int)this.player.MountedCenter.X, (int)this.player.MountedCenter.Y);
 						cursor.x += this.player.direction * 256;

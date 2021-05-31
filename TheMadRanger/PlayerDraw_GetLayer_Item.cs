@@ -6,8 +6,8 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.DataStructures;
-using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.DotNET.Reflection;
+using ModLibsCore.Libraries.Debug;
+using ModLibsCore.Libraries.DotNET.Reflection;
 
 
 namespace TheMadRanger {
@@ -59,7 +59,7 @@ namespace TheMadRanger {
 			Color itemLight = PlayerDraw.GetItemLightColor( plr, plrLight );
 
 			Vector2 itemScrPos;
-			ReflectionHelpers.RunMethod(
+			ReflectionLibraries.RunMethod(
 				Main.instance,
 				"DrawPlayerItemPos",
 				new object[] { plr.gravDir, plr.HeldItem.type },

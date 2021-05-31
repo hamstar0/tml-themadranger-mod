@@ -1,8 +1,8 @@
 ﻿using System;
 using Terraria;
-using HamstarHelpers.Classes.Loadable;
-using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.HUD;
+using ModLibsCore.Classes.Loadable;
+using ModLibsCore.Libraries.Debug;
+using ModLibsGeneral.Libraries.HUD;
 
 
 namespace TheMadRanger.HUD {
@@ -36,7 +36,7 @@ namespace TheMadRanger.HUD {
 			/*if( Main.InGameUI.CurrentState != null ) {
 				return false;
 			}*/
-			if( HUDHelpers.IsMouseInterfacingWithUI ) { //Main.LocalPlayer.mouseInterface
+			if( HUDLibraries.IsMouseInterfacingWithUI ) { //Main.LocalPlayer.mouseInterface
 				return false;
 			}
 

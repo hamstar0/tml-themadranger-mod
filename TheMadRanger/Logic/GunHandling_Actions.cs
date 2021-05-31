@@ -1,7 +1,7 @@
 ﻿using System;
 using Terraria;
-using HamstarHelpers.Helpers.Audio;
-using HamstarHelpers.Helpers.Debug;
+using ModLibsCore.Libraries.Debug;
+using ModLibsGeneral.Libraries.Audio;
 using TheMadRanger.Items.Weapons;
 using TheMadRanger.Items;
 
@@ -58,7 +58,7 @@ namespace TheMadRanger.Logic {
 				return;
 			}
 
-			SoundHelpers.PlaySound( TMRMod.Instance, "RevolverTwirl", plr.Center, 0.65f );
+			SoundLibraries.PlaySound( TMRMod.Instance, "RevolverTwirl", plr.Center, 0.65f );
 		}
 
 

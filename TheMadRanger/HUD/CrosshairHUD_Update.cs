@@ -1,6 +1,6 @@
 using System;
 using Terraria;
-using HamstarHelpers.Classes.Loadable;
+using ModLibsCore.Classes.Loadable;
 
 
 namespace TheMadRanger.HUD {
