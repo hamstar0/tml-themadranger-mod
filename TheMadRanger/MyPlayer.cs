@@ -121,7 +121,7 @@ namespace TheMadRanger {
 
 				if( this.GunHandling.BeginReload(this.player, mygun) ) {
 					if( Main.netMode == NetmodeID.MultiplayerClient && this.player.whoAmI == Main.myPlayer ) {
-						GunAnimationProtocol.Broadcast( GunAnimationType.Reload );
+						GunAnimationPacket.Broadcast( GunAnimationType.Reload );
 					}
 				}
 			}

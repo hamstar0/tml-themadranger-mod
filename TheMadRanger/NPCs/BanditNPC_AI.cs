@@ -1,7 +1,9 @@
 ﻿using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using ModLibsCore.Libraries.Debug;
+using TheMadRanger.NetProtocols;
 
 
 namespace TheMadRanger.NPCs {
@@ -38,6 +40,11 @@ namespace TheMadRanger.NPCs {
 
 			this.HasAttemptedRetreat = true;
 			this.IsRetreatingNow = true;
+
+			if( Main.netMode == NetmodeID.Server ) {
+				BanditRetreatPacket.BroadcastToClients( this.npc.whoAmI );
+			}
+
 			return true;
 		}
 	}

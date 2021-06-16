@@ -39,7 +39,7 @@ namespace TheMadRanger.Logic {
 			}
 
 			if( Main.netMode == NetmodeID.MultiplayerClient && myplayer.player.whoAmI == Main.myPlayer ) {
-				GunAnimationProtocol.Broadcast( GunAnimationType.Holster );
+				GunAnimationPacket.Broadcast( GunAnimationType.Holster );
 			}
 		}
 

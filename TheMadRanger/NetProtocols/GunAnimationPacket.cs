@@ -17,11 +17,11 @@ namespace TheMadRanger.NetProtocols {
 
 
 	[Serializable]
-	class GunAnimationProtocol : SimplePacketPayload {
+	class GunAnimationPacket : SimplePacketPayload {
 		public static void Broadcast( GunAnimationType animType ) {
 			if( Main.netMode != 1 ) { throw new ModLibsException( "Not a client." ); }
 			
-			var packet = new GunAnimationProtocol( Main.myPlayer, animType );
+			var packet = new GunAnimationPacket( Main.myPlayer, animType );
 
 			SimplePacket.SendToServer( packet );
 		}
@@ -37,9 +37,9 @@ namespace TheMadRanger.NetProtocols {
 
 		////////////////
 
-		private GunAnimationProtocol() { }
+		private GunAnimationPacket() { }
 
-		private GunAnimationProtocol( int playerWho, GunAnimationType animType ) {
+		private GunAnimationPacket( int playerWho, GunAnimationType animType ) {
 			this.PlayerWho = playerWho;
 			this.AnimType = (int)animType;
 		}

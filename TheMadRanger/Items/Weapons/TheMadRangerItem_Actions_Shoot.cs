@@ -48,7 +48,7 @@ namespace TheMadRanger.Items.Weapons {
 				if( wantsReload ) {
 					if( myplayer.GunHandling.BeginReload( player, this ) ) {
 						if( Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer ) {
-							GunAnimationProtocol.Broadcast( GunAnimationType.Reload );
+							GunAnimationPacket.Broadcast( GunAnimationType.Reload );
 						}
 					}
 				} else {
