@@ -1,15 +1,30 @@
 ﻿using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using ModLibsCore.Classes.Errors;
 using ModLibsCore.Classes.PlayerData;
 using ModLibsCore.Libraries.Debug;
 using ModLibsNet.Services.Network;
-using ModLibsInterMod.Libraries.Mods.APIMirrors.ModHelpersAPIMirrors;
 
 
 namespace TheMadRanger {
 	class TMRCustomPlayer : CustomPlayerData {
+		private static void MessageAboutReloadKey() {
+			Messages.MessagesAPI.AddMessage(
+				title: "Reminder: Bind your gun's reload key",
+				description: "Want more control over gun reloading? Be sure to bind it to a key. "
+					+"Also see the mod's configs for more options.",
+				modOfOrigin: TMRMod.Instance,
+				id: "TheMadRangerInfo",
+				parentMessage: Messages.MessagesAPI.ModInfoCategoryMsg
+			);
+		}
+
+
+
+		////////////////
+
 		protected TMRCustomPlayer() { }
 
 
@@ -21,12 +36,10 @@ namespace TheMadRanger {
 			if( Main.netMode == NetmodeID.MultiplayerClient ) {
 				ClientCursorData.StartBroadcastingMyCursorPosition();
 			}
-			
-			InboxAPIMirrorsLibraries.SetMessage(
-				"TheMadRangerInfo",
-				"Want more control over gun reloading? Be sure to bind a key for reloading. Also see the mod's configs for more options.",
-				false
-			);
+
+			if( ModLoader.GetMod("Messages") != null ) {
+				TMRCustomPlayer.MessageAboutReloadKey();
+			}
 		}
 
 		protected override object OnExit() {

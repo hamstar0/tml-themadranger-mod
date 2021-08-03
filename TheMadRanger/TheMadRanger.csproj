@@ -14,6 +14,9 @@
     <Reference Include="HUDElementsLib">
       <HintPath>..\..\..\HUD Elements Lib\Project\HUDElementsLib\bin\Release\net45\HUDElementsLib.dll</HintPath>
     </Reference>
+    <Reference Include="Messages">
+      <HintPath>..\..\..\Messages\Project\Messages\bin\Release\net452\Messages.dll</HintPath>
+    </Reference>
     <Reference Include="ModLibsCore">
       <HintPath>..\..\..\Mod Libs\Mod Libs Core\Project\ModLibsCore\bin\Release\net452\ModLibsCore.dll</HintPath>
     </Reference>
