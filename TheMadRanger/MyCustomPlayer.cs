@@ -10,7 +10,7 @@ using ModLibsNet.Services.Network;
 
 namespace TheMadRanger {
 	class TMRCustomPlayer : CustomPlayerData {
-		private static void MessageAboutReloadKey() {
+		/*private static void MessageAboutReloadKey() {
 			Messages.MessagesAPI.AddMessagesCategoriesInitializeEvent( () => {
 				Messages.MessagesAPI.AddMessage(
 					title: "Reminder: Bind your gun's reload key",
@@ -21,7 +21,7 @@ namespace TheMadRanger {
 					parentMessage: Messages.MessagesAPI.ModInfoCategoryMsg
 				);
 			} );
-		}
+		}*/
 
 
 
@@ -39,9 +39,9 @@ namespace TheMadRanger {
 				ClientCursorData.StartBroadcastingMyCursorPosition();
 			}
 
-			if( ModLoader.GetMod("Messages") != null ) {
+			/*if( ModLoader.GetMod("Messages") != null ) {
 				TMRCustomPlayer.MessageAboutReloadKey();
-			}
+			}*/
 		}
 
 		protected override object OnExit() {
