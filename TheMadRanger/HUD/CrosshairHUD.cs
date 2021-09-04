@@ -7,7 +7,7 @@ using ModLibsGeneral.Libraries.HUD;
 
 namespace TheMadRanger.HUD {
 	partial class CrosshairHUD : ILoadable {
-		public const float CrosshairDurationTicksMax = 7f;
+		public const float CrosshairDurationTicksMax = 5f;
 
 
 
