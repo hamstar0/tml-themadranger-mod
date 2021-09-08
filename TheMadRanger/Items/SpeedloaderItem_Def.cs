@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,8 +9,8 @@ using TheMadRanger.Recipes;
 
 namespace TheMadRanger.Items {
 	public partial class SpeedloaderItem : ModItem {
-		public static int Width = 10;
-		public static int Height = 10;
+		public static int Width = 7;
+		public static int Height = 7;
 
 
 
@@ -78,6 +79,17 @@ namespace TheMadRanger.Items {
 			};
 
 			return tag;
+		}
+
+
+		////////////////
+
+		public override void NetRecieve( BinaryReader reader ) {
+			this.LoadedRounds = reader.ReadInt32();
+		}
+
+		public override void NetSend( BinaryWriter writer ) {
+			writer.Write( (int)this.LoadedRounds );
 		}
 
 
