@@ -1,6 +1,6 @@
 displayName = The Mad Ranger
 author = hamstar
-version = 1.9.2
+version = 1.9.2.1
 modReferences = ModLibsCore@1.2.0, ModLibsGeneral@1.2.0, ModLibsNet@1.0.0, HUDElementsLib@3.0.0
 buildIgnore = *.csproj, *.user, *.bat, obj\*, bin\*, .vs\*, .git\*
 homepage = https://github.com/hamstar0/tml-themadranger-mod

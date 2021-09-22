@@ -36,6 +36,15 @@ namespace TheMadRanger.Items {
 
 		////////////////
 
+		/*public override ModItem NewInstance( Item itemClone ) {
+			SpeedloaderItem inst = base.NewInstance( itemClone ) as SpeedloaderItem;
+			inst.LoadedRounds = this.LoadedRounds;
+			return inst;
+		}*/
+
+
+		////////////////
+
 		public override void SetStaticDefaults() {
 			this.DisplayName.SetDefault( ".357 Speedloader" );
 			this.Tooltip.SetDefault(

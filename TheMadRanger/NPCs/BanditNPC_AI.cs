@@ -15,6 +15,9 @@ namespace TheMadRanger.NPCs {
 
 			this.PreAI_ApplyRetreatEffectsIf();
 
+			var config = TMRConfig.Instance;
+			npc.damage = config.Get<int>( nameof(config.BanditContactDamage) );
+
 			return isRetreat;
 		}
 

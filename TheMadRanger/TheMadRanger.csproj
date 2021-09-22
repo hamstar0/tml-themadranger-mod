@@ -12,7 +12,7 @@
   </Target>
   <ItemGroup>
     <Reference Include="HUDElementsLib">
-      <HintPath>..\..\..\HUD Elements Lib\Project\HUDElementsLib\bin\Release\net45\HUDElementsLib.dll</HintPath>
+      <HintPath>..\..\..\HUD Elements Lib\Project\HUDElementsLib\bin\Release\net452\HUDElementsLib.dll</HintPath>
     </Reference>
     <Reference Include="Messages">
       <HintPath>..\..\..\Messages\Project\Messages\bin\Release\net452\Messages.dll</HintPath>
