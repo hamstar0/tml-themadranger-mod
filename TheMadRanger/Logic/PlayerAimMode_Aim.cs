@@ -39,7 +39,7 @@ namespace TheMadRanger.Logic {
 			float aimMoveBuildup = config.Get<float>( nameof(config.AimModeOnPlayerMoveBuildupAmount) );
 
 			// Player is moving
-			if( config.DebugModeInfo ) {
+			if( config.DebugModeGunInfo ) {
 				DebugLibraries.Print( "aim_move", "aim%: "
 					+ ( this.AimPercent * 100f ).ToString( "N0" )
 					+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
@@ -66,7 +66,7 @@ namespace TheMadRanger.Logic {
 
 			float aimBuildupAmt = config.Get<float>( nameof(config.AimModeOnMouseMoveBuildupAmount) );
 
-			if( config.DebugModeInfo ) {
+			if( config.DebugModeGunInfo ) {
 				DebugLibraries.Print( "aim_mouse", "aim%: "
 					+ ( this.AimPercent * 100f ).ToString( "N0" )
 					+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
@@ -87,7 +87,7 @@ namespace TheMadRanger.Logic {
 			float aimIdleBuildup = config.Get<float>( nameof(config.AimModeOnIdleBuildupAmount) );
 
 			if( this.AimElapsed < activationThreshold ) {
-				if( config.DebugModeInfo ) {
+				if( config.DebugModeGunInfo ) {
 					DebugLibraries.Print( "aim_idle", "aim%: "
 						+ ( this.AimPercent * 100f ).ToString( "N0" )
 						+ " (" + this.AimElapsed.ToString( "N1" ) + "), "

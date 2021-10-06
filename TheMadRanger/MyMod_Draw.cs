@@ -44,7 +44,7 @@ namespace TheMadRanger {
 			GameInterfaceDrawMethod draw = () => {
 				crosshairHUD.DrawIf( Main.spriteBatch, this.HUDData );
 
-				if( TMRConfig.Instance.DebugModeInfo ) {
+				if( TMRConfig.Instance.DebugModeGunInfo ) {
 					this.DrawDebugLine();
 				}
 				return true;

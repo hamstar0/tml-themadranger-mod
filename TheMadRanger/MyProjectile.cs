@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TheMadRanger.NetProtocols;
 using TheMadRanger.NPCs;
 
 
@@ -17,7 +18,9 @@ namespace TheMadRanger {
 
 		////////////////
 
-		private bool IsBanditShot = false;
+		public bool IsBanditShot { get; internal set; } = false;
+
+		public bool IsBanditShotSynced { get; private set; } = false;
 
 
 
@@ -33,6 +36,19 @@ namespace TheMadRanger {
 		////////////////
 
 		public override bool PreAI( Projectile projectile ) {
+			if( this.IsBanditShot ) {
+				if( Main.netMode == NetmodeID.Server ) {
+					if( !this.IsBanditShotSynced ) {
+						int idx = Array.IndexOf( Main.projectile, projectile );
+						if( idx != -1 ) {
+							this.IsBanditShotSynced = true;
+
+							BanditBulletSyncPacket.SendToClient( idx );
+						}
+					}
+				}
+			}
+
 			if( projectile.type == ProjectileID.Bullet && !projectile.npcProj ) {
 				if( !this.IsFiredFromRevolver.HasValue ) {
 					this.InitializeTMRBulletIf( projectile );
@@ -44,7 +60,7 @@ namespace TheMadRanger {
 
 
 		////////////////
-
+		
 		public override void ModifyHitNPC( Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection ) {
 			if( this.IsBanditShot ) {
 				var config = TMRConfig.Instance;

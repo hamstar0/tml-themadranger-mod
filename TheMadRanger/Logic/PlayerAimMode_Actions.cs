@@ -55,7 +55,7 @@ namespace TheMadRanger.Logic {
 					this.AimElapsed = max;
 				}
 
-				if( TMRConfig.Instance.DebugModeInfo ) {
+				if( TMRConfig.Instance.DebugModeGunInfo ) {
 					DebugLibraries.Print( "aim_hit", "aim%: "
 						+ ( this.AimPercent * 100f ).ToString( "N0" )
 						+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
@@ -81,7 +81,7 @@ namespace TheMadRanger.Logic {
 				this.AimElapsed = 0f;
 			}
 
-			if( config.DebugModeInfo ) {
+			if( config.DebugModeGunInfo ) {
 				DebugLibraries.Print( "aim_miss", "aim%: "
 					+ (this.AimPercent * 100f).ToString( "N0" )
 					+ " (" + this.AimElapsed.ToString( "N1" ) + "), "

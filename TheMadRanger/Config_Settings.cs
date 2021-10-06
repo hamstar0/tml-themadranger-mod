@@ -5,8 +5,9 @@ using Terraria.ModLoader.Config;
 
 namespace TheMadRanger {
 	public partial class TMRConfig : ModConfig {
-		[DefaultValue( false )]
-		public bool DebugModeInfo { get; set; } = false;
+		public bool DebugModeGunInfo { get; set; } = false;
+
+		public bool DebugModeBanditInfo { get; set; } = false;
 
 		//
 
