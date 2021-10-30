@@ -31,9 +31,9 @@ namespace TheMadRanger.Logic {
 
 		public bool IsModeActivating => this.AimElapsed > 0 && this.AimElapsed >= this.PrevAimElapsed;
 
-		public bool IsAttemptingModeLock => Main.mouseRight && !this.IsQuickDrawActive;
+		public bool IsAttemptingModeLock_LocalOnly => Main.mouseRight && !this.IsQuickDrawActive;
 
-		public bool IsModeLocked => this.IsModeActive && this.IsAttemptingModeLock;
+		public bool IsModeLocked_LocalOnly => this.IsModeActive && this.IsAttemptingModeLock_LocalOnly;
 
 		////
 
@@ -92,7 +92,7 @@ namespace TheMadRanger.Logic {
 				return;
 			}
 
-			this.UpdateEquippedAimStateValue( plr );
+			this.UpdateEquippedAimStateValueIf( plr );
 		}
 
 		public void UpdateUnequippedAimState() {

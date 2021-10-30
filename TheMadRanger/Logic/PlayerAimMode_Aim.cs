@@ -6,23 +6,29 @@ using ModLibsCore.Libraries.Debug;
 
 namespace TheMadRanger.Logic {
 	partial class PlayerAimMode {
-		private void UpdateEquippedAimStateValue( Player plr ) {
-			if( this.IsModeLocked ) {
-				return;
+		private bool UpdateEquippedAimStateValueIf( Player player ) {
+			if( player.whoAmI != Main.myPlayer ) {
+				return false;
 			}
 
-			bool isAimingLocked = this.IsAttemptingModeLock;
+			if( this.IsModeLocked_LocalOnly ) {
+				return false;
+			}
+
+			bool isAimingLocked = this.IsAttemptingModeLock_LocalOnly;
 			bool isPlrMoving = false;
 			bool isMouseMoving = false;
 
 			if( !isAimingLocked ) {
-				isPlrMoving = this.UpdateEquippedAimStateValueForPlayerMovement( plr );
-				isMouseMoving = this.UpdateEquippedAimStateValueForMouseMovement();
+				isPlrMoving = this.UpdateEquippedAimStateValueForPlayerMovementIf( player );
+				isMouseMoving = this.UpdateEquippedAimStateValueForMouseMovementIf( player );
 			}
 
 			if( isAimingLocked || (!isPlrMoving && !isMouseMoving) ) {
 				this.UpdateEquippedAimStateValueForPlayerIdle();
 			}
+
+			return true;
 		}
 
 
@@ -30,7 +36,7 @@ namespace TheMadRanger.Logic {
 
 		/// <summary></summary>
 		/// <returns>`true` on player movement.</returns>
-		private bool UpdateEquippedAimStateValueForPlayerMovement( Player plr ) {
+		private bool UpdateEquippedAimStateValueForPlayerMovementIf( Player plr ) {
 			if( plr.velocity.LengthSquared() <= 1f ) {
 				return false;
 			}
@@ -53,7 +59,11 @@ namespace TheMadRanger.Logic {
 
 		/// <summary></summary>
 		/// <returns>`true` on mouse movement.</returns>
-		private bool UpdateEquippedAimStateValueForMouseMovement() {
+		private bool UpdateEquippedAimStateValueForMouseMovementIf( Player player ) {
+			if( player.whoAmI != Main.myPlayer ) {
+				return false;	// TODO?
+			}
+
 			var config = TMRConfig.Instance;
 			var mousePos = new Vector2( Main.mouseX, Main.mouseY );
 			float mouseThreshSqr = config.Get<float>( nameof(config.AimModeMouseMoveThreshold) );

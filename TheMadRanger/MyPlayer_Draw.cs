@@ -9,8 +9,12 @@ using TheMadRanger.Logic;
 namespace TheMadRanger {
 	partial class TMRPlayer : ModPlayer {
 		public override void FrameEffects() {
-			if( PlayerLogic.IsUsingHeldGun( this.player ) ) {
-				int dir = ( Main.MouseWorld.X > this.player.Center.X ).ToDirectionInt();
+			if( this.player.whoAmI != Main.myPlayer ) {
+				return;
+			}
+
+			if( PlayerLogic.IsUsingHeldGun(this.player) ) {
+				int dir = (Main.MouseWorld.X > this.player.Center.X).ToDirectionInt();
 				this.player.ChangeDir( dir );
 			}
 		}
@@ -41,7 +45,7 @@ namespace TheMadRanger {
 		////////////////
 
 		public override void ModifyDrawLayers( List<PlayerLayer> layers ) {
-			if( PlayerLogic.IsUsingHeldGun( this.player ) ) {
+			if( PlayerLogic.IsUsingHeldGun(this.player) ) {
 				(bool isAimWithinArc, int aimDir) aim;
 				
 				if( this.player.whoAmI == Main.myPlayer ) {

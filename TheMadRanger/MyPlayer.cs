@@ -82,7 +82,7 @@ namespace TheMadRanger {
 			}
 
 			if( PlayerLogic.UpdateCurrentHeldGunItemState(this, this.InventorySlotOfPreviousHeldItem) ) {
-				PlayerLogic.UpdatePlayerStateForAimMode( this );
+				PlayerLogic.UpdatePlayerStateForAimModeIf( this );
 			}
 
 			if( this.InventorySlotOfPreviousHeldItem != this.player.selectedItem ) {

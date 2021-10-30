@@ -5,11 +5,15 @@ using ModLibsCore.Libraries.Debug;
 
 namespace TheMadRanger.Logic {
 	partial class PlayerLogic {
-		public static void UpdatePlayerStateForAimMode( TMRPlayer myplayer ) {
+		public static bool UpdatePlayerStateForAimModeIf( TMRPlayer myplayer ) {
+			if( myplayer.player.whoAmI != Main.myPlayer ) {
+				return false;
+			}
+
 			PlayerAimMode aimMode = myplayer.AimMode;
 			GunHandling gunHandling = myplayer.GunHandling;
 
-			if( aimMode.IsModeLocked || (aimMode.IsAttemptingModeLock && !gunHandling.IsAnimating) ) {
+			if( aimMode.IsModeLocked_LocalOnly || (aimMode.IsAttemptingModeLock_LocalOnly && !gunHandling.IsAnimating) ) {
 				var config = TMRConfig.Instance;
 				float aimLockMoveSpeed = config.Get<float>( nameof(config.AimModeLockMoveSpeedScale) );
 
@@ -17,6 +21,8 @@ namespace TheMadRanger.Logic {
 				myplayer.player.accRunSpeed = myplayer.player.maxRunSpeed;
 				myplayer.player.moveSpeed *= aimLockMoveSpeed;
 			}
+
+			return true;
 		}
 
 
