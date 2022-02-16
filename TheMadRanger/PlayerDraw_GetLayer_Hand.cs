@@ -10,7 +10,7 @@ using ModLibsCore.Libraries.Debug;
 
 namespace TheMadRanger {
 	partial class PlayerDraw {
-		public static IEnumerable<DrawData> GetPlayerLayerForHand(
+		public static IEnumerable<DrawData> GetPlayerLayerDataForHand(
 					PlayerDrawInfo plrDrawInfo,
 					Color plrLight,
 					Rectangle plrBodyFrame,

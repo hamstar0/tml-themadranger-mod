@@ -40,7 +40,7 @@ namespace TheMadRanger {
 				}
 			};
 			handLayer = ( plrDrawInfo ) => {
-				foreach( DrawData drawData in PlayerDraw.GetPlayerLayerForHand(plrDrawInfo, plrLight, newFrame) ) {
+				foreach( DrawData drawData in PlayerDraw.GetPlayerLayerDataForHand(plrDrawInfo, plrLight, newFrame) ) {
 					Main.playerDrawData.Add( drawData );
 				}
 			};

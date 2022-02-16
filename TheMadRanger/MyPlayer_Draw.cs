@@ -65,6 +65,7 @@ namespace TheMadRanger {
 				if( !this.GunHandling.IsAnimating ) {
 					if( aim.aimDir == this.player.direction || this.GunHandling.RecoilDuration == 0 ) {
 						this.ModifyDrawLayersForGun( layers, true );
+
 						this.player.headPosition.Y += 1;
 					}
 				}

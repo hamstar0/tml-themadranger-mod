@@ -19,9 +19,7 @@ namespace TheMadRanger.HUD {
 
 		////////////////
 
-		protected override void DrawSelf( SpriteBatch sb ) {
-			base.DrawSelf( sb );
-
+		protected override void PostDrawSelf( bool isSelfDrawn, SpriteBatch sb ) {
 			if( AmmoDisplayHUD.CanDrawAmmoDisplay() ) {
 				this.DrawBulletRing( sb );
 			}
@@ -50,6 +48,7 @@ namespace TheMadRanger.HUD {
 				}
 
 				this.DrawBullet(
+					sb: sb,
 					ringCenter: ringCenter,
 					cylinderSlot: i,
 					bulletState: bullets[rotSlot],
@@ -61,7 +60,12 @@ namespace TheMadRanger.HUD {
 		}
 
 
-		private void DrawBullet( Vector2 ringCenter, int cylinderSlot, int bulletState, float opacity ) {  //float aimPercent, bool isReloading
+		private void DrawBullet(
+					SpriteBatch sb,
+					Vector2 ringCenter,
+					int cylinderSlot,
+					int bulletState,
+					float opacity ) {  //float aimPercent, bool isReloading
 			Texture2D tex = TMRMod.Instance.GetTexture( "HUD/bulletbutt" );
 
 			float radians = MathHelper.ToRadians( cylinderSlot * 60 );
@@ -79,7 +83,7 @@ namespace TheMadRanger.HUD {
 			//	}
 			//}
 
-			Main.spriteBatch.Draw(
+			sb.Draw(
 				texture: tex,
 				position: pos,
 				sourceRectangle: null,
