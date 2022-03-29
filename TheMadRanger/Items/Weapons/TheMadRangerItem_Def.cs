@@ -200,7 +200,7 @@ namespace TheMadRanger.Items.Weapons {
 				this.ElapsedTimeSinceLastShotAttempt++;
 			}
 
-			if( TMRConfig.Instance.DebugModeGunInfo ) {
+			if( TMRConfig.Instance.DebugModeGunInfo && player.whoAmI == Main.myPlayer ) {
 				DebugLibraries.Print( "cylinder", this.CurrentCylinderSlot + " = " + string.Join(", ", this.Cylinder) );
 			}
 		}

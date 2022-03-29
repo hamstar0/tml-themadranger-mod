@@ -9,7 +9,7 @@ using ModLibsCore.Libraries.Debug;
 
 namespace TheMadRanger {
 	partial class PlayerDraw {
-		public static bool GetPlayerLayersForItemHolding(
+		public static bool GetPlayerLayersForItemHolding_If(
 					Player plr,
 					int newBodyFrameY,
 					out Action<PlayerDrawInfo> armLayer,
@@ -17,8 +17,14 @@ namespace TheMadRanger {
 					out Action<PlayerDrawInfo> handLayer ) {
 			armLayer = itemLayer = handLayer = null;
 
-			if( plr.frozen || plr.dead ) { return false; }
-			if( plr.HeldItem.IsAir ) { return false; }
+			if( plr.frozen || plr.dead ) {
+				return false;
+			}
+			if( plr.HeldItem.IsAir ) {
+				return false;
+			}
+
+			//
 
 			int lightTileX = (int)( ( plr.position.X + ( (float)plr.width * 0.5f ) ) / 16f );
 			int lightTileY = (int)( ( plr.position.Y + ( (float)plr.height * 0.5f ) ) / 16f );
@@ -44,6 +50,7 @@ namespace TheMadRanger {
 					Main.playerDrawData.Add( drawData );
 				}
 			};
+
 			return true;
 		}
 	}

@@ -23,7 +23,7 @@ namespace TheMadRanger.Logic {
 		/// <param name="plr"></param>
 		/// <param name="mygun"></param>
 		/// <returns></returns>
-		public bool BeginReload( Player plr, TheMadRangerItem mygun ) {
+		public bool BeginReload_If( Player plr, TheMadRangerItem mygun ) {
 			if( this.IsReloading ) {
 				return false;
 			}
@@ -35,6 +35,8 @@ namespace TheMadRanger.Logic {
 			if( mygun.IsCylinderFull() ) {
 				return false;
 			}
+
+			//
 
 			mygun.OpenCylinder( plr );
 			this.ReloadDuration = TMRConfig.Instance.Get<int>( nameof(TMRConfig.ReloadInitTickDuration) );

@@ -46,7 +46,7 @@ namespace TheMadRanger.Items.Weapons {
 
 			if( !canShoot ) {
 				if( wantsReload ) {
-					if( myplayer.GunHandling.BeginReload( player, this ) ) {
+					if( myplayer.GunHandling.BeginReload_If( player, this ) ) {
 						if( Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer ) {
 							GunAnimationPacket.Broadcast( GunAnimationType.Reload );
 						}

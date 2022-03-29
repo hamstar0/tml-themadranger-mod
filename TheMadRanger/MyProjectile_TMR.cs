@@ -37,8 +37,12 @@ namespace TheMadRanger {
 			Player plr = Main.player[projectile.owner];
 			if( !plr.active ) { return false; }
 
+			//
+
 			var myplayer = plr.GetModPlayer<TMRPlayer>();
-			myplayer.AimMode.ApplyUnsuccessfulHit( plr );
+			myplayer.AimMode.ApplyUnsuccessfulHit_If( plr );
+
+			//
 
 			this.IsFiredFromRevolver = false;
 			this.IsQuickFiredFromRevolver = false;
@@ -70,6 +74,8 @@ namespace TheMadRanger {
 
 			Player plr = Main.player[projectile.owner];
 			if( !plr.active ) { return; }
+
+			//
 
 			var myplayer = plr.GetModPlayer<TMRPlayer>();
 			myplayer.AimMode.ApplySuccessfulHit( plr );

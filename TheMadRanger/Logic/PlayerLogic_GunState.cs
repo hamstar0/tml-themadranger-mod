@@ -11,7 +11,9 @@ namespace TheMadRanger.Logic {
 	partial class PlayerLogic {
 		public static bool IsHoldingGun( Player player ) {
 			Item heldItem = player.HeldItem;
-			return heldItem?.active == true && heldItem.type == ModContent.ItemType<TheMadRangerItem>();
+
+			return heldItem?.active == true
+				&& heldItem.type == ModContent.ItemType<TheMadRangerItem>();
 		}
 
 		public static bool IsUsingHeldGun( Player player ) {
@@ -27,16 +29,21 @@ namespace TheMadRanger.Logic {
 
 		////////////////
 
-		public static void UpdatePreviousHeldGunItemState( TMRPlayer myplayer, Item prevHeldItem ) {
+		public static void UpdatePreviousHeldGunItemState_If( TMRPlayer myplayer, Item prevHeldItem ) {
 			var mygun = prevHeldItem?.modItem as TheMadRangerItem;
 			if( mygun == null ) {
 				return;
 			}
 
+			//
+
 			if( myplayer.HasAttemptedShotSinceEquip ) {
 				myplayer.HasAttemptedShotSinceEquip = false;
+
 				myplayer.GunHandling.BeginHolster( myplayer.player, mygun );
 			}
+
+			//
 
 			if( Main.netMode == NetmodeID.MultiplayerClient && myplayer.player.whoAmI == Main.myPlayer ) {
 				GunAnimationPacket.Broadcast( GunAnimationType.Holster );
@@ -46,10 +53,16 @@ namespace TheMadRanger.Logic {
 		public static bool UpdateCurrentHeldGunItemState( TMRPlayer myplayer, int inventorySlotOfPrevHeldItem ) {
 			bool canHoldGun = PlayerLogic.IsHoldingGun( myplayer.player );
 
+			//
+
 			myplayer.AimMode.UpdateAimState( myplayer.player );
+
+			//
 
 			if( canHoldGun ) {
 				myplayer.GunHandling.UpdateEquipped( myplayer.player );
+
+				//
 
 				Item prevItem = null;
 				if( inventorySlotOfPrevHeldItem != -1 ) {
@@ -59,10 +72,15 @@ namespace TheMadRanger.Logic {
 				myplayer.AimMode.UpdateEquippedAimState( myplayer.player, prevItem );
 			} else {
 				myplayer.GunHandling.UpdateUnequipped( myplayer.player );
+
 				myplayer.AimMode.UpdateUnequippedAimState();
 			}
 
+			//
+
 			myplayer.GunHandling.UpdateHolsterAnimation( myplayer.player );
+
+			//
 
 			return canHoldGun;
 		}

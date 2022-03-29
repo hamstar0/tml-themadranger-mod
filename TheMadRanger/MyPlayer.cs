@@ -77,12 +77,13 @@ namespace TheMadRanger {
 			if( this.InventorySlotOfPreviousHeldItem != this.player.selectedItem ) {
 				if( this.InventorySlotOfPreviousHeldItem != -1 ) {
 					Item prevItem = this.player.inventory[ this.InventorySlotOfPreviousHeldItem ];
-					PlayerLogic.UpdatePreviousHeldGunItemState( this, prevItem );
+
+					PlayerLogic.UpdatePreviousHeldGunItemState_If( this, prevItem );
 				}
 			}
 
 			if( PlayerLogic.UpdateCurrentHeldGunItemState(this, this.InventorySlotOfPreviousHeldItem) ) {
-				PlayerLogic.UpdatePlayerStateForAimModeIf( this );
+				PlayerLogic.UpdatePlayerStateForAimMode( this );
 			}
 
 			if( this.InventorySlotOfPreviousHeldItem != this.player.selectedItem ) {
@@ -119,7 +120,7 @@ namespace TheMadRanger {
 					return;
 				}
 
-				if( this.GunHandling.BeginReload(this.player, mygun) ) {
+				if( this.GunHandling.BeginReload_If(this.player, mygun) ) {
 					if( Main.netMode == NetmodeID.MultiplayerClient && this.player.whoAmI == Main.myPlayer ) {
 						GunAnimationPacket.Broadcast( GunAnimationType.Reload );
 					}

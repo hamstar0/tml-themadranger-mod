@@ -1,5 +1,6 @@
 ﻿using System;
 using Terraria;
+using Terraria.ID;
 using ModLibsCore.Classes.Errors;
 using ModLibsCore.Libraries.TModLoader;
 using ModLibsCore.Services.Network.SimplePacket;
@@ -16,10 +17,11 @@ namespace TheMadRanger.NetProtocols {
 
 
 
-	[Serializable]
 	class GunAnimationPacket : SimplePacketPayload {
 		public static void Broadcast( GunAnimationType animType ) {
-			if( Main.netMode != 1 ) { throw new ModLibsException( "Not a client." ); }
+			if( Main.netMode != NetmodeID.MultiplayerClient ) {
+				throw new ModLibsException( "Not a client." );
+			}
 			
 			var packet = new GunAnimationPacket( Main.myPlayer, animType );
 
@@ -100,7 +102,7 @@ namespace TheMadRanger.NetProtocols {
 				otherplr.GunHandling.BeginHolster( plr, mygun );
 				break;
 			case GunAnimationType.Reload:
-				otherplr.GunHandling.BeginReload( plr, mygun );
+				otherplr.GunHandling.BeginReload_If( plr, mygun );
 				break;
 			}
 		}

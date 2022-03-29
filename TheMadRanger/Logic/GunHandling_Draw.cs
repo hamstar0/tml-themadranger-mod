@@ -12,14 +12,20 @@ using TheMadRanger.Items.Weapons;
 namespace TheMadRanger.Logic {
 	partial class GunHandling {
 		private void InitGunAnimDrawLayers() {
-			this.GunAnimDrawLayer = new PlayerLayer( "TheMadRanger", "Custom Gun Animation", ( plrDrawInfo ) => {
-				Main.playerDrawData.Add( this.GetGunAnimationDrawData( plrDrawInfo ) );
+			void applyDrawDatas( PlayerDrawInfo plrDrawInfo ) {
+				DrawData gunAnimDrawData = this.GetGunAnimationDrawData( plrDrawInfo );
+				DrawData? reloadDrawData = this.GetReloadDrawData_If( plrDrawInfo );
 
-				DrawData? drawData = this.GetReloadDrawData( plrDrawInfo );
-				if( drawData.HasValue ) {
-					Main.playerDrawData.Add( drawData.Value );
+				//
+
+				Main.playerDrawData.Add( gunAnimDrawData );
+
+				if( reloadDrawData.HasValue ) {
+					Main.playerDrawData.Add( reloadDrawData.Value );
 				}
-			} );
+			}
+
+			this.GunAnimDrawLayer = new PlayerLayer( "TheMadRanger", "Custom Gun Animation", applyDrawDatas );
 		}
 
 
@@ -61,39 +67,39 @@ namespace TheMadRanger.Logic {
 
 			float rot = this.GetAddedRotationRadians( plr );
 
-			DrawData getDrawData( Texture2D tex, Color color ) {
-				return new DrawData(
-					texture: tex,
-					position: pos - Main.screenPosition,
-					sourceRect: null,
-					color: color,
-					rotation: rot,
-					origin: origin,
-					scale: TheMadRangerItem.Scale,
-					effect: plrDrawInfo.spriteEffects,
-					inactiveLayerDepth: 0
-				);
-			}
-
 			//
 
-			int lightTileX = (int)( ( plr.position.X + ( (float)plr.width * 0.5f ) ) / 16f );
-			int lightTileY = (int)( ( plr.position.Y + ( (float)plr.height * 0.5f ) ) / 16f );
+			int lightTileX = (int)( plr.position.X + ((float)plr.width * 0.5f) ) / 16;
+			int lightTileY = (int)( plr.position.Y + ((float)plr.height * 0.5f) ) / 16;
 			Color plrLight = Lighting.GetColor( lightTileX, lightTileY );
 			//ItemSlot.GetItemLight( ref plrLight, plr.HeldItem, false );
 			//Color itemLight = TMRPlayer.GetItemLightColor( plr, plrLight );
 
-			return getDrawData( itemTex, plrLight );
+			//
+
+			return new DrawData(
+				texture: itemTex,
+				position: pos - Main.screenPosition,
+				sourceRect: null,
+				color: plrLight,
+				rotation: rot,
+				origin: origin,
+				scale: TheMadRangerItem.Scale,
+				effect: plrDrawInfo.spriteEffects,
+				inactiveLayerDepth: 0
+			);
 		}
 
 
-		private DrawData? GetReloadDrawData( PlayerDrawInfo plrDrawInfo ) {
+		private DrawData? GetReloadDrawData_If( PlayerDrawInfo plrDrawInfo ) {
 			if( !this.IsReloading || !this.ReloadingRounds ) {
 				return null;
 			}
 			if( this.ReloadDuration > 15 ) {
 				return null;
 			}
+
+			//
 
 			Player plr = plrDrawInfo.drawPlayer;
 			Texture2D handTex;

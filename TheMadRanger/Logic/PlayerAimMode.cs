@@ -1,9 +1,11 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.Utilities;
 using ModLibsCore.Libraries.Debug;
 using ModLibsCore.Libraries.TModLoader;
+using TheMadRanger.NetProtocols;
 
 
 namespace TheMadRanger.Logic {
@@ -31,9 +33,13 @@ namespace TheMadRanger.Logic {
 
 		public bool IsModeActivating => this.AimElapsed > 0 && this.AimElapsed >= this.PrevAimElapsed;
 
-		public bool IsAttemptingModeLock_LocalOnly => Main.mouseRight && !this.IsQuickDrawActive;
+		public bool IsApplyingModeLock_LocalOnly => Main.mouseRight && !this.IsQuickDrawActive;
 
-		public bool IsModeLocked_LocalOnly => this.IsModeActive && this.IsAttemptingModeLock_LocalOnly;
+		public bool IsModeLocked_LocalOnly => this.IsModeActive && this.IsApplyingModeLock_LocalOnly;
+
+		////
+
+		public bool IsQuickDrawActive => this.QuickDrawDuration > 0;
 
 		////
 
@@ -44,23 +50,23 @@ namespace TheMadRanger.Logic {
 			}
 		}
 
-		////
-
-		public bool IsQuickDrawActive => this.QuickDrawDuration > 0;
-
 
 		////////////////
-
+		
 		private float PrevAimElapsed = 0f;
-		private float AimElapsed = 0f;
+		public float AimElapsed { get; private set; } = 0f;
 
 		private int QuickDrawDuration = 0;
 
-		private Vector2 LastAimMousePosition = default( Vector2 );
+		private Vector2 PrevAimMousePosition = default( Vector2 );
+		
+		internal bool WasApplyingModeLock_Client { get; private set; } = false;
 
 
 
 		////////////////
+
+		 private int AimModeSyncTimer = 0;
 
 		public void UpdateAimState( Player plr ) {
 			this.PrevAimElapsed = this.AimElapsed;
@@ -72,9 +78,24 @@ namespace TheMadRanger.Logic {
 				this.AimElapsed = aimDuration + 2f;	// "cheat" until quick draw mode ends
 			} else if( this.QuickDrawDuration == 1 ) {
 				this.QuickDrawDuration = 0;
-				this.AimElapsed = 0;
+				this.AimElapsed = 0f;
+			}
+
+			//
+
+			if( Main.netMode == NetmodeID.MultiplayerClient ) {
+				if( plr.whoAmI == Main.myPlayer ) {
+					if( this.AimModeSyncTimer-- <= 0 ) {
+						this.AimModeSyncTimer = 15;
+
+						GunAimStateSyncPacket.BroadcastFromLocalPlayer();
+					}
+				}
 			}
 		}
+
+
+		////
 
 		public void UpdateEquippedAimState( Player plr, Item prevHeldItem ) {
 			var myplayer = plr.GetModPlayer<TMRPlayer>();
@@ -86,13 +107,18 @@ namespace TheMadRanger.Logic {
 				}
 			}
 
+			//
+
 			// Animations cancel aim mode
 			if( myplayer.GunHandling.IsAnimating ) {
 				this.AimElapsed = 0f;
+
 				return;
 			}
 
-			this.UpdateEquippedAimStateValueIf( plr );
+			//
+
+			this.UpdateEquippedAimStateValue_Local_If( plr );
 		}
 
 		public void UpdateUnequippedAimState() {
@@ -136,6 +162,14 @@ namespace TheMadRanger.Logic {
 			
 			int newDmg = (int)(dmgRand * (baseDmg - 1f)) + 1;
 			return newDmg;
+		}
+
+
+		////////////////
+
+		internal void SyncAimState( float aimElapsed, bool wasApplyingModeLock ) {
+			this.AimElapsed = aimElapsed;
+			this.WasApplyingModeLock_Client = wasApplyingModeLock;
 		}
 	}
 }

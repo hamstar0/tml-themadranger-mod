@@ -43,7 +43,7 @@ namespace TheMadRanger.Logic {
 			int aimDurationAdd = config.Get<int>( nameof(TMRConfig.AimModeActivationTickDurationAddedBuffer) );
 			int max = aimDuration + aimDurationAdd;
 
-			// Switch to full aim mode
+			// Switch to full aim mode on successful quick draw
 			if( this.IsQuickDrawActive ) {
 				this.QuickDrawDuration = 0;
 				this.AimElapsed = max;
@@ -55,11 +55,12 @@ namespace TheMadRanger.Logic {
 					this.AimElapsed = max;
 				}
 
-				if( TMRConfig.Instance.DebugModeGunInfo ) {
+				if( TMRConfig.Instance.DebugModeGunInfo && plr.whoAmI == Main.myPlayer ) {
 					DebugLibraries.Print( "aim_hit", "aim%: "
 						+ ( this.AimPercent * 100f ).ToString( "N0" )
 						+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
-						+ max );
+						+ max
+					);
 				}
 			}
 		}
@@ -68,10 +69,12 @@ namespace TheMadRanger.Logic {
 		/// Handles aim state changes when a shot hits no target.
 		/// </summary>
 		/// <param name="plr"></param>
-		public void ApplyUnsuccessfulHit( Player plr ) {
+		public bool ApplyUnsuccessfulHit_If( Player plr ) {
 			if( this.IsModeActive ) {
-				return;
+				return false;
 			}
+
+			//
 
 			var config = TMRConfig.Instance;
 			float aimMissBuildup = config.Get<float>( nameof(TMRConfig.AimModeOnMissBuildupAmount) );
@@ -81,12 +84,17 @@ namespace TheMadRanger.Logic {
 				this.AimElapsed = 0f;
 			}
 
-			if( config.DebugModeGunInfo ) {
+			//
+
+			if( config.DebugModeGunInfo && plr.whoAmI == Main.myPlayer ) {
 				DebugLibraries.Print( "aim_miss", "aim%: "
 					+ (this.AimPercent * 100f).ToString( "N0" )
 					+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
-					+ aimMissBuildup );
+					+ aimMissBuildup
+				);
 			}
+
+			return true;
 		}
 	}
 }

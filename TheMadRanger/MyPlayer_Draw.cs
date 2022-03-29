@@ -46,25 +46,15 @@ namespace TheMadRanger {
 
 		public override void ModifyDrawLayers( List<PlayerLayer> layers ) {
 			if( PlayerLogic.IsUsingHeldGun(this.player) ) {
-				(bool isAimWithinArc, int aimDir) aim;
-				
-				if( this.player.whoAmI == Main.myPlayer ) {
-					aim = PlayerLogic.ApplyGunAim( this, Main.mouseX, Main.mouseY );
-				} else {
-					(int x, int y) cursor;
-					if( ClientCursorData.LastKnownCursorPositions.ContainsKey(this.player.whoAmI) ) {
-						cursor = ClientCursorData.LastKnownCursorPositions[ this.player.whoAmI ];
-					} else {
-						cursor = ((int)this.player.MountedCenter.X, (int)this.player.MountedCenter.Y);
-						cursor.x += this.player.direction * 256;
-					}
+				(bool isAimWithinArc, int aimDir) aim = PlayerLogic.ApplyGunAimFromCursorData( this );
 
-					aim = PlayerLogic.ApplyGunAim( this, cursor.x, cursor.y );
-				}
+				//
 
 				if( !this.GunHandling.IsAnimating ) {
 					if( aim.aimDir == this.player.direction || this.GunHandling.RecoilDuration == 0 ) {
-						this.ModifyDrawLayersForGun( layers, true );
+						this.ModifyDrawLayersForGun_If( layers, true );
+
+						//
 
 						this.player.headPosition.Y += 1;
 					}
@@ -77,7 +67,7 @@ namespace TheMadRanger {
 
 		////////////////
 		
-		private bool ModifyDrawLayersForGun( List<PlayerLayer> layers, bool aimGun ) {
+		private bool ModifyDrawLayersForGun_If( List<PlayerLayer> layers, bool aimGun ) {
 			PlayerLayer plrLayer;
 			Action<PlayerDrawInfo> armLayer, itemLayer, handLayer;
 
@@ -90,7 +80,14 @@ namespace TheMadRanger {
 
 			//
 
-			if( !PlayerDraw.GetPlayerLayersForItemHolding(this.player, newBodyFrameY, out armLayer, out itemLayer, out handLayer) ) {
+			bool hasCustomItemHoldingDraws = PlayerDraw.GetPlayerLayersForItemHolding_If(
+				this.player,
+				newBodyFrameY,
+				out armLayer,
+				out itemLayer,
+				out handLayer
+			);
+			if( !hasCustomItemHoldingDraws ) {
 				return false;
 			}
 
@@ -101,16 +98,20 @@ namespace TheMadRanger {
 				plrLayer = new PlayerLayer( "TheMadRanger", "Item Holding Arm", armLayer );
 				layers.Insert( armLayerIdx+1, plrLayer );
 			}
+
 			int itemLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HeldItem );
 			if( itemLayerIdx != -1 ) {
 				plrLayer = new PlayerLayer( "TheMadRanger", "Held Item", itemLayer );
 				layers.Insert( itemLayerIdx + 1, plrLayer );
 			}
+
 			int handLayerIdx = layers.FindIndex( lyr => lyr == PlayerLayer.HandOnAcc );
 			if( handLayerIdx != -1 ) {
 				plrLayer = new PlayerLayer( "TheMadRanger", "Item Holding Hand", handLayer );
 				layers.Insert( handLayerIdx+1, plrLayer );
 			}
+
+			//
 
 			PlayerLayer.HeldItem.visible = false;
 			PlayerLayer.Arms.visible = false;

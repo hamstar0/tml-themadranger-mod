@@ -4,11 +4,33 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using ModLibsCore.Libraries.Debug;
+using ModLibsNet.Services.Network;
 
 
 namespace TheMadRanger.Logic {
 	partial class PlayerLogic {
-		public static (bool IsAimWithinArc, int AimDir) ApplyGunAim( TMRPlayer myplayer, int screenX, int screenY ) {
+		public static (bool IsAimWithinArc, int AimDir) ApplyGunAimFromCursorData( TMRPlayer myplayer ) {
+			if( myplayer.player.whoAmI == Main.myPlayer ) {
+				return PlayerLogic.ApplyGunAim( myplayer, Main.mouseX, Main.mouseY );
+			} else {
+				(int x, int y) cursor;
+				if( ClientCursorData.LastKnownCursorPositions.ContainsKey( myplayer.player.whoAmI ) ) {
+					cursor = ClientCursorData.LastKnownCursorPositions[myplayer.player.whoAmI];
+				} else {
+					cursor = ((int)myplayer.player.MountedCenter.X, (int)myplayer.player.MountedCenter.Y);
+					cursor.x += ( myplayer.player.direction * 256 ) + 1;
+				}
+
+				return PlayerLogic.ApplyGunAim( myplayer, cursor.x, cursor.y );
+			}
+		}
+
+		////
+
+		public static (bool IsAimWithinArc, int AimDir) ApplyGunAim(
+					TMRPlayer myplayer,
+					int screenX,
+					int screenY ) {
 			Player plr = myplayer.player;
 			Texture2D itemTex = Main.itemTexture[plr.HeldItem.type];
 
@@ -19,6 +41,8 @@ namespace TheMadRanger.Logic {
 			if( plr.gravDir == -1f ) {
 				aimY = Main.screenPosition.Y + (float)Main.screenHeight - (float)screenY - plrCenter.Y;
 			}
+
+			//
 
 			plr.itemRotation = (float)Math.Atan2(
 				(double)( aimY * (float)plr.direction ),
@@ -67,6 +91,8 @@ namespace TheMadRanger.Logic {
 				plr.itemRotation += myplayer.AimMode.GetAimStateShakeRadiansOffset( true );
 			}
 
+			//
+
 			plr.itemLocation.X = plr.position.X
 				+ ( (float)plr.width * 0.5f )
 				- ( itemTex.Width * 0.5f )
@@ -74,12 +100,16 @@ namespace TheMadRanger.Logic {
 			plr.itemLocation.Y = plr.MountedCenter.Y
 				- ( (float)itemTex.Height * 0.5f );
 
+			//
+
 			ItemLoader.UseStyle( plr.HeldItem, plr );
+
+			//
 
 			//NetMessage.SendData( MessageID.PlayerControls, -1, -1, null, plr.whoAmI, 0f, 0f, 0f, 0, 0, 0 );
 			//NetMessage.SendData( MessageID.ItemAnimation, -1, -1, null, plr.whoAmI, 0f, 0f, 0f, 0, 0, 0 );
 
-			return (isAimWithinArc, Math.Sign( aimX ));
+			return ( isAimWithinArc, Math.Sign(aimX) );
 		}
 	}
 }
