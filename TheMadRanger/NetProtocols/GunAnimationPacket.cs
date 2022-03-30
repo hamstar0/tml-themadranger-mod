@@ -18,12 +18,12 @@ namespace TheMadRanger.NetProtocols {
 
 
 	class GunAnimationPacket : SimplePacketPayload {
-		public static void Broadcast( GunAnimationType animType ) {
+		public static void BroadcastFromLocalPlayer( GunAnimationType animType, float data = 0f ) {
 			if( Main.netMode != NetmodeID.MultiplayerClient ) {
 				throw new ModLibsException( "Not a client." );
 			}
 			
-			var packet = new GunAnimationPacket( Main.myPlayer, animType );
+			var packet = new GunAnimationPacket( Main.myPlayer, animType, data );
 
 			SimplePacket.SendToServer( packet );
 		}
@@ -34,6 +34,7 @@ namespace TheMadRanger.NetProtocols {
 
 		public int PlayerWho;
 		public int AnimType;
+		public float Data;
 
 
 
@@ -41,9 +42,10 @@ namespace TheMadRanger.NetProtocols {
 
 		private GunAnimationPacket() { }
 
-		private GunAnimationPacket( int playerWho, GunAnimationType animType ) {
+		private GunAnimationPacket( int playerWho, GunAnimationType animType, float data ) {
 			this.PlayerWho = playerWho;
 			this.AnimType = (int)animType;
+			this.Data = (float)data;
 		}
 
 
@@ -54,27 +56,31 @@ namespace TheMadRanger.NetProtocols {
 			var otherplr = TmlLibraries.SafelyGetModPlayer<TMRPlayer>( plr );
 			GunAnimationType animType = (GunAnimationType)this.AnimType;
 
-			Item gun = plr.HeldItem;
-			if( gun?.active != true ) {
-				return;
-			}
-
-			var mygun = gun.modItem as TheMadRangerItem;
-			if( mygun == null ) {
-				return;
-			}
+			//
 
 			switch( animType ) {
 			//case GunAnimationType.Recoil:
 			//	otherplr.GunHandling.BeginRecoil( 0f );
 			//	break;
 			case GunAnimationType.Holster:  // Might interrupt other item actions such that server should know
-				otherplr.GunHandling.BeginHolster( plr, mygun );
+				otherplr.GunHandling.BeginHolster( plr );
 				break;
-				//case GunAnimationType.Reload:
-				//	otherplr.GunHandling.BeginReload( plr );
-				//	break;
+			//case GunAnimationType.Reload:
+			//	Item gun = plr.HeldItem;
+			//	if( gun?.active != true ) {
+			//		break;
+			//	}
+			//
+			//	var mygun = gun.modItem as TheMadRangerItem;
+			//	if( mygun == null ) {
+			//		break;
+			//	}
+			//
+			//	otherplr.GunHandling.BeginReload( plr );
+			//	break;
 			}
+
+			//
 
 			SimplePacket.SendToClient( this, -1, fromWho );
 		}
@@ -84,25 +90,29 @@ namespace TheMadRanger.NetProtocols {
 			var otherplr = TmlLibraries.SafelyGetModPlayer<TMRPlayer>( plr );
 			GunAnimationType animType = (GunAnimationType)this.AnimType;
 
-			Item gun = plr.HeldItem;
-			if( gun?.active != true ) {
-				return;
-			}
-
-			var mygun = gun.modItem as TheMadRangerItem;
-			if( mygun == null ) {
-				return;
-			}
+			//
 
 			switch( animType ) {
 			case GunAnimationType.Recoil:
-				otherplr.GunHandling.BeginRecoil( 0f );
+				otherplr.GunHandling.BeginRecoil( this.Data );
 				break;
 			case GunAnimationType.Holster:
-				otherplr.GunHandling.BeginHolster( plr, mygun );
+				otherplr.GunHandling.BeginHolster( plr );
 				break;
 			case GunAnimationType.Reload:
-				otherplr.GunHandling.BeginReload_If( plr, mygun );
+				Item gun = plr.HeldItem;
+				if( gun?.active != true ) {
+					break;
+				}
+
+				var mygun = gun.modItem as TheMadRangerItem;
+				if( mygun == null ) {
+					break;
+				}
+
+				//
+
+				otherplr.GunHandling.BeginReload_If( plr, mygun, true );
 				break;
 			}
 		}

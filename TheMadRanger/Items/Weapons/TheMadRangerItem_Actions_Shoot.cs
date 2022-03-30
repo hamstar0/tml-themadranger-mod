@@ -20,23 +20,40 @@ namespace TheMadRanger.Items.Weapons {
 		/// <param name="speedY"></param>
 		/// <param name="damage"></param>
 		/// <param name="knockBack"></param>
-		/// <returns>`true` if a bullet can be produced from the gun.</returns>
-		public bool UseGun( Player player, ref float speedX, ref float speedY, ref int damage, ref float knockBack ) {
+		/// <returns>`true` if a bullet is to be produced from the gun.</returns>
+		public bool UseGun(
+					Player player,
+					ref float speedX,
+					ref float speedY,
+					ref int damage,
+					ref float knockBack ) {
 			var myplayer = player.GetModPlayer<TMRPlayer>();
-
-			myplayer.HasAttemptedShotSinceEquip = true;
 
 			if( !myplayer.GunHandling.CanAttemptToShootGun(player) ) {
 				return false;
 			}
 
+			//
+
+			myplayer.HasAttemptedShotSinceEquip = true;
+
+			//
+
 			if( myplayer.GunHandling.IsReloading ) {
 				if( !myplayer.GunHandling.ReloadingRounds ) {
 					return false;
 				}
+
+				//
+
 				myplayer.GunHandling.StopReloading( player, this );
+
+				//
+
 				this.ElapsedTimeSinceLastShotAttempt = 0;
 			}
+
+			//
 
 			bool wantsReload;
 			bool canShoot = this.DecideGunUse( out wantsReload );
@@ -44,11 +61,15 @@ namespace TheMadRanger.Items.Weapons {
 
 			this.GunUseFx( player, canShoot );
 
+			//
+
 			if( !canShoot ) {
 				if( wantsReload ) {
-					if( myplayer.GunHandling.BeginReload_If( player, this ) ) {
+					bool isReloading = myplayer.GunHandling.BeginReload_If( player, this, false );
+
+					if( isReloading ) {
 						if( Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer ) {
-							GunAnimationPacket.Broadcast( GunAnimationType.Reload );
+							GunAnimationPacket.BroadcastFromLocalPlayer( GunAnimationType.Reload );
 						}
 					}
 				} else {
@@ -57,11 +78,18 @@ namespace TheMadRanger.Items.Weapons {
 			} else {
 				hasShot = this.CylinderAttemptShoot();
 
+				//
+
 				if( hasShot ) {
 					this.PreShoot( myplayer );
+
+					//
+
 					this.ModifyShootAim( myplayer, ref damage, ref speedX, ref speedY );
 				}
 			}
+
+			//
 
 			return hasShot;
 		}
@@ -100,7 +128,17 @@ namespace TheMadRanger.Items.Weapons {
 
 			damage = myplayer.AimMode.GetAimStateShakeDamage( damage );
 
-			myplayer.GunHandling.BeginRecoil( MathHelper.ToDegrees(offsetRads) * -myplayer.player.direction );
+			//
+
+			float addedRotDegrees = MathHelper.ToDegrees( offsetRads ) * -myplayer.player.direction;
+
+			myplayer.GunHandling.BeginRecoil( addedRotDegrees );
+
+			//
+
+			if( Main.netMode == NetmodeID.MultiplayerClient && myplayer.player.whoAmI == Main.myPlayer ) {
+				GunAnimationPacket.BroadcastFromLocalPlayer( GunAnimationType.Recoil, addedRotDegrees );
+			}
 		}
 
 

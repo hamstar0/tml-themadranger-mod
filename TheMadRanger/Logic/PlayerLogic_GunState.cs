@@ -30,23 +30,20 @@ namespace TheMadRanger.Logic {
 		////////////////
 
 		public static void UpdatePreviousHeldGunItemState_If( TMRPlayer myplayer, Item prevHeldItem ) {
-			var mygun = prevHeldItem?.modItem as TheMadRangerItem;
-			if( mygun == null ) {
+			if( !myplayer.HasAttemptedShotSinceEquip ) {
 				return;
 			}
 
+			myplayer.HasAttemptedShotSinceEquip = false;
+
 			//
 
-			if( myplayer.HasAttemptedShotSinceEquip ) {
-				myplayer.HasAttemptedShotSinceEquip = false;
-
-				myplayer.GunHandling.BeginHolster( myplayer.player, mygun );
-			}
+			myplayer.GunHandling.BeginHolster( myplayer.player );
 
 			//
 
 			if( Main.netMode == NetmodeID.MultiplayerClient && myplayer.player.whoAmI == Main.myPlayer ) {
-				GunAnimationPacket.Broadcast( GunAnimationType.Holster );
+				GunAnimationPacket.BroadcastFromLocalPlayer( GunAnimationType.Holster );
 			}
 		}
 

@@ -32,7 +32,9 @@ namespace TheMadRanger.Items {
 			bool Reload() {
 				Player plr = Main.player[plrWho];
 				if( !TheMadRangerItem.IsAmmoSourceAvailable(plr, true, out result) ) {
-					Main.NewText( result, Color.Yellow );
+					if( plrWho == Main.myPlayer ) {
+						Main.NewText( result, Color.Yellow );
+					}
 					return false;
 				}
 
@@ -43,7 +45,9 @@ namespace TheMadRanger.Items {
 			//
 
 			if( !TheMadRangerItem.IsAmmoSourceAvailable(player, true, out result) ) {
-				Main.NewText( result, Color.Yellow );
+				if( plrWho == Main.myPlayer ) {
+					Main.NewText( result, Color.Yellow );
+				}
 				return false;
 			}
 

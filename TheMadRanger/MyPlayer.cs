@@ -120,9 +120,13 @@ namespace TheMadRanger {
 					return;
 				}
 
-				if( this.GunHandling.BeginReload_If(this.player, mygun) ) {
+				//
+
+				bool isReloading = this.GunHandling.BeginReload_If( this.player, mygun, false );
+
+				if( isReloading ) {
 					if( Main.netMode == NetmodeID.MultiplayerClient && this.player.whoAmI == Main.myPlayer ) {
-						GunAnimationPacket.Broadcast( GunAnimationType.Reload );
+						GunAnimationPacket.BroadcastFromLocalPlayer( GunAnimationType.Reload );
 					}
 				}
 			}

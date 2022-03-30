@@ -1,5 +1,6 @@
 ﻿using System;
 using Terraria;
+using Terraria.ID;
 using ModLibsCore.Libraries.Debug;
 using ModLibsGeneral.Libraries.Audio;
 using TheMadRanger.Items.Weapons;
@@ -13,6 +14,7 @@ namespace TheMadRanger.Logic {
 		/// </summary>
 		/// <param name="addedRotationDegrees"></param>
 		public void BeginRecoil( float addedRotationDegrees ) {
+//Main.NewText( $"Recoil MiscAddedRotationDegrees:{this.MiscAddedRotationDegrees} + {addedRotationDegrees}" );
 			this.MiscAddedRotationDegrees = addedRotationDegrees;
 			this.RecoilDuration = 17;
 		}
@@ -23,26 +25,33 @@ namespace TheMadRanger.Logic {
 		/// <param name="plr"></param>
 		/// <param name="mygun"></param>
 		/// <returns></returns>
-		public bool BeginReload_If( Player plr, TheMadRangerItem mygun ) {
+		public bool BeginReload_If( Player plr, TheMadRangerItem mygun, bool forceReload ) {
 			if( this.IsReloading ) {
 				return false;
 			}
-
+			
 			if( SpeedloaderItem.IsReloading(plr.whoAmI) ) {
 				return false;
 			}
-
+			
 			if( mygun.IsCylinderFull() ) {
-				return false;
+				if( forceReload ) {
+					mygun.UnloadCylinder( plr );
+				} else {
+					return false;
+				}
 			}
 
 			//
 
 			mygun.OpenCylinder( plr );
+
+			//
+
 			this.ReloadDuration = TMRConfig.Instance.Get<int>( nameof(TMRConfig.ReloadInitTickDuration) );
 
 			this.IsQuickDrawReady = true;
-
+			
 			return true;
 		}
 
@@ -50,17 +59,15 @@ namespace TheMadRanger.Logic {
 		/// Begins a gun holstering sequence. Currently ignores all other sequences (needs testing).
 		/// </summary>
 		/// <param name="plr"></param>
-		/// <param name="mygun"></param>
-		public void BeginHolster( Player plr, TheMadRangerItem mygun ) {
-			this.HolsterDuration = TMRConfig.Instance.Get<int>( nameof(TMRConfig.HolsterTwirlTickDuration) );
-
+		public void BeginHolster( Player plr ) {
 			this.IsQuickDrawReady = true;
 
-			if( this.HolsterDuration == 0 ) {
-				return;
-			}
+			if( Main.netMode != NetmodeID.Server ) {
+				this.HolsterDuration = TMRConfig.Instance.Get<int>( nameof(TMRConfig.HolsterTwirlTickDuration) );
+//Main.NewText( $"Holster plr:{plr.name}, IsQuickDrawReady:{this.IsQuickDrawReady}" );
 
-			SoundLibraries.PlaySound( TMRMod.Instance, "RevolverTwirl", plr.Center, 0.65f );
+				SoundLibraries.PlaySound( TMRMod.Instance, "RevolverTwirl", plr.Center, 0.65f );
+			}
 		}
 
 

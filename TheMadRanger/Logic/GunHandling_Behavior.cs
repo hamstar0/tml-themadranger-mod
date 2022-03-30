@@ -137,8 +137,12 @@ namespace TheMadRanger.Logic {
 				// Start loading rounds, if cylinder empty
 				if( !mygun.IsCylinderEmpty() ) {
 					(int Shells, int Rounds) unloadings = mygun.UnloadCylinder( plr );
+
 					this.ProcessUnloadedGunRounds( plr, unloadings.Shells, unloadings.Rounds );
 				}
+
+				//
+
 				this.ReloadDuration = config.Get<int>( nameof(TMRConfig.ReloadRoundTickDuration) );
 				this.ReloadingRounds = true;
 
@@ -149,7 +153,9 @@ namespace TheMadRanger.Logic {
 
 			// No ammo source; stop reloading
 			if( !TheMadRangerItem.IsAmmoSourceAvailable(plr, false, out string result) ) {
-				Main.NewText( result, Color.Yellow );
+				if( plr.whoAmI == Main.myPlayer ) {
+					Main.NewText( result, Color.Yellow );
+				}
 
 				this.StopReloading( plr, mygun );
 

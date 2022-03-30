@@ -73,7 +73,7 @@ namespace TheMadRanger.Logic {
 
 		public bool CanAttemptToShootGun( Player player ) {
 			return !this.IsHolstering
-				&& ( !this.IsReloading || this.ReloadingRounds )
+				&& (!this.IsReloading || this.ReloadingRounds)
 				&& !SpeedloaderItem.IsReloading( player.whoAmI );
 		}
 	}
