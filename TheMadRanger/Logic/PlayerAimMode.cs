@@ -31,11 +31,20 @@ namespace TheMadRanger.Logic {
 			}
 		}
 
-		public bool IsModeActivating => this.AimElapsed > 0 && this.AimElapsed >= this.PrevAimElapsed;
+		public bool IsModeActivating =>
+			this.AimElapsed > 0
+			&& this.AimElapsed >= this.PrevAimElapsed;
 
-		public bool IsApplyingModeLock_LocalOnly => Main.mouseRight && !this.IsQuickDrawActive;
+		public bool IsApplyingModeLock_Local =>
+			Main.mouseRight
+			&& !this.IsQuickDrawActive;
+		public bool IsApplyingModeLock_NonLocal =>
+			this.WasApplyingModeLock_Client
+			&& !this.IsQuickDrawActive;
 
-		public bool IsModeLocked_LocalOnly => this.IsModeActive && this.IsApplyingModeLock_LocalOnly;
+		public bool IsModeLocked =>
+			this.IsModeActive
+			&& (this.IsApplyingModeLock_Local || this.IsApplyingModeLock_NonLocal);
 
 		////
 
@@ -57,8 +66,6 @@ namespace TheMadRanger.Logic {
 		public float AimElapsed { get; private set; } = 0f;
 
 		private int QuickDrawDuration = 0;
-
-		private Vector2 PrevAimMousePosition = default( Vector2 );
 		
 		internal bool WasApplyingModeLock_Client { get; private set; } = false;
 
@@ -66,9 +73,7 @@ namespace TheMadRanger.Logic {
 
 		////////////////
 
-		 private int AimModeSyncTimer = 0;
-
-		public void UpdateAimState( Player plr ) {
+		public void PreUpdateAimState( Player plr ) {
 			this.PrevAimElapsed = this.AimElapsed;
 			
 			if( this.QuickDrawDuration > 1 ) {
@@ -80,13 +85,16 @@ namespace TheMadRanger.Logic {
 				this.QuickDrawDuration = 0;
 				this.AimElapsed = 0f;
 			}
+		}
 
-			//
 
+		 private int _AimModeSyncTimer = 0;
+
+		public void PostUpdateAimState( Player plr ) {
 			if( Main.netMode == NetmodeID.MultiplayerClient ) {
 				if( plr.whoAmI == Main.myPlayer ) {
-					if( this.AimModeSyncTimer-- <= 0 ) {
-						this.AimModeSyncTimer = 15;
+					if( this._AimModeSyncTimer-- <= 0 ) {
+						this._AimModeSyncTimer = 7;
 
 						GunAimStateSyncPacket.BroadcastFromLocalPlayer();
 					}
@@ -118,7 +126,7 @@ namespace TheMadRanger.Logic {
 
 			//
 
-			this.UpdateEquippedAimStateValue_Local_If( plr );
+			this.UpdateEquippedAimStateValue_If( plr );
 		}
 
 		public void UpdateUnequippedAimState() {

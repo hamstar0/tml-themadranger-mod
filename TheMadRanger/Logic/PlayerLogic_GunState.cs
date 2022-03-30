@@ -50,16 +50,17 @@ namespace TheMadRanger.Logic {
 			}
 		}
 
+
 		public static bool UpdateCurrentHeldGunItemState( TMRPlayer myplayer, int inventorySlotOfPrevHeldItem ) {
-			bool canHoldGun = PlayerLogic.IsHoldingGun( myplayer.player );
+			bool isHoldingGun = PlayerLogic.IsHoldingGun( myplayer.player );
 
 			//
 
-			myplayer.AimMode.UpdateAimState( myplayer.player );
+			myplayer.AimMode.PreUpdateAimState( myplayer.player );
 
 			//
 
-			if( canHoldGun ) {
+			if( isHoldingGun ) {
 				myplayer.GunHandling.UpdateEquipped( myplayer.player );
 
 				//
@@ -82,7 +83,11 @@ namespace TheMadRanger.Logic {
 
 			//
 
-			return canHoldGun;
+			myplayer.AimMode.PostUpdateAimState( myplayer.player );
+
+			//
+
+			return isHoldingGun;
 		}
 	}
 }

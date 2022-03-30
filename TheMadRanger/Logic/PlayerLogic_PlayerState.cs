@@ -9,8 +9,11 @@ namespace TheMadRanger.Logic {
 			PlayerAimMode aimMode = myplayer.AimMode;
 			GunHandling gunHandling = myplayer.GunHandling;
 
-			bool isAiming = aimMode.IsModeLocked_LocalOnly
-				|| (aimMode.IsApplyingModeLock_LocalOnly && !gunHandling.IsAnimating);
+			bool isApplyingAimLock = myplayer.player.whoAmI == Main.myPlayer
+				? myplayer.AimMode.IsApplyingModeLock_Local
+				: myplayer.AimMode.IsApplyingModeLock_NonLocal;
+			bool isAiming = aimMode.IsModeLocked
+				|| (isApplyingAimLock && !gunHandling.IsAnimating);
 
 			if( isAiming ) {
 				var config = TMRConfig.Instance;

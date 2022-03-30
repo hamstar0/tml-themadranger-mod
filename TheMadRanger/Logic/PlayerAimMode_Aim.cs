@@ -6,32 +6,28 @@ using ModLibsCore.Libraries.Debug;
 
 namespace TheMadRanger.Logic {
 	partial class PlayerAimMode {
-		private bool UpdateEquippedAimStateValue_Local_If( Player player ) {
-			if( player.whoAmI != Main.myPlayer ) {
-				return false;
-			}
-
-			if( this.IsModeLocked_LocalOnly ) {
+		private bool UpdateEquippedAimStateValue_If( Player player ) {
+			if( this.IsModeLocked ) {
 				return false;
 			}
 
 			//
 
-			bool isAimingLocked = this.IsApplyingModeLock_LocalOnly;
+			bool isApplyingAimLock = player.whoAmI == Main.myPlayer
+				? this.IsApplyingModeLock_Local
+				: this.IsApplyingModeLock_NonLocal;
 			bool isPlrMoving = false;
 			bool isMouseMoving = false;
 
-			if( !isAimingLocked ) {
+			if( !isApplyingAimLock ) {
 				isPlrMoving = this.UpdateEquippedAimStateValueForPlayerMovement_If( player );
-				
-				if( !this.UpdateEquippedAimStateValueForMouseMovement_Local_If(player, out isMouseMoving) ) {
-					isMouseMoving = true;
-				}
+
+				this.UpdateEquippedAimStateValueForMouseMovement_Local_If( player, out isMouseMoving );
 			}
 
 			//
 
-			if( isAimingLocked || (!isPlrMoving && !isMouseMoving) ) {
+			if( isApplyingAimLock || (!isPlrMoving && !isMouseMoving) ) {
 				this.UpdateEquippedAimStateValueForPlayerIdle( player );
 			}
 
@@ -72,6 +68,8 @@ namespace TheMadRanger.Logic {
 		}
 
 
+		 private Vector2 _PrevAimMousePosition = default( Vector2 );
+
 		/// <summary></summary>
 		/// <param name="player"></param>
 		/// <param name="isMouseMoving"></param>
@@ -88,13 +86,19 @@ namespace TheMadRanger.Logic {
 
 			var config = TMRConfig.Instance;
 			var mousePos = new Vector2( Main.mouseX, Main.mouseY );
+			var prevMousePos = this._PrevAimMousePosition;
+
 			float mouseThreshSqr = config.Get<float>( nameof(config.AimModeMouseMoveThreshold) );
 			mouseThreshSqr *= mouseThreshSqr;
 
+			this._PrevAimMousePosition = mousePos;
+
+			//
+
 			// Mouse is not moving?
-			if( (this.PrevAimMousePosition - mousePos).LengthSquared() <= mouseThreshSqr ) {
+			if( (prevMousePos - mousePos).LengthSquared() <= mouseThreshSqr ) {
 				isMouseMoving = false;
-				return false;
+				return true;
 			}
 
 			float aimBuildupAmt = config.Get<float>( nameof(config.AimModeOnMouseMoveBuildupAmount) );
@@ -103,8 +107,8 @@ namespace TheMadRanger.Logic {
 
 			if( config.DebugModeGunInfo && player.whoAmI == Main.myPlayer ) {
 				DebugLibraries.Print( "aim_mouse", "aim%: "
-					+ (this.AimPercent * 100f).ToString( "N0" )
-					+ " (" + this.AimElapsed.ToString( "N1" ) + "), "
+					+ (this.AimPercent * 100f).ToString("N0")
+					+ " (" + this.AimElapsed.ToString("N1") + "), "
 					+ aimBuildupAmt
 				);
 			}
@@ -112,8 +116,6 @@ namespace TheMadRanger.Logic {
 			//
 
 			this.AimElapsed = Math.Max( this.AimElapsed + aimBuildupAmt, 0f );
-
-			this.PrevAimMousePosition = mousePos;
 
 			//
 

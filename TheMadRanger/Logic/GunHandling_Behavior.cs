@@ -77,7 +77,11 @@ namespace TheMadRanger.Logic {
 				this.RecoilDuration--;
 			}
 
-			this.UpdateReloadingSequence( plr );
+			//
+
+			this.UpdateReloadingSequence_If( plr );
+
+			//
 
 			if( this.MiscAddedRotationDegrees != 0f ) {
 				this.MiscAddedRotationDegrees -= Math.Sign( this.MiscAddedRotationDegrees ) / 3f;
@@ -106,27 +110,29 @@ namespace TheMadRanger.Logic {
 
 		////////////////
 
-		private void UpdateReloadingSequence( Player plr ) {
+		private bool UpdateReloadingSequence_If( Player plr ) {
 			// Not reloading
 			if( this.ReloadDuration == 0 ) {
-				return;
+				return false;
 			}
 
 			// Reloading timer
 			if( this.ReloadDuration > 1 ) {
 				this.ReloadDuration--;
-				return;
+				return false;
 			}
 
 			// No item to reload
 			var mygun = plr.HeldItem?.modItem as TheMadRangerItem;
 			if( mygun == null ) {
-				return;
+				return false;
 			}
+
+			//
 
 			var config = TMRConfig.Instance;
 
-			// Not yet loading rounds
+			// If not reloading, begin
 			if( !this.ReloadingRounds ) {
 				// Start loading rounds, if cylinder empty
 				if( !mygun.IsCylinderEmpty() ) {
@@ -135,24 +141,38 @@ namespace TheMadRanger.Logic {
 				}
 				this.ReloadDuration = config.Get<int>( nameof(TMRConfig.ReloadRoundTickDuration) );
 				this.ReloadingRounds = true;
-				return;
+
+				return true;
 			}
+
+			//
 
 			// No ammo source; stop reloading
 			if( !TheMadRangerItem.IsAmmoSourceAvailable(plr, false, out string result) ) {
 				Main.NewText( result, Color.Yellow );
+
 				this.StopReloading( plr, mygun );
-				return;
+
+				return true;
 			}
 
+			//
+
+			bool hasInsertedRounds = mygun.InsertSpeedloader( plr )
+				|| mygun.InsertRound( plr );
+
 			// Reload rounds until not possible
-			if( mygun.InsertSpeedloader(plr) || mygun.InsertRound(plr) ) {
+			if( hasInsertedRounds ) {
 				this.ReloadDuration = config.Get<int>( nameof(TMRConfig.ReloadRoundTickDuration) );
-				return;
+
+				return true;
 			}
+
+			//
 			
 			this.StopReloading( plr, mygun );
-			return;
+
+			return true;
 		}
 
 
