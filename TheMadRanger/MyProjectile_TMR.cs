@@ -2,27 +2,37 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using ModLibsCore.Services.ProjectileOwner;
 using TheMadRanger.Items.Weapons;
 
 
 namespace TheMadRanger {
 	partial class TMRProjectile : GlobalProjectile {
-		private void InitializeTMRBulletIf( Projectile projectile ) {
-			Player plr = Main.player[projectile.owner];
+		private void InitializeTMRBullet_If( Projectile projectile ) {
+			Player plr = projectile.GetPlayerOwner();
 			if( plr?.active != true ) {
 				return;
 			}
 
+			//
+
 			this.IsFiredFromRevolver = plr.HeldItem.type == ModContent.ItemType<TheMadRangerItem>();
 
-			if( this.IsFiredFromRevolver != true ) {
-				return;
-			}
+			//
 
-			var myplayer = plr.GetModPlayer<TMRPlayer>();
+			if( this.IsFiredFromRevolver == true ) {
+				this.InitializeTMRBullet( projectile, plr );
+			}
+		}
+
+		private void InitializeTMRBullet( Projectile projectile, Player ownerPlr ) {
+			var myplayer = ownerPlr.GetModPlayer<TMRPlayer>();
+
 			if( myplayer.AimMode.IsQuickDrawActive ) {
 				this.IsQuickFiredFromRevolver = true;
 			}
+
+			//
 
 			myplayer.AimMode.InitializeBulletProjectile( projectile );
 		}
@@ -32,10 +42,9 @@ namespace TheMadRanger {
 
 		public override bool OnTileCollide( Projectile projectile, Vector2 oldVelocity ) {
 			if( this.IsFiredFromRevolver != true ) { return true; }
-			if( projectile.owner < 0 ) { return true; }
 
-			Player plr = Main.player[projectile.owner];
-			if( !plr.active ) { return false; }
+			Player plr = projectile.GetPlayerOwner();
+			if( plr?.active != true ) { return true; }	//false?
 
 			//
 
@@ -70,10 +79,9 @@ namespace TheMadRanger {
 
 		private void OnHit( Projectile projectile ) {
 			if( this.IsFiredFromRevolver != true ) { return; }
-			if( projectile.owner < 0 ) { return; }
 
-			Player plr = Main.player[projectile.owner];
-			if( !plr.active ) { return; }
+			Player plr = projectile.GetPlayerOwner();
+			if( plr?.active != true ) { return; }
 
 			//
 
