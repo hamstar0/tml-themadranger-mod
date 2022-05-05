@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -9,6 +10,7 @@ using Terraria.ModLoader.IO;
 using ModLibsCore.Libraries.Debug;
 using TheMadRanger.NetProtocols;
 using TheMadRanger.Logic;
+using TheMadRanger.Items;
 using TheMadRanger.Items.Weapons;
 using TheMadRanger.Items.Accessories;
 
@@ -109,7 +111,7 @@ namespace TheMadRanger {
 		////////////////
 
 		public override void ProcessTriggers( TriggersSet triggersSet ) {
-			void handleReload() {
+			void HandleReload() {
 				Item gun = this.player.HeldItem;
 				if( gun?.active != true ) {
 					return;
@@ -118,6 +120,21 @@ namespace TheMadRanger {
 				var mygun = gun.modItem as TheMadRangerItem;
 				if( mygun == null ) {
 					return;
+				}
+
+				//
+
+				int speedloaderType = ModContent.ItemType<SpeedloaderItem>();
+				SpeedloaderItem unloadedSpeedloader = this.player.inventory
+					.Where( i => i?.active == true && i.type == speedloaderType )
+					.Select( i => i.modItem as SpeedloaderItem )
+					.Where( sl => sl.LoadedRounds <= 0 )
+					.FirstOrDefault();
+
+				if( unloadedSpeedloader != null ) {
+					if( unloadedSpeedloader.AttemptReload(this.player) ) {
+						return;
+					}
 				}
 
 				//
@@ -135,7 +152,7 @@ namespace TheMadRanger {
 
 			if( TMRMod.Instance.ReloadKey.JustPressed ) {
 				if( !Main.gamePaused && !this.player.dead ) {
-					handleReload();
+					HandleReload();
 				}
 			}
 		}

@@ -20,14 +20,8 @@ namespace TheMadRanger.HUD {
 
 		////////////////
 
-		private AmmoDisplayHUD( string name, Vector2 pos ) : base( name, pos, new Vector2(56f, 56f) ) {
-		}
-
-
-		////////////////
-
-		public override bool IsEnabled() {
-			return AmmoDisplayHUD.CanDrawAmmoDisplay();
+		private AmmoDisplayHUD( string name, Vector2 pos )
+			: base( name, pos, new Vector2(56f, 56f), AmmoDisplayHUD.CanDrawAmmoDisplay ) {
 		}
 
 

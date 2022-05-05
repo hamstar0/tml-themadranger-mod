@@ -61,6 +61,8 @@ namespace TheMadRanger.Items {
 				return false;
 			}
 
+			//
+
 			SoundLibraries.PlaySound( TMRMod.Instance, "RevolverReloadBegin", player.Center, 0.5f );
 
 			int duration = TMRConfig.Instance.Get<int>( nameof(TMRConfig.SpeedloaderLoadTickDuration) );
@@ -68,6 +70,8 @@ namespace TheMadRanger.Items {
 				Reload();
 				return false;
 			} );
+
+			//
 
 			return true;
 		}
