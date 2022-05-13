@@ -9,19 +9,25 @@ namespace TheMadRanger.HUD {
 	public partial class AmmoDisplayHUD : HUDElement {
 		public static AmmoDisplayHUD CreateDefault() {
 			var config = TMRConfig.Instance;
-			var pos = new Vector2(
+
+			var posOffset = new Vector2(
 				config.Get<float>( nameof(config.AmmoHUDPositionX) ),
 				config.Get<float>( nameof(config.AmmoHUDPositionY) )
 			);
-			return new AmmoDisplayHUD( "Ammo Display", pos );
+			var posPerc = new Vector2(
+				posOffset.X < 0f ? 1f : 0f,
+				posOffset.Y < 0f ? 1f : 0f
+			);
+
+			return new AmmoDisplayHUD( "Ammo Display", posOffset, posPerc );
 		}
 
 
 
 		////////////////
 
-		private AmmoDisplayHUD( string name, Vector2 pos )
-			: base( name, pos, new Vector2(56f, 56f), AmmoDisplayHUD.CanDrawAmmoDisplay ) {
+		private AmmoDisplayHUD( string name, Vector2 posOffset, Vector2 posPerc )
+			: base( name, posOffset, posPerc, new Vector2(56f, 56f), AmmoDisplayHUD.CanDrawAmmoDisplay ) {
 		}
 
 
