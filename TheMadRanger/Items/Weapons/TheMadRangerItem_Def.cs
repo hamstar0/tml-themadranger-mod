@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -96,6 +97,14 @@ namespace TheMadRanger.Items.Weapons {
 				this.Cylinder[i] = 1;
 			}
 		}
+		public override ModItem Clone( Item item ) {
+			var myitem = base.Clone( item ) as TheMadRangerItem;
+			myitem.Cylinder = this.Cylinder.ToArray();
+
+			return myitem;
+		}
+
+		////
 
 		public override void SetStaticDefaults() {
 			this.DisplayName.SetDefault( "The Mad Ranger" );
